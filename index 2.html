@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Core Creative Group</title>
+    <meta name="description" content="Core Creative Group: A £32M immersive entertainment investment. Parent company behind Scare Core, Immersive Core, and Escape Core. Cowsland Farm, Nottinghamshire.">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --red-primary: #dc2626;
+            --red-dark: #991b1b;
+            --red-glow: rgba(220, 38, 38, 0.15);
+            --purple: #8b5cf6;
+            --purple-glow: rgba(139, 92, 246, 0.2);
+            --ec-green: #166534;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border: #2a2a2a;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+        }
+        nav .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        nav .logo-group img { height: 34px; width: auto; }
+        nav .logo-group span {
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text-primary);
+        }
+        nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+        nav .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;
+            font-weight: 500; letter-spacing: 0.02em; transition: color 0.2s;
+        }
+        nav .nav-links a:hover { color: var(--purple); }
+        nav .nav-links a.active { color: var(--purple); }
+        .hamburger { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 120px 2rem 80px; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 30%, var(--purple-glow) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero .badge {
+            display: inline-block; padding: 6px 16px; border: 1px solid var(--purple);
+            border-radius: 100px; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-bottom: 2rem;
+        }
+        .hero img.hero-logo { max-width: 420px; width: 75%; margin-bottom: 1.5rem; }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; max-width: 750px;
+            color: var(--text-secondary);
+        }
+        .hero p.subtitle {
+            font-size: 1.05rem; color: var(--text-secondary); max-width: 620px;
+            margin-bottom: 3rem; line-height: 1.7;
+        }
+        .hero .stat-row { display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center; }
+        .hero .stat-item { text-align: center; }
+        .hero .stat-item .num {
+            font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--text-primary);
+        }
+        .hero .stat-item .label {
+            font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;
+        }
+
+        /* SECTIONS */
+        section { padding: 100px 2rem; max-width: 1280px; margin: 0 auto; }
+        section .section-label {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--purple); margin-bottom: 1rem;
+        }
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700; margin-bottom: 1rem; line-height: 1.2;
+        }
+        section .section-intro {
+            font-size: 1.05rem; color: var(--text-secondary); max-width: 700px;
+            margin-bottom: 3rem; line-height: 1.7;
+        }
+
+        /* CARDS */
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem; margin-top: 2rem;
+        }
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 2rem; transition: all 0.3s;
+        }
+        .card:hover { background: var(--bg-card-hover); border-color: #3a3a3a; transform: translateY(-2px); }
+        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* BRAND CARDS */
+        .brand-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .brand-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; transition: all 0.3s; cursor: default;
+        }
+        .brand-card:hover { background: var(--bg-card-hover); border-color: #3a3a3a; transform: translateY(-2px); }
+        .brand-card.sc { border-top: 3px solid var(--red-primary); }
+        .brand-card.ic { border-top: 3px solid var(--text-primary); }
+        .brand-card.ec { border-top: 3px solid var(--ec-green); }
+
+        .brand-header { padding: 1.5rem 1.5rem 1rem; text-align: center; }
+        .brand-header img { max-width: 180px; height: 55px; object-fit: contain; margin-bottom: 0.5rem; }
+        .brand-header .brand-role { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; }
+        .brand-card.sc .brand-role { color: var(--red-primary); }
+        .brand-card.ic .brand-role { color: var(--text-secondary); }
+        .brand-card.ec .brand-role { color: var(--ec-green); }
+        .brand-header p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.75rem; line-height: 1.6; }
+
+        .brand-toggle {
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 10px; border-top: 1px solid var(--border);
+            font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+            cursor: pointer; transition: color 0.2s; user-select: none;
+        }
+        .brand-toggle:hover { color: var(--text-primary); }
+        .brand-toggle .arrow { transition: transform 0.3s; font-size: 0.7rem; }
+        .brand-toggle.open .arrow { transform: rotate(180deg); }
+
+        .brand-detail {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+            padding: 0 1.5rem; border-top: 1px solid transparent;
+        }
+        .brand-detail.open { max-height: 600px; padding: 1rem 1.5rem 1.5rem; border-top-color: var(--border); }
+        .brand-detail ul { list-style: none; padding: 0; }
+        .brand-detail ul li {
+            font-size: 0.85rem; color: var(--text-secondary); padding: 5px 0 5px 16px; position: relative;
+        }
+        .brand-detail ul li::before {
+            content: ''; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%;
+        }
+        .brand-card.sc .brand-detail ul li::before { background: var(--red-primary); }
+        .brand-card.ic .brand-detail ul li::before { background: var(--text-muted); }
+        .brand-card.ec .brand-detail ul li::before { background: var(--ec-green); }
+
+        .brand-link {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 1rem;
+            font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: gap 0.2s;
+        }
+        .brand-card.sc .brand-link { color: var(--red-primary); }
+        .brand-card.ic .brand-link { color: var(--text-secondary); }
+        .brand-card.ec .brand-link { color: var(--ec-green); }
+        .brand-link:hover { gap: 10px; }
+
+        /* METRICS */
+        .metrics-bar {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem; margin: 2rem 0;
+        }
+        .metric-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem; text-align: center;
+        }
+        .metric-card .value {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700;
+        }
+        .metric-card .value.green { color: var(--accent-green); }
+        .metric-card .value.red { color: var(--red-primary); }
+        .metric-card .value.amber { color: var(--accent-amber); }
+        .metric-card .value.purple { color: var(--purple); }
+        .metric-card .desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* DATA TABLE */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 1.5rem; }
+        .data-table th {
+            text-align: left; padding: 12px 16px; background: var(--bg-card);
+            border-bottom: 2px solid var(--purple); font-weight: 600; font-size: 0.75rem;
+            letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary);
+        }
+        .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        .data-table tr:hover td { background: var(--bg-card); }
+
+        /* DOWNLOAD */
+        .download-bar { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+        .download-btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500;
+            transition: all 0.2s;
+        }
+        .download-btn:hover { background: var(--bg-card-hover); border-color: var(--purple); }
+        .download-btn svg { width: 16px; height: 16px; }
+
+        /* CTA */
+        .cta-section {
+            text-align: center; padding: 80px 2rem;
+            background: linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+            border-top: 1px solid var(--border);
+        }
+        .cta-section .cta-logo { height: 60px; margin-bottom: 1.5rem; }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 2rem; border-top: 1px solid var(--border);
+            font-size: 0.75rem; color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .hamburger { display: block; }
+            nav .nav-links.active {
+                display: flex; flex-direction: column; position: absolute;
+                top: 64px; left: 0; right: 0; background: var(--bg-primary);
+                padding: 1rem 2rem; border-bottom: 1px solid var(--border);
+            }
+            .brand-cards { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+            .hero .stat-row { gap: 1.5rem; }
+            section { padding: 60px 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="index.html" class="logo-group">
+            <img src="assets/logos/ccg-icon-white.png" alt="CCG">
+            <span>Core Creative Group</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#brands">Our Brands</a></li>
+            <li><a href="#investment">The Investment</a></li>
+            <li><a href="/scare-core" style="color: var(--red-primary);">Scare Core</a></li>
+            <li><a href="/maps">Plans &amp; Maps</a></li>
+            <li><a href="#documents">Documents</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">&#9776;</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="badge">Confidential Investment Overview</div>
+    <img src="assets/logos/core-creative-group.png" alt="Core Creative Group" class="hero-logo">
+    <h1>Immersive Entertainment Group</h1>
+    <p class="subtitle">A £32M investment building the UK's first purpose-built immersive entertainment campus. 301 acres of year-round experiences across three operating brands. Cowsland Farm, South Leverton, Retford, Nottinghamshire.</p>
+    <div class="stat-row">
+        <div class="stat-item">
+            <div class="num">£32M</div>
+            <div class="label">Total Investment</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">301</div>
+            <div class="label">Acres</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">3</div>
+            <div class="label">Operating Brands</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">£4.07M</div>
+            <div class="label">Year 10 Revenue</div>
+        </div>
+        <div class="stat-item">
+            <div class="num">OCT 2028</div>
+            <div class="label">Target Opening</div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section-label">About the Group</div>
+    <h2>One campus. Three brands. Total creative control.</h2>
+    <p class="section-intro">Core Creative Group is the parent holding company behind a new kind of entertainment business. We own the land, the intellectual property, and the brand rights. Three operating subsidiaries deliver distinct entertainment verticals — each with its own identity, audience, and revenue model — all on one 301-acre campus.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h3>Land &amp; Infrastructure</h3>
+            <p>Core Creative Group holds the freehold on Cowsland Farm — 301 acres of isolated Nottinghamshire farmland with existing agricultural buildings, a farmhouse, and proximity to grid power infrastructure. The land alone is valued at £6.55M and does not depreciate.</p>
+        </div>
+        <div class="card">
+            <h3>Intellectual Property</h3>
+            <p>All original worlds, characters, scripts, and brand assets are owned centrally by Core Creative Group. This IP is licensed to the operating subsidiaries, creating a scalable model where creative work done once generates revenue across multiple channels.</p>
+        </div>
+        <div class="card">
+            <h3>Diversified Revenue</h3>
+            <p>Three brands means three revenue streams across different seasons, audiences, and price points. Scare season runs October to December. Theatre and escape rooms operate year-round. Corporate events, workshops, and venue hire fill the calendar.</p>
+        </div>
+    </div>
+</section>
+
+<!-- BRANDS -->
+<section id="brands">
+    <div class="section-label">Our Brands</div>
+    <h2>Three divisions. One vision.</h2>
+    <p class="section-intro">Each brand operates as its own entity with a distinct identity, audience, and commercial model. Together they form a multi-channel immersive entertainment group with diversified revenue and scalable IP.</p>
+
+    <div class="brand-cards">
+        <!-- SCARE CORE -->
+        <div class="brand-card sc">
+            <div class="brand-header">
+                <img src="assets/logos/scare-core-brand.png" alt="Scare Core">
+                <div class="brand-role">Scream Park Operations</div>
+                <p>The UK's most immersive scream park. Six themed maze barns, each telling a complete horror narrative through live actors, practical effects, and theatrical design.</p>
+            </div>
+            <div class="brand-toggle" onclick="toggleBrand(this)">
+                <span>Details</span>
+                <span class="arrow">&#9660;</span>
+            </div>
+            <div class="brand-detail">
+                <ul>
+                    <li>Six themed maze barns (8,000–12,000 sq ft each)</li>
+                    <li>Scare season operations (October–December)</li>
+                    <li>The Yard — central courtyard with roaming performers</li>
+                    <li>On-site F&amp;B, merchandise, VIP experiences</li>
+                    <li>50–80 seasonal performers on 12-week contracts</li>
+                    <li>Year 1 target: 15,600 guests, £645k revenue</li>
+                </ul>
+                <a href="/scare-core" class="brand-link">Full project detail &rarr;</a>
+            </div>
+        </div>
+
+        <!-- IMMERSIVE CORE -->
+        <div class="brand-card ic">
+            <div class="brand-header">
+                <img src="assets/logos/immersive-core-brand.png" alt="Immersive Core">
+                <div class="brand-role">Theatre &amp; Immersive Productions</div>
+                <p>Year-round immersive theatre and experiential productions in a dedicated 3,000 sq ft Theatre Barn. Monthly residencies, corporate events, and educational workshops.</p>
+            </div>
+            <div class="brand-toggle" onclick="toggleBrand(this)">
+                <span>Details</span>
+                <span class="arrow">&#9660;</span>
+            </div>
+            <div class="brand-detail">
+                <ul>
+                    <li>Theatre Barn — purpose-built 3,000 sq ft performance space</li>
+                    <li>Monthly immersive theatre residencies (January–September)</li>
+                    <li>Corporate venue hire and private events</li>
+                    <li>Educational workshops and school programmes</li>
+                    <li>Creative development and R&amp;D lab</li>
+                    <li>Off-season revenue growing to £768k by Year 5</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ESCAPE CORE -->
+        <div class="brand-card ec">
+            <div class="brand-header">
+                <img src="assets/logos/escape-core.png" alt="Escape Core">
+                <div class="brand-role">Escape Rooms &amp; Puzzle Experiences</div>
+                <p>Maze barns retrofitted as escape rooms during the off-season. Puzzle-based immersive experiences for corporate team-building, families, and enthusiast groups.</p>
+            </div>
+            <div class="brand-toggle" onclick="toggleBrand(this)">
+                <span>Details</span>
+                <span class="arrow">&#9660;</span>
+            </div>
+            <div class="brand-detail">
+                <ul>
+                    <li>Retrofitted maze barns as escape room experiences</li>
+                    <li>Original puzzle design and game logic</li>
+                    <li>Corporate team-building packages</li>
+                    <li>Portable and touring escape experiences</li>
+                    <li>Year-round operation alongside Immersive Core</li>
+                    <li>Potential for franchise and licensing model</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INVESTMENT -->
+<section id="investment">
+    <div class="section-label">The Investment</div>
+    <h2>£32M. 100% Equity. Zero Debt.</h2>
+    <p class="section-intro">The full £32M investment is funded through private equity with no external debt. Capital is allocated across all four entities: Core Creative Group (land, infrastructure, and site development), Scare Core (attraction build), Immersive Core (theatre), and Escape Core (Year 2 maze retrofits), with a working capital reserve.</p>
+
+    <div class="metrics-bar">
+        <div class="metric-card">
+            <div class="value purple">£14M</div>
+            <div class="desc">Core Creative Group</div>
+        </div>
+        <div class="metric-card">
+            <div class="value red">£13.5M</div>
+            <div class="desc">Scare Core Ltd</div>
+        </div>
+        <div class="metric-card">
+            <div class="value" style="color: #f5f5f5;">£1M</div>
+            <div class="desc">Immersive Core Ltd</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£1.5M</div>
+            <div class="desc">Escape Core Ltd</div>
+        </div>
+        <div class="metric-card">
+            <div class="value amber">£2M</div>
+            <div class="desc">Working Capital Reserve</div>
+        </div>
+        <div class="metric-card">
+            <div class="value amber">Year 4</div>
+            <div class="desc">EBITDA Breakeven</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£4.07M</div>
+            <div class="desc">Year 10 Revenue</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">33.4%</div>
+            <div class="desc">Year 10 EBITDA Margin</div>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-top: 2.5rem; margin-bottom: 0.5rem;">Asset Ownership</h3>
+    <table class="data-table">
+        <thead>
+            <tr><th>Asset</th><th>Owner</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Cowsland Farm (301 acres, freehold)</td><td>Core Creative Group</td><td>Land &amp; infrastructure holding</td></tr>
+            <tr><td>All original IP (worlds, characters, scripts)</td><td>Core Creative Group</td><td>Licensable creative assets</td></tr>
+            <tr><td>Brand rights (Scare / Immersive / Escape Core)</td><td>Core Creative Group</td><td>Brand governance &amp; protection</td></tr>
+            <tr><td>Technology, AV &amp; control systems</td><td>Core Creative Group</td><td>Shared infrastructure</td></tr>
+            <tr><td>6 maze barn structures &amp; The Yard</td><td>Scare Core Ltd</td><td>Scare attraction operations</td></tr>
+            <tr><td>Theatre Barn &amp; production assets</td><td>Immersive Core Ltd</td><td>Year-round theatre programme</td></tr>
+            <tr><td>Escape room retrofit &amp; game systems</td><td>Escape Core Ltd</td><td>Year 2 maze retrofits for escape rooms</td></tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;">The £32M creates a permanent asset base: 301 acres of freehold land (£6.55M, no depreciation), purpose-built entertainment infrastructure, and branded intellectual property. Even in a liquidation scenario, land plus 50% of building costs recovers £10.7M. This is a real estate development with an operating business attached.</p>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="/scare-core" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--red-primary); border-radius: 8px; color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.2s;">
+            View full Scare Core financials &amp; detail &rarr;
+        </a>
+    </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="documents">
+    <div class="section-label">Documents</div>
+    <h2>Supporting Documentation</h2>
+    <p class="section-intro">Full financial model, business plan, and supporting documents available for download.</p>
+
+    <div class="download-bar">
+        <a href="assets/docs/Core_Creative_Group_Financial_Model.xlsx" class="download-btn" download>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Financial Model (Excel)
+        </a>
+        <a href="assets/docs/Core_Creative_Group_Business_Plan.pdf" class="download-btn" download>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Business Plan (PDF)
+        </a>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+    <img src="assets/logos/ccg-icon-white.png" alt="Core Creative Group" class="cta-logo">
+    <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; margin-bottom: 0.5rem;">Core Creative Group</h2>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">corecreativegroup.co.uk</p>
+    <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto; font-size: 0.9rem;">This document is confidential and intended for professional advisors, planning authorities, and potential partners only.</p>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-top: 3rem; flex-wrap: wrap;">
+        <img src="assets/logos/scare-core-brand.png" alt="Scare Core" style="height: 40px; width: auto; opacity: 0.7;">
+        <img src="assets/logos/immersive-core-brand.png" alt="Immersive Core" style="height: 40px; width: auto; opacity: 0.7;">
+        <img src="assets/logos/escape-core.png" alt="Escape Core" style="height: 40px; width: auto; opacity: 0.7;">
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Core Creative Group. All rights reserved. Scare Core, Immersive Core, and Escape Core are brands of Core Creative Group.</p>
+</footer>
+
+<script>
+function toggleBrand(el) {
+    const detail = el.nextElementSibling;
+    el.classList.toggle('open');
+    detail.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
