@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scare Core — Project Detail | Core Creative Group</title>
+    <meta name="description" content="Scare Core: Six immersive maze barns, 301 acres, £32M investment. Full financial model, site plans, and project timeline.">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --red-primary: #dc2626;
+            --red-dark: #991b1b;
+            --red-glow: rgba(220, 38, 38, 0.3);
+            --purple: #8b5cf6;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border: #2a2a2a;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary); color: var(--text-primary);
+            line-height: 1.6; -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 10, 10, 0.92); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem;
+        }
+        nav .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        nav .logo-group img { height: 34px; width: auto; }
+        nav .logo-group span { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+        nav .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; transition: color 0.2s; }
+        nav .nav-links a:hover { color: var(--purple); }
+        nav .nav-links a.active { color: var(--red-primary); }
+        .hamburger { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        /* PAGE HEADER */
+        .page-header {
+            padding: 120px 2rem 60px; text-align: center; position: relative; overflow: hidden;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 30%, var(--red-glow) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .page-header img { max-width: 350px; width: 70%; margin-bottom: 1rem; }
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700; color: var(--text-secondary); margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            font-size: 0.9rem; color: var(--text-muted); max-width: 500px; margin: 0 auto;
+        }
+        .page-header .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--text-muted); text-decoration: none; font-size: 0.8rem;
+            margin-bottom: 1.5rem; transition: color 0.2s;
+        }
+        .page-header .back-link:hover { color: var(--purple); }
+
+        /* SECTIONS */
+        section { padding: 80px 2rem; max-width: 1280px; margin: 0 auto; }
+        section .section-label {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--red-primary); margin-bottom: 1rem;
+        }
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700; margin-bottom: 1rem; line-height: 1.2;
+        }
+        section .section-intro {
+            font-size: 1.05rem; color: var(--text-secondary); max-width: 700px;
+            margin-bottom: 3rem; line-height: 1.7;
+        }
+
+        /* CARDS */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: all 0.3s; }
+        .card:hover { background: var(--bg-card-hover); border-color: #3a3a3a; transform: translateY(-2px); }
+        .card .card-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--red-primary); margin-bottom: 0.5rem; }
+        .card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* MAZE GRID */
+        .maze-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .maze-card { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--border); }
+        .maze-card img { width: 100%; height: 100%; object-fit: contain; background: #111; padding: 12px; transition: transform 0.5s; }
+        .maze-card:hover img { transform: scale(1.05); }
+        .maze-card .overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .maze-card .overlay h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; }
+        .maze-card .overlay p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
+        /* CHARTS */
+        .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .chart-container h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .chart-container canvas { max-height: 350px; }
+        .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        /* TABLE */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 1.5rem; }
+        .data-table th { text-align: left; padding: 12px 16px; background: var(--bg-card); border-bottom: 2px solid var(--red-primary); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary); }
+        .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        .data-table tr:hover td { background: var(--bg-card); }
+        .data-table .positive { color: var(--accent-green); }
+        .data-table .negative { color: var(--red-primary); }
+        .data-table .bold { font-weight: 600; }
+
+        /* METRICS */
+        .metrics-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
+        .metric-card .value { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; }
+        .metric-card .value.green { color: var(--accent-green); }
+        .metric-card .value.red { color: var(--red-primary); }
+        .metric-card .value.amber { color: var(--accent-amber); }
+        .metric-card .desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* TIMELINE */
+        .timeline { position: relative; padding-left: 2rem; margin-top: 2rem; }
+        .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+        .timeline-item { position: relative; padding-bottom: 2rem; padding-left: 1.5rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--red-primary); border: 3px solid var(--bg-primary); }
+        .timeline-item .date { font-size: 0.75rem; font-weight: 600; color: var(--red-primary); letter-spacing: 0.05em; text-transform: uppercase; }
+        .timeline-item h4 { font-size: 1rem; margin: 4px 0 6px; }
+        .timeline-item p { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* CAPEX SPLIT */
+        .split-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .split-col h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--red-primary); }
+        .split-col .amount { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-muted); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .hamburger { display: block; }
+            nav .nav-links.active { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--bg-primary); padding: 1rem 2rem; border-bottom: 1px solid var(--border); }
+            .chart-row, .split-row { grid-template-columns: 1fr; }
+            section { padding: 60px 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="index.html" class="logo-group">
+            <img src="assets/logos/ccg-icon.png" alt="CCG">
+            <span>Core Creative Group</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#vision">Vision</a></li>
+            <li><a href="#mazes">Experiences</a></li>
+            <li><a href="#financials">Financials</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="maps.html">Plans &amp; Maps</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">&#9776;</button>
+    </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <a href="index.html" class="back-link">&larr; Back to Core Creative Group</a>
+    <img src="assets/logos/scare-core-brand.png" alt="Scare Core">
+    <h1>The UK's Most Immersive Scream Park</h1>
+    <p>A Core Creative Group company. Six themed maze barns on 301 acres of Nottinghamshire farmland.</p>
+</div>
+
+<!-- VISION -->
+<section id="vision">
+    <div class="section-label">Vision &amp; Concept</div>
+    <h2>Not a scream park. A world.</h2>
+    <p class="section-intro">Scare Core exists to prove that horror entertainment can be art. Six interconnected worlds, each with its own mythology, designed from the ground up to create genuinely transformative experiences. No jump-scare corridors. No chainsaw chases. Theatrical storytelling that stays with you.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-num">01</div>
+            <h3>Narrative First</h3>
+            <p>Every maze tells a complete story. Original IP developed in-house, with characters, lore, and interconnected mythology across all six worlds. This isn't a walk-through haunted house — it's immersive theatre in the dark.</p>
+        </div>
+        <div class="card">
+            <div class="card-num">02</div>
+            <h3>Year-Round Operation</h3>
+            <p>Scare season runs October to December. The rest of the year, maze barns convert to escape rooms, the Theatre Barn hosts immersive theatre, and the site delivers private events and corporate experiences. Off-season revenue reaches 41% of total turnover by Year 5.</p>
+        </div>
+        <div class="card">
+            <div class="card-num">03</div>
+            <h3>Asset, Not Expense</h3>
+            <p>301 acres of freehold land. £7.2M of converted buildings. Proprietary IP. A growing income stream. The £32M investment creates a permanent asset base with a net book value of £23M at Year 10 — not a sunk cost that burns to zero.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SITE -->
+<section id="site">
+    <div class="section-label">The Site</div>
+    <h2>Cowsland Farm, South Leverton</h2>
+    <p class="section-intro">301 acres of isolated Nottinghamshire farmland. Existing agricultural barns converted into six maze structures. 500m separation from nearest residential property. Former Cottam Power Station infrastructure provides grid connections and road access. Within a 2-hour drive of 15 million people.</p>
+
+    <div class="split-row">
+        <div class="split-col">
+            <h3>Scare Core Ltd — £15M</h3>
+            <table class="data-table">
+                <tr><td>Professional fees (architects, QS, CDM, PM)</td><td class="amount">£500,000</td></tr>
+                <tr><td>Barn shells (6 maze barns + Theatre Barn)</td><td class="amount">£3,600,000</td></tr>
+                <tr><td>The Yard (central courtyard)</td><td class="amount">£600,000</td></tr>
+                <tr><td>Maze fit-out (sets, props, theming)</td><td class="amount">£4,000,000</td></tr>
+                <tr><td>Covered courtyards &amp; walkways</td><td class="amount">£700,000</td></tr>
+                <tr><td>Tech &amp; AV (sound, lighting, SFX)</td><td class="amount">£1,400,000</td></tr>
+                <tr><td>Costumes, props &amp; consumables</td><td class="amount">£500,000</td></tr>
+                <tr><td>Pre-opening costs</td><td class="amount">£1,100,000</td></tr>
+                <tr><td>Contingency (15%)</td><td class="amount">£2,300,000</td></tr>
+                <tr class="bold"><td><strong>Total</strong></td><td class="amount"><strong>£15,000,000</strong></td></tr>
+            </table>
+        </div>
+        <div class="split-col">
+            <h3>Core Creative Group — £15M</h3>
+            <table class="data-table">
+                <tr><td>Land purchase (Cowsland Farm, 301 acres)</td><td class="amount">£6,550,000</td></tr>
+                <tr><td>Legal, conveyancing &amp; SDLT</td><td class="amount">£457,000</td></tr>
+                <tr><td>Planning, EIA &amp; transport assessment</td><td class="amount">£700,000</td></tr>
+                <tr><td>Earthworks &amp; site preparation</td><td class="amount">£250,000</td></tr>
+                <tr><td>Drainage &amp; flood management</td><td class="amount">£300,000</td></tr>
+                <tr><td>Access road &amp; car park (1,200 spaces)</td><td class="amount">£1,700,000</td></tr>
+                <tr><td>HV power, water &amp; sewerage</td><td class="amount">£500,000</td></tr>
+                <tr><td>Sector Hub (operations centre)</td><td class="amount">£1,200,000</td></tr>
+                <tr><td>Perimeter, landscaping &amp; security</td><td class="amount">£1,155,000</td></tr>
+                <tr><td>Contingency (10%)</td><td class="amount">£1,023,000</td></tr>
+                <tr class="bold"><td><strong>Total</strong></td><td class="amount"><strong>£14,850,000</strong></td></tr>
+            </table>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">Plus £2,000,000 Working Capital Reserve. Total project budget: £32,000,000. 100% equity funded. Zero debt.</p>
+</section>
+
+<!-- MAZES -->
+<section id="mazes">
+    <div class="section-label">The Experiences</div>
+    <h2>Six Worlds. Six Stories.</h2>
+    <p class="section-intro">Each maze is a self-contained narrative world, housed in converted agricultural barns. 3,000–12,000 sq ft of scenic environments with spatial audio, scent emitters, haptic effects, and animatronics. One new maze added annually from Year 2.</p>
+
+    <div class="maze-grid">
+        <div class="maze-card"><img src="assets/maze-logos/westlake-witch-trials.webp" alt="Westlake Witch Trials"><div class="overlay"><h4>Westlake Witch Trials</h4><p>Folk horror. 17th century hysteria.</p></div></div>
+        <div class="maze-card"><img src="assets/maze-logos/the-bunker.webp" alt="The Bunker"><div class="overlay"><h4>The Bunker</h4><p>Military containment breach.</p></div></div>
+        <div class="maze-card"><img src="assets/maze-logos/night-terrors.webp" alt="Night Terrors"><div class="overlay"><h4>Night Terrors</h4><p>Sleep paralysis made real.</p></div></div>
+        <div class="maze-card"><img src="assets/maze-logos/drowned.webp" alt="Drowned"><div class="overlay"><h4>Drowned</h4><p>Submerged coastal terror.</p></div></div>
+        <div class="maze-card"><img src="assets/maze-logos/signal-loss.webp" alt="Signal Loss"><div class="overlay"><h4>Signal Loss</h4><p>Analogue transmission horror.</p></div></div>
+        <div class="maze-card"><img src="assets/maze-logos/strings-of-control.webp" alt="Strings of Control"><div class="overlay"><h4>Strings of Control</h4><p>Puppet master psychological horror.</p></div></div>
+    </div>
+</section>
+
+<!-- MARKET -->
+<section id="market">
+    <div class="section-label">Market Opportunity</div>
+    <h2>A Growing Sector</h2>
+    <p class="section-intro">The UK scare and immersive entertainment market is growing year on year, driven by experience-seeking millennials and Gen Z consumers who prioritise shareable moments over physical goods. Halloween spending in the UK exceeded £537M in 2025.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <div class="card-num">£537M</div>
+            <h3>UK Halloween Spend (2025)</h3>
+            <p>Growing at 3.2% year-on-year despite broader economic pressures. The premium experience segment is outpacing overall growth.</p>
+        </div>
+        <div class="card">
+            <div class="card-num">15M</div>
+            <h3>Catchment Population</h3>
+            <p>Within a 2-hour drive: Nottingham, Sheffield, Leeds, Leicester, Lincoln, Doncaster, Derby. Accessible via A1, A57, A620.</p>
+        </div>
+        <div class="card">
+            <div class="card-num">49%</div>
+            <h3>Active Halloween Consumers</h3>
+            <p>Nearly half the UK population actively engages with Halloween. The 18–34 demographic shows the highest participation and spending rates.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials">
+    <div class="section-label">Financial Model</div>
+    <h2>10-Year Financial Projection</h2>
+    <p class="section-intro">Revenue grows from £645k in Year 1 to £4.07M by Year 10. EBITDA turns positive in Year 4. Cumulative EBITDA turns positive in Year 6 and reaches £4.99M by Year 10.</p>
+
+    <div class="metrics-bar">
+        <div class="metric-card"><div class="value amber">Year 4</div><div class="desc">EBITDA Breakeven</div></div>
+        <div class="metric-card"><div class="value green">Year 6</div><div class="desc">Cumulative Positive</div></div>
+        <div class="metric-card"><div class="value green">£4.99M</div><div class="desc">10-Year Cumulative EBITDA</div></div>
+        <div class="metric-card"><div class="value green">33.4%</div><div class="desc">Year 10 EBITDA Margin</div></div>
+        <div class="metric-card"><div class="value">£23.0M</div><div class="desc">Year 10 Net Asset Value</div></div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Revenue &amp; EBITDA (10-Year)</h3>
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+    <div class="chart-row">
+        <div class="chart-container">
+            <h3>Revenue Mix: Scare Season vs Off-Season</h3>
+            <canvas id="revenueBreakdown"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Cumulative EBITDA &amp; Net Asset Value</h3>
+            <canvas id="cumulativeChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Annual Summary</h3>
+        <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr><th></th><th>Y1</th><th>Y2</th><th>Y3</th><th>Y4</th><th>Y5</th><th>Y6</th><th>Y7</th><th>Y8</th><th>Y9</th><th>Y10</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="bold">Revenue</td><td>£645k</td><td>£1.15M</td><td>£1.81M</td><td>£2.34M</td><td>£2.90M</td><td>£3.28M</td><td>£3.50M</td><td>£3.69M</td><td>£3.88M</td><td>£4.07M</td></tr>
+                <tr><td class="bold">EBITDA</td><td class="negative">(£709k)</td><td class="negative">(£544k)</td><td class="negative">(£141k)</td><td class="positive">£206k</td><td class="positive">£599k</td><td class="positive">£868k</td><td class="positive">£994k</td><td class="positive">£1.12M</td><td class="positive">£1.24M</td><td class="positive">£1.36M</td></tr>
+                <tr><td class="bold">EBITDA Margin</td><td class="negative">-110%</td><td class="negative">-47%</td><td class="negative">-8%</td><td class="positive">8.8%</td><td class="positive">20.6%</td><td class="positive">26.4%</td><td class="positive">28.4%</td><td class="positive">30.3%</td><td class="positive">31.9%</td><td class="positive">33.4%</td></tr>
+                <tr><td class="bold">Cumulative</td><td class="negative">(£709k)</td><td class="negative">(£1.25M)</td><td class="negative">(£1.39M)</td><td class="negative">(£1.19M)</td><td class="negative">(£590k)</td><td class="positive">£278k</td><td class="positive">£1.27M</td><td class="positive">£2.39M</td><td class="positive">£3.63M</td><td class="positive">£4.99M</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Scenario Analysis (10-Year)</h3>
+        <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead><tr><th>Metric</th><th>Downside</th><th>Base Case</th><th>Upside</th></tr></thead>
+            <tbody>
+                <tr><td>Y10 Revenue</td><td>£2.80M</td><td class="bold">£4.07M</td><td>£5.50M</td></tr>
+                <tr><td>Y10 EBITDA</td><td>£520k</td><td class="bold">£1.36M</td><td>£2.10M</td></tr>
+                <tr><td>Y10 EBITDA Margin</td><td>18.6%</td><td class="bold">33.4%</td><td>38.2%</td></tr>
+                <tr><td>Cumulative EBITDA (10yr)</td><td class="positive">£850k</td><td class="positive bold">£4.99M</td><td class="positive">£9.80M</td></tr>
+                <tr><td>Cumulative Positive Year</td><td>Year 8</td><td class="bold">Year 6</td><td>Year 4</td></tr>
+                <tr><td>Enterprise Value (8× Y10 EBITDA)</td><td>£4.2M</td><td class="bold">£10.9M</td><td>£16.8M</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Even the downside scenario generates positive cumulative EBITDA (£850k) and reaches breakeven.</p>
+    </div>
+
+    <div class="chart-container">
+        <h3>Asset Value &amp; Return on Investment</h3>
+        <div class="metrics-bar" style="margin: 1rem 0;">
+            <div class="metric-card"><div class="value">£10.9M</div><div class="desc">Enterprise Value (8× Y10 EBITDA)</div></div>
+            <div class="metric-card"><div class="value">£23.0M</div><div class="desc">Net Asset Value (Year 10)</div></div>
+            <div class="metric-card"><div class="value">£10.7M</div><div class="desc">Liquidation Floor Value</div></div>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;">The £32M investment creates a permanent asset base. Land (301 acres, £6.55M) does not depreciate. Even in a liquidation scenario, land plus 50% of building and infrastructure cost recovers £10.7M — a third of the total investment.</p>
+    </div>
+</section>
+
+<!-- OPERATIONS -->
+<section id="operations">
+    <div class="section-label">Operations &amp; Team</div>
+    <h2>Lean Start, Considered Growth</h2>
+    <p class="section-intro">Year 1 operates with 5 permanent staff plus the founder. The team scales to 13 FTEs by Year 6 as off-season programming grows. Seasonal scare performers (130–185) are hired on 12-week contracts.</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h3>Group Structure</h3>
+            <p><strong>Core Creative Group</strong> is the parent holding company, owning the land, all IP, and brand rights. Three subsidiaries operate underneath: <strong>Scare Core</strong> (scream park), <strong>Immersive Core</strong> (theatre &amp; productions), and <strong>Escape Core</strong> (escape rooms). All wholly owned by the founder.</p>
+        </div>
+        <div class="card">
+            <h3>Year 1 Team</h3>
+            <p>CEO/Artistic Director (founder, £0 salary). Managing Director (£95k loaded). Production Manager (£53k). Finance &amp; Admin Manager (£47k). Marketing Manager (£44k). Site Manager (£37k). Total permanent payroll: £276k.</p>
+        </div>
+        <div class="card">
+            <h3>Seasonal Workforce</h3>
+            <p>130–185 performers and support staff on 12-week contracts (October–December). Scare actors at £12–16/hour. Show Captains handle rehearsals and quality control. Full H&amp;S, consent, and character training before season opens.</p>
+        </div>
+    </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+    <div class="section-label">Programme</div>
+    <h2>From Acquisition to Opening Night</h2>
+
+    <div class="timeline">
+        <div class="timeline-item"><div class="date">Q2 2026</div><h4>Site Acquisition &amp; Due Diligence</h4><p>Legal/title review, overage analysis, Cranswick lease negotiation, EIA/FRA commissioning, independent QS re-price.</p></div>
+        <div class="timeline-item"><div class="date">Q3–Q4 2026</div><h4>Planning Application</h4><p>Pre-application consultation with Bassetlaw DC. Transport assessment. Economic impact study. Full planning submission.</p></div>
+        <div class="timeline-item"><div class="date">Q1–Q2 2027</div><h4>Construction Phase 1</h4><p>Infrastructure: car park, access roads, utilities, drainage. Barn structural conversions begin. Sector Hub fit-out.</p></div>
+        <div class="timeline-item"><div class="date">Q3–Q4 2027</div><h4>Construction Phase 2</h4><p>Scenic installation in 6 maze barns. AV, lighting, SFX commissioning. Theatre Barn build. The Yard courtyard construction.</p></div>
+        <div class="timeline-item"><div class="date">Q1–Q3 2028</div><h4>Pre-Opening</h4><p>MD and core team recruitment. Marketing launch. Seasonal cast auditions and training. Dress rehearsals. Safety inspections.</p></div>
+        <div class="timeline-item"><div class="date">October 2028</div><h4>Opening Night</h4><p>First scare season: 24 nights, 1,000 capacity, 6 mazes. Soft launch pricing. Year 1 target: 15,600 guests, £645k revenue.</p></div>
+        <div class="timeline-item"><div class="date">Q2 2029 onwards</div><h4>Off-Season Launch</h4><p>Theatre Barn opens for immersive theatre. First maze barn retrofitted for escape rooms. Private events programme begins.</p></div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Core Creative Group. All rights reserved. Scare Core is a brand of Core Creative Group.</p>
+</footer>
+
+<!-- CHARTS -->
+<script>
+Chart.defaults.color = '#a3a3a3';
+Chart.defaults.borderColor = '#2a2a2a';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+const years = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10'];
+const revenue = [645, 1151, 1811, 2335, 2904, 3283, 3497, 3688, 3883, 4071];
+const ebitda = [-709, -544, -141, 206, 599, 868, 994, 1117, 1240, 1360];
+const cumEbitda = [-709, -1253, -1394, -1188, -590, 278, 1273, 2389, 3630, 4990];
+const nav = [26974, 25192, 23419, 22328, 21655, 21471, 21039, 20923, 21221, 23032];
+const scareRev = [645, 911, 1186, 1388, 1706, 1937, 2037, 2153, 2259, 2368];
+const offRev = [0, 240, 625, 947, 1198, 1346, 1461, 1536, 1625, 1703];
+
+new Chart(document.getElementById('revenueChart'), {
+    type: 'bar',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Revenue (£k)', data: revenue, backgroundColor: 'rgba(220, 38, 38, 0.7)', borderRadius: 4, order: 2 },
+            { label: 'EBITDA (£k)', data: ebitda, type: 'line', borderColor: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.1)', borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#22c55e', fill: true, tension: 0.3, order: 1 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': £' + ctx.parsed.y.toLocaleString() + 'k' } } },
+        scales: { y: { grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + v + 'k' } }, x: { grid: { display: false } } }
+    }
+});
+
+new Chart(document.getElementById('revenueBreakdown'), {
+    type: 'bar',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Scare Season', data: scareRev, backgroundColor: 'rgba(220, 38, 38, 0.8)', borderRadius: 4 },
+            { label: 'Off-Season', data: offRev, backgroundColor: 'rgba(245, 158, 11, 0.8)', borderRadius: 4 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + v + 'k' } } }
+    }
+});
+
+new Chart(document.getElementById('cumulativeChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Net Asset Value (£k)', data: nav, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', borderWidth: 2, pointRadius: 3, fill: true, tension: 0.3 },
+            { label: 'Cumulative EBITDA (£k)', data: cumEbitda, borderColor: '#22c55e', borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: function(ctx) { return ctx.parsed.y >= 0 ? '#22c55e' : '#dc2626'; }, tension: 0.3 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + (v/1000).toFixed(0) + 'M' } }, x: { grid: { display: false } } }
+    }
+});
+</script>
+
+</body>
+</html>

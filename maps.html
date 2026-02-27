@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scare Core — Plans & Maps</title>
-    <meta name="description" content="Interactive site plans, architectural layouts, and space plans for Scare Core at Cowsland Farm, South Leverton.">
+    <title>Plans & Maps — Core Creative Group</title>
+    <meta name="description" content="Interactive site plans, architectural layouts, and space plans for Scare Core at Cowsland Farm, South Leverton. A Core Creative Group project.">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" href="favicon-192.png" type="image/png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -89,8 +89,8 @@
             transition: color 0.2s;
         }
 
-        nav .nav-links a:hover { color: var(--red-primary); }
-        nav .nav-links a.active { color: var(--red-primary); }
+        nav .nav-links a:hover { color: var(--accent-purple); }
+        nav .nav-links a.active { color: var(--accent-purple); }
 
         .hamburger {
             display: none;
@@ -414,11 +414,13 @@
 <!-- NAVIGATION -->
 <nav>
     <div class="nav-inner">
-        <div class="logo-group">
-            <a href="index.html"><img src="assets/logos/scare-core.png" alt="Scare Core" style="height: 32px;"></a>
-        </div>
+        <a href="index.html" class="logo-group" style="text-decoration:none;">
+            <img src="assets/logos/ccg-icon.png" alt="CCG" style="height: 34px;">
+            <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);">Core Creative Group</span>
+        </a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="index.html">Business Plan</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="scare-core.html">Scare Core</a></li>
             <li><a href="maps.html" class="active">Plans & Maps</a></li>
         </ul>
         <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">&#9776;</button>
@@ -677,7 +679,7 @@
 
 <!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Immersive Core Ltd. All rights reserved. Scare Core is a registered trademark of Immersive Core Ltd.</p>
+    <p>&copy; 2026 Core Creative Group. All rights reserved. Scare Core, Immersive Core, and Escape Core are brands of Core Creative Group.</p>
 </footer>
 
 <script>
