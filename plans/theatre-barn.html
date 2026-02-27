@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1400">
+<title>SCARE CORE — Immersive Theatre Barn: The Victorian Mansion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+  :root {
+    --crimson: #C41E3A;
+    --crimson-dark: #9B1830;
+    --ic-blue: #1B4F72;
+    --gold: #C9A84C;
+    --gold-light: #D4B96A;
+    --gold-dark: #A68A3E;
+    --dark: #0A0A08;
+    --mansion: #1C1810;
+    --wood: #2C2418;
+    --plaster: #D4CCBA;
+    --stone: #8A8272;
+    --card: #FFFFFF;
+    --border: #E5E2DD;
+    --text: #1A1A1A;
+    --text-mid: #6B6B6B;
+    --green: #2E7D32;
+    --amber: #F57C00;
+    --purple: #6A1B9A;
+    --cellar: #1A140E;
+    --secret: #8B1A1A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0A0A08 0%, #1C1810 40%, #0A0A08 100%);
+    padding: 80px 60px 60px;
+    border-bottom: 2px solid var(--gold-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    border-left: 2px solid var(--gold-dark);
+    padding-left: 16px;
+  }
+  .hero-stat-val {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .hero-stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: #0D0D0A;
+    border-bottom: 1px solid #1C1810;
+    padding: 0 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+  }
+  .nav a {
+    display: block;
+    padding: 16px 22px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #666;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav a:hover, .nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 60px; }
+  .section.light { background: var(--card); }
+  .section.warm { background: #FAF8F4; }
+  .section.dark { background: var(--dark); color: #fff; }
+  .section.mansion { background: var(--mansion); color: #fff; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .section.dark .section-title, .section.mansion .section-title { color: #fff; }
+  .section.light .section-title, .section.warm .section-title { color: var(--text); }
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-mid);
+    max-width: 720px;
+    line-height: 1.75;
+    margin-bottom: 48px;
+  }
+  .section.dark .section-desc, .section.mansion .section-desc { color: rgba(255,255,255,0.45); }
+
+  /* ── FLOOR PLAN CONTAINER ── */
+  .plan-container {
+    background: #111;
+    border-radius: 12px;
+    border: 1px solid #222;
+    overflow: hidden;
+  }
+  .plan-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .plan-toolbar .level-tabs { display: flex; gap: 6px; }
+  .level-tab {
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .level-tab.active, .level-tab:hover {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: #fff;
+  }
+  .plan-scale { font-size: 11px; color: #444; font-weight: 500; }
+
+  .plan-view { display: none; }
+  .plan-view.active { display: block; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 16px 24px;
+    background: #0a0a0a;
+    border-top: 1px solid #1a1a1a;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 0.3px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── ROOM CARDS ── */
+  .room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .room-card {
+    background: #161310;
+    border: 1px solid #2a2520;
+    border-radius: 10px;
+    padding: 28px 24px;
+    transition: border-color 0.2s;
+  }
+  .room-card:hover { border-color: var(--gold-dark); }
+  .room-card.secret { border-left: 3px solid var(--secret); }
+  .room-card-floor {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 6px;
+  }
+  .room-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .room-card-dims {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .room-card-desc {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .room-card-secret {
+    font-size: 11px;
+    color: var(--secret);
+    font-weight: 600;
+    line-height: 1.6;
+    padding-top: 12px;
+    border-top: 1px solid #2a2018;
+  }
+  .room-card-secret::before {
+    content: 'HIDDEN REVEAL: ';
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.7;
+  }
+  .room-card-change {
+    font-size: 11px;
+    color: var(--amber);
+    font-weight: 500;
+    line-height: 1.6;
+    padding-top: 8px;
+  }
+  .room-card-change::before {
+    content: 'AFTER THE SÉANCE: ';
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.7;
+    color: var(--amber);
+  }
+
+  /* ── TIMELINE ── */
+  .act-timeline {
+    display: flex;
+    gap: 0;
+    margin-top: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #2a2520;
+  }
+  .act-block {
+    flex: 1;
+    padding: 28px 20px;
+    position: relative;
+    border-right: 1px solid #2a2520;
+  }
+  .act-block:last-child { border-right: none; }
+  .act-block.together { background: #1a1612; }
+  .act-block.split { background: #12100D; }
+  .act-block.interval { background: #0D1210; }
+  .act-dur {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 4px;
+  }
+  .act-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .act-desc {
+    font-size: 11px;
+    color: #777;
+    line-height: 1.6;
+  }
+  .act-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .act-tag.together { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .act-tag.split { background: rgba(196,30,58,0.15); color: var(--crimson); }
+  .act-tag.interval { background: rgba(46,125,50,0.15); color: var(--green); }
+
+  /* ── SPEC TABLE ── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #2a2520;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .spec-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid #2a2520;
+    background: #12100D;
+  }
+  .spec-table td {
+    padding: 11px 16px;
+    font-size: 12px;
+    border-bottom: 1px solid #1a1812;
+    color: #ccc;
+  }
+  .spec-table td:first-child { font-weight: 600; color: #fff; }
+  .spec-table tr:hover td { background: rgba(201,168,76,0.03); }
+
+  /* ── CROSS SECTION ── */
+  .xsection-container {
+    background: #111;
+    border-radius: 12px;
+    border: 1px solid #222;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .xsection-title {
+    padding: 14px 24px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: #060604;
+    padding: 40px 60px;
+    border-top: 1px solid #1a1810;
+    display: flex;
+    justify-content: space-between;
+  }
+  .doc-footer-left { font-size: 12px; color: #444; }
+  .doc-footer-right { font-size: 11px; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+
+  @media (max-width: 900px) {
+    .hero, .section, .nav { padding-left: 24px; padding-right: 24px; }
+    .room-grid { grid-template-columns: 1fr; }
+    .act-timeline { flex-direction: column; }
+    .act-block { border-right: none; border-bottom: 1px solid #2a2520; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-label">Scare Core &bull; Immersive Theatre Division</div>
+  <h1>The <span>Victorian Mansion</span></h1>
+  <p class="hero-sub">Architectural plan for a purpose-built immersive theatre barn housing a two-storey Victorian mansion interior with sunken cellar, hidden rooms, and secret passages.</p>
+  <div class="hero-meta">
+    <div class="hero-stat"><div class="hero-stat-val">1,400m&sup2;</div><div class="hero-stat-label">Barn Footprint</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">40m &times; 35m</div><div class="hero-stat-label">External Dims</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">8m Eaves</div><div class="hero-stat-label">Clear Height</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">3 Levels</div><div class="hero-stat-label">Ground + First + Cellar</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">22 Rooms</div><div class="hero-stat-label">Performance Spaces</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">200 Guests</div><div class="hero-stat-label">Per Performance</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">&pound;1.7m</div><div class="hero-stat-label">Build Budget</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav">
+  <a href="#overview" class="active">Overview</a>
+  <a href="#floorplans">Floor Plans</a>
+  <a href="#cellar">The Cellar</a>
+  <a href="#secrets">Hidden Reveals</a>
+  <a href="#crosssection">Cross Section</a>
+  <a href="#backstage">Backstage</a>
+  <a href="#narrative">Show Structure</a>
+  <a href="#technical">Technical Spec</a>
+</nav>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<section class="section mansion" id="overview">
+  <div class="section-label">01 &mdash; Concept Overview</div>
+  <div class="section-title">A House That Remembers</div>
+  <div class="section-desc">A purpose-built steel-frame barn on the Scare Core expansion land, housing a complete two-storey Victorian mansion interior with a sunken cellar accessed via real descending staircases. The main floor is raised 1m above the barn slab; the cellar is excavated 1m below it — creating a genuine 2m descent that audiences physically walk down. Every room contains a hidden reveal that transforms between Act Two and Act Four, meaning no two visits through the house are identical.</div>
+
+  <!-- BARN SHELL DIAGRAM -->
+  <div class="plan-container">
+    <div class="plan-toolbar">
+      <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:2px;">BARN SHELL &mdash; EXTERNAL ENVELOPE</span>
+      <span class="plan-scale">Scale 1:200 &bull; All dims in metres</span>
+    </div>
+    <svg viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1100" height="500" fill="#111"/>
+
+      <!-- Barn outline -->
+      <rect x="100" y="80" width="900" height="340" fill="#161310" stroke="var(--gold-dark)" stroke-width="2" rx="2"/>
+
+      <!-- Level indicators -->
+      <!-- Cellar (below slab) -->
+      <rect x="300" y="340" width="300" height="80" fill="#0D0A06" stroke="#5C4A30" stroke-width="1" stroke-dasharray="6,4" rx="2"/>
+      <text x="450" y="385" fill="#5C4A30" font-size="11" font-weight="700" font-family="Inter" text-anchor="middle">SUNKEN CELLAR</text>
+      <text x="450" y="400" fill="#3D3020" font-size="8" font-family="Inter" text-anchor="middle">-1.0m below slab &bull; excavated pit</text>
+
+      <!-- Raised floor platform -->
+      <rect x="150" y="250" width="800" height="90" fill="#1C1810" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+      <text x="550" y="290" fill="var(--gold)" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">GROUND FLOOR (+1.0m RAISED PLATFORM)</text>
+      <text x="550" y="308" fill="#6B5D45" font-size="9" font-family="Inter" text-anchor="middle">Entrance Hall &bull; Drawing Room &bull; Library &bull; Kitchen &bull; Servants' Corridor</text>
+
+      <!-- Mezzanine -->
+      <rect x="200" y="150" width="500" height="80" fill="#241E14" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+      <text x="450" y="188" fill="var(--gold)" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">FIRST FLOOR (MEZZANINE +4.0m)</text>
+      <text x="450" y="206" fill="#6B5D45" font-size="9" font-family="Inter" text-anchor="middle">Master Bedroom &bull; Nursery &bull; Dressing Room &bull; Locked Room &bull; Gallery</text>
+
+      <!-- Tech gallery -->
+      <rect x="750" y="100" width="200" height="60" fill="#111" stroke="#444" stroke-width="1" rx="2"/>
+      <text x="850" y="130" fill="#888" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">TECH GALLERY</text>
+      <text x="850" y="144" fill="#555" font-size="8" font-family="Inter" text-anchor="middle">Control booth &bull; Rigging access</text>
+
+      <!-- Roof line -->
+      <path d="M95,80 L550,20 L1005,80" fill="none" stroke="var(--gold-dark)" stroke-width="2"/>
+      <text x="550" y="15" fill="var(--gold-dark)" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">RIDGE: 10.2m</text>
+
+      <!-- Height markers -->
+      <g stroke="#444" stroke-width="0.5" fill="#666" font-size="8" font-family="Inter">
+        <line x1="70" y1="340" x2="70" y2="420"/>
+        <text x="55" y="385" text-anchor="middle" transform="rotate(-90,55,385)">-1.0m</text>
+
+        <line x1="70" y1="250" x2="70" y2="340"/>
+        <text x="55" y="300" text-anchor="middle" transform="rotate(-90,55,300)">SLAB 0.0m</text>
+
+        <line x1="70" y1="250" x2="70" y2="150"/>
+        <text x="55" y="200" text-anchor="middle" transform="rotate(-90,55,200)">+1.0 to +4.0</text>
+
+        <line x1="70" y1="80" x2="70" y2="150"/>
+        <text x="55" y="115" text-anchor="middle" transform="rotate(-90,55,115)">+8.0m eaves</text>
+      </g>
+
+      <!-- Audience entry -->
+      <rect x="100" y="280" width="50" height="30" fill="var(--gold-dark)" rx="3"/>
+      <text x="125" y="299" fill="#fff" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">ENTRY</text>
+      <path d="M100,295 L60,295" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#arrowGold)"/>
+
+      <defs>
+        <marker id="arrowGold" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" fill="var(--gold)"/>
+        </marker>
+      </defs>
+
+      <!-- Width dimension -->
+      <line x1="100" y1="450" x2="1000" y2="450" stroke="#444" stroke-width="0.5"/>
+      <line x1="100" y1="446" x2="100" y2="454" stroke="#444" stroke-width="1"/>
+      <line x1="1000" y1="446" x2="1000" y2="454" stroke="#444" stroke-width="1"/>
+      <text x="550" y="468" fill="#666" font-size="10" font-family="Inter" text-anchor="middle">40m (external)</text>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#0D0A06;border-color:#5C4A30;"></div>Cellar (-1.0m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1C1810;border-color:var(--gold-dark);"></div>Ground Floor (+1.0m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#241E14;border-color:var(--gold-dark);"></div>First Floor (+4.0m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#111;border-color:#444;"></div>Technical Gallery (+6.5m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--gold-dark);"></div>Audience Entry/Exit</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FLOOR PLANS ═══════════════════ -->
+<section class="section dark" id="floorplans">
+  <div class="section-label">02 &mdash; Floor Plans</div>
+  <div class="section-title">Three-Level Mansion Interior</div>
+  <div class="section-desc">The mansion is built inside the barn shell on a raised steel-and-timber platform. The ground floor sits 1m above the barn slab, the first floor mezzanine at 4m, and the cellar is excavated 1m below slab level. Backstage performer corridors (shown in dark grey) run behind the set walls, allowing cast to move unseen between rooms.</div>
+
+  <div class="plan-container">
+    <div class="plan-toolbar">
+      <div class="level-tabs">
+        <button class="level-tab active" onclick="showLevel('cellar')">Cellar Level (-1.0m)</button>
+        <button class="level-tab" onclick="showLevel('ground')">Ground Floor (+1.0m)</button>
+        <button class="level-tab" onclick="showLevel('first')">First Floor (+4.0m)</button>
+      </div>
+      <span class="plan-scale">Scale 1:150 &bull; North &uarr;</span>
+    </div>
+
+    <!-- ═══ CELLAR LEVEL ═══ -->
+    <div class="plan-view active" id="level-cellar">
+      <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1000" height="700" fill="#0A0806"/>
+
+        <!-- Cellar pit outline -->
+        <rect x="200" y="150" width="600" height="400" fill="#0D0A06" stroke="#5C4A30" stroke-width="2" rx="2"/>
+
+        <!-- Retaining walls (hatched) -->
+        <g fill="#1A1510" stroke="#3D3020" stroke-width="0.5">
+          <rect x="200" y="150" width="600" height="15"/>
+          <rect x="200" y="535" width="600" height="15"/>
+          <rect x="200" y="150" width="15" height="400"/>
+          <rect x="785" y="150" width="15" height="400"/>
+        </g>
+        <text x="500" y="142" fill="#5C4A30" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">CELLAR LEVEL &mdash; 1.0m BELOW SLAB &mdash; REINFORCED CONCRETE PIT</text>
+
+        <!-- Main cellar chamber -->
+        <rect x="230" y="180" width="350" height="250" fill="#12100A" stroke="#3D3020" stroke-width="1" rx="2"/>
+        <text x="405" y="280" fill="#8B7355" font-size="16" font-weight="800" font-family="Playfair Display" text-anchor="middle">MAIN CELLAR</text>
+        <text x="405" y="300" fill="#5C4A30" font-size="9" font-family="Inter" text-anchor="middle">10m &times; 8m &bull; 2.2m ceiling height</text>
+        <text x="405" y="316" fill="#4A3C28" font-size="8" font-family="Inter" text-anchor="middle">Shelving, preserves, old furniture under dust sheets</text>
+        <text x="405" y="330" fill="#4A3C28" font-size="8" font-family="Inter" text-anchor="middle">Rough brick walls, stone flag floor, damp smell</text>
+        <text x="405" y="344" fill="#4A3C28" font-size="8" font-family="Inter" text-anchor="middle">Dim oil-lamp effect lighting (LED, flickering)</text>
+
+        <!-- Bricked-up archway -->
+        <rect x="230" y="330" width="100" height="70" fill="none" stroke="var(--secret)" stroke-width="2.5" rx="1"/>
+        <g fill="var(--secret)" opacity="0.3">
+          <rect x="235" y="335" width="18" height="10" rx="1"/><rect x="256" y="335" width="18" height="10" rx="1"/><rect x="277" y="335" width="18" height="10" rx="1"/><rect x="298" y="335" width="18" height="10" rx="1"/>
+          <rect x="244" y="348" width="18" height="10" rx="1"/><rect x="265" y="348" width="18" height="10" rx="1"/><rect x="286" y="348" width="18" height="10" rx="1"/>
+          <rect x="235" y="361" width="18" height="10" rx="1"/><rect x="256" y="361" width="18" height="10" rx="1"/><rect x="277" y="361" width="18" height="10" rx="1"/><rect x="298" y="361" width="18" height="10" rx="1"/>
+          <rect x="244" y="374" width="18" height="10" rx="1"/><rect x="265" y="374" width="18" height="10" rx="1"/><rect x="286" y="374" width="18" height="10" rx="1"/>
+          <rect x="235" y="387" width="18" height="10" rx="1"/><rect x="256" y="387" width="18" height="10" rx="1"/><rect x="277" y="387" width="18" height="10" rx="1"/><rect x="298" y="387" width="18" height="10" rx="1"/>
+        </g>
+        <text x="280" y="418" fill="var(--secret)" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">BRICKED-UP ARCH</text>
+
+        <!-- Hidden chamber (behind bricked arch) -->
+        <rect x="230" y="440" width="140" height="100" fill="#0A0604" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
+        <text x="300" y="485" fill="var(--secret)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">HIDDEN CHAMBER</text>
+        <text x="300" y="500" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">Revealed Act Four only</text>
+        <text x="300" y="512" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">Single candle, chair, presence</text>
+
+        <!-- Wine store -->
+        <rect x="600" y="180" width="170" height="130" fill="#12100A" stroke="#3D3020" stroke-width="1" rx="2"/>
+        <text x="685" y="240" fill="#8B7355" font-size="12" font-weight="700" font-family="Playfair Display" text-anchor="middle">WINE STORE</text>
+        <text x="685" y="258" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="middle">Racking, bottles, cobwebs</text>
+        <text x="685" y="272" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="middle">Performer hide point</text>
+
+        <!-- Connecting passage -->
+        <rect x="600" y="330" width="170" height="70" fill="#12100A" stroke="#3D3020" stroke-width="1" rx="2"/>
+        <text x="685" y="365" fill="#8B7355" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">PASSAGE</text>
+        <text x="685" y="380" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="middle">Low ceiling (1.9m), narrow</text>
+
+        <!-- Coal hole -->
+        <rect x="600" y="420" width="170" height="110" fill="#12100A" stroke="#3D3020" stroke-width="1" rx="2"/>
+        <text x="685" y="470" fill="#8B7355" font-size="12" font-weight="700" font-family="Playfair Display" text-anchor="middle">COAL HOLE</text>
+        <text x="685" y="488" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="middle">Smallest room, single audience</text>
+        <text x="685" y="502" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="middle">moments, 1:1 performer work</text>
+
+        <!-- STAIRS DOWN (from ground floor) -->
+        <!-- Stair A: Main cellar stairs -->
+        <g>
+          <rect x="560" y="190" width="30" height="120" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5" rx="1"/>
+          <line x1="560" y1="200" x2="590" y2="200" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="210" x2="590" y2="210" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="220" x2="590" y2="220" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="230" x2="590" y2="230" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="240" x2="590" y2="240" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="250" x2="590" y2="250" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="260" x2="590" y2="260" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="270" x2="590" y2="270" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="280" x2="590" y2="280" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="290" x2="590" y2="290" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <line x1="560" y1="300" x2="590" y2="300" stroke="var(--gold-dark)" stroke-width="0.5"/>
+          <text x="575" y="320" fill="var(--gold)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,575,320)">STAIR A (12 treads)</text>
+        </g>
+
+        <!-- Stair B: Kitchen/larder secret stairs -->
+        <g>
+          <rect x="420" y="440" width="100" height="25" fill="#2C2418" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="4,3" rx="1"/>
+          <text x="470" y="457" fill="var(--secret)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">STAIR B (SECRET)</text>
+          <text x="470" y="478" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">&uarr; From kitchen larder (hidden)</text>
+        </g>
+
+        <!-- Backstage corridor -->
+        <rect x="200" y="555" width="600" height="35" fill="#1a1a1a" stroke="#333" stroke-width="1" rx="2"/>
+        <text x="500" y="577" fill="#555" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle" letter-spacing="1">BACKSTAGE PERFORMER CORRIDOR (hidden from audience)</text>
+
+        <!-- Temperature note -->
+        <text x="500" y="625" fill="#5C4A30" font-size="10" font-family="Inter" text-anchor="middle" font-style="italic">Localised air conditioning drops temperature 4-5&deg;C below ground floor. Stone and earth scent diffusers active.</text>
+        <text x="500" y="645" fill="#3D3020" font-size="9" font-family="Inter" text-anchor="middle">Concrete retaining walls with applied rough brick / stone scenic finish. Floor: reclaimed flagstone effect (concrete with stamp pattern).</text>
+      </svg>
+    </div>
+
+    <!-- ═══ GROUND FLOOR ═══ -->
+    <div class="plan-view" id="level-ground">
+      <svg viewBox="0 0 1000 750" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1000" height="750" fill="#0D0B08"/>
+
+        <!-- Raised platform outline -->
+        <rect x="80" y="60" width="840" height="580" fill="#161310" stroke="var(--gold-dark)" stroke-width="2" rx="2"/>
+        <text x="500" y="50" fill="var(--gold-dark)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">GROUND FLOOR &mdash; RAISED PLATFORM +1.0m ABOVE BARN SLAB</text>
+
+        <!-- ENTRANCE HALL -->
+        <rect x="350" y="475" width="200" height="155" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="450" y="530" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">ENTRANCE HALL</text>
+        <text x="450" y="548" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Grand staircase to first floor</text>
+        <text x="450" y="562" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Chandelier (practical, dimmable)</text>
+        <text x="450" y="576" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Tiled floor, coat stand, mirror</text>
+        <!-- Front door -->
+        <rect x="420" y="625" width="60" height="12" fill="var(--gold-dark)" rx="2"/>
+        <text x="450" y="653" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">&uarr; AUDIENCE ENTRY (from ramp)</text>
+        <!-- Staircase symbol -->
+        <rect x="480" y="485" width="60" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1" rx="1"/>
+        <text x="510" y="530" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,510,530)">MAIN STAIR UP</text>
+
+        <!-- DRAWING ROOM -->
+        <rect x="90" y="280" width="250" height="190" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="215" y="345" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">DRAWING ROOM</text>
+        <text x="215" y="365" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">S&eacute;ance table (centre, rigged)</text>
+        <text x="215" y="379" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Fireplace (gas effect), sofas, piano</text>
+        <text x="215" y="393" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Drinks cabinet (practical, serves audience)</text>
+        <text x="215" y="407" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Fly tower above for Act Five spectacle</text>
+        <!-- Portrait -->
+        <rect x="100" y="290" width="50" height="40" fill="var(--secret)" stroke="#6B2020" stroke-width="1" rx="1" opacity="0.5"/>
+        <text x="125" y="315" fill="var(--secret)" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">PORTRAIT</text>
+        <text x="125" y="324" fill="#5C2020" font-size="5" font-family="Inter" text-anchor="middle">(screen)</text>
+
+        <!-- LIBRARY -->
+        <rect x="90" y="70" width="250" height="200" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="215" y="145" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">LIBRARY</text>
+        <text x="215" y="165" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Floor-to-ceiling shelving (3 walls)</text>
+        <text x="215" y="179" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Globe, writing desk, armchairs</text>
+        <text x="215" y="193" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Ladder on rail (scenic)</text>
+        <!-- Secret bookcase door -->
+        <rect x="330" y="120" width="12" height="50" fill="var(--secret)" stroke="#6B2020" stroke-width="1.5" rx="1"/>
+        <text x="360" y="140" fill="var(--secret)" font-size="7" font-weight="700" font-family="Inter">SECRET</text>
+        <text x="360" y="150" fill="var(--secret)" font-size="7" font-weight="700" font-family="Inter">BOOKCASE</text>
+        <text x="360" y="160" fill="var(--secret)" font-size="7" font-weight="700" font-family="Inter">DOOR &rarr;</text>
+
+        <!-- HIDDEN STUDY (behind library) -->
+        <rect x="350" y="70" width="120" height="110" fill="#0D0806" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
+        <text x="410" y="115" fill="var(--secret)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">HIDDEN</text>
+        <text x="410" y="130" fill="var(--secret)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">STUDY</text>
+        <text x="410" y="148" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">Desk, frantic notes,</text>
+        <text x="410" y="160" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">newspaper clippings</text>
+
+        <!-- KITCHEN -->
+        <rect x="560" y="280" width="210" height="190" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="665" y="345" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">KITCHEN</text>
+        <text x="665" y="365" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Working range (gas effect)</text>
+        <text x="665" y="379" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Long servants' table, copper pots</text>
+        <text x="665" y="393" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Meat hooks, drying herbs</text>
+        <!-- Larder with secret stairs -->
+        <rect x="700" y="420" width="60" height="45" fill="#0D0806" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="5,3" rx="2"/>
+        <text x="730" y="441" fill="var(--secret)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LARDER</text>
+        <text x="730" y="452" fill="#5C2020" font-size="6" font-family="Inter" text-anchor="middle">&darr; SECRET STAIR</text>
+        <text x="730" y="461" fill="#5C2020" font-size="6" font-family="Inter" text-anchor="middle">to cellar</text>
+
+        <!-- SERVANTS' CORRIDOR -->
+        <rect x="560" y="475" width="200" height="50" fill="#18150E" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+        <text x="660" y="505" fill="#7A6C50" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">SERVANTS' CORRIDOR</text>
+
+        <!-- PARLOUR (small room) -->
+        <rect x="560" y="70" width="210" height="200" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="665" y="140" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">PARLOUR</text>
+        <text x="665" y="160" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Intimate sitting room, 2 armchairs</text>
+        <text x="665" y="174" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Writing desk, clock, photographs</text>
+        <text x="665" y="188" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">1:1 performer moments here</text>
+        <!-- Bricked-up window -->
+        <rect x="762" y="120" width="10" height="50" fill="var(--secret)" stroke="#6B2020" stroke-width="1" rx="1" opacity="0.5"/>
+        <text x="790" y="140" fill="var(--secret)" font-size="6" font-weight="600" font-family="Inter">BRICKED</text>
+        <text x="790" y="149" fill="var(--secret)" font-size="6" font-weight="600" font-family="Inter">WINDOW</text>
+
+        <!-- CELLAR STAIRS (going down from ground) -->
+        <rect x="480" y="280" width="70" height="30" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1" rx="1"/>
+        <text x="515" y="300" fill="var(--gold-dark)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">STAIR A &darr;</text>
+        <text x="515" y="320" fill="#5C4A30" font-size="7" font-family="Inter" text-anchor="middle">to cellar (12 treads, 2m descent)</text>
+
+        <!-- BACKSTAGE CORRIDORS -->
+        <g fill="#1a1a1a" stroke="#333" stroke-width="0.8">
+          <!-- Behind library & drawing room -->
+          <rect x="780" y="70" width="130" height="560" rx="2"/>
+          <!-- Above entrance hall -->
+          <rect x="350" y="185" width="120" height="85" rx="2"/>
+        </g>
+        <text x="845" y="350" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(90,845,350)">BACKSTAGE CORRIDOR (PERFORMER CIRCULATION)</text>
+        <text x="410" y="230" fill="#555" font-size="7" font-weight="500" font-family="Inter" text-anchor="middle">BACKSTAGE</text>
+
+        <!-- Performer access doors -->
+        <g fill="#333" opacity="0.7">
+          <rect x="778" y="150" width="5" height="20" rx="1"/>
+          <rect x="778" y="350" width="5" height="20" rx="1"/>
+          <rect x="778" y="500" width="5" height="20" rx="1"/>
+        </g>
+
+        <!-- Door openings between rooms -->
+        <g>
+          <rect x="340" y="360" width="10" height="30" fill="var(--gold-dark)" opacity="0.4" rx="1"/>
+          <rect x="340" y="505" width="10" height="30" fill="var(--gold-dark)" opacity="0.4" rx="1"/>
+          <rect x="550" y="360" width="10" height="30" fill="var(--gold-dark)" opacity="0.4" rx="1"/>
+          <rect x="215" y="270" width="30" height="10" fill="var(--gold-dark)" opacity="0.4" rx="1"/>
+          <rect x="665" y="270" width="30" height="10" fill="var(--gold-dark)" opacity="0.4" rx="1"/>
+        </g>
+
+        <!-- Room labels with dimensions -->
+        <text x="215" y="465" fill="#4A3C28" font-size="7" font-family="Inter" text-anchor="middle">8m &times; 6m</text>
+        <text x="215" y="260" fill="#4A3C28" font-size="7" font-family="Inter" text-anchor="middle">8m &times; 6.5m</text>
+        <text x="665" y="465" fill="#4A3C28" font-size="7" font-family="Inter" text-anchor="middle">7m &times; 6.5m</text>
+        <text x="665" y="260" fill="#4A3C28" font-size="7" font-family="Inter" text-anchor="middle">7m &times; 6.5m</text>
+        <text x="450" y="620" fill="#4A3C28" font-size="7" font-family="Inter" text-anchor="middle">6.5m &times; 5m</text>
+
+        <!-- Fire exits -->
+        <g>
+          <rect x="80" y="160" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="66" y="180" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE1</text>
+          <rect x="80" y="400" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="66" y="420" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE2</text>
+          <rect x="830" y="530" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="855" y="550" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter">FE3</text>
+        </g>
+
+        <!-- Actor count -->
+        <g fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" opacity="0.6">
+          <circle cx="180" cy="170" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="180" y="173" text-anchor="middle">2</text>
+          <circle cx="180" cy="380" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="180" y="383" text-anchor="middle">3</text>
+          <circle cx="660" cy="170" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="660" y="173" text-anchor="middle">2</text>
+          <circle cx="660" cy="380" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="660" y="383" text-anchor="middle">2</text>
+          <circle cx="450" cy="610" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="450" y="613" text-anchor="middle">2</text>
+        </g>
+        <text x="500" y="710" fill="var(--amber)" font-size="9" font-family="Inter" text-anchor="middle" opacity="0.5">&#9675; Performer positions (11 on ground floor)</text>
+      </svg>
+    </div>
+
+    <!-- ═══ FIRST FLOOR ═══ -->
+    <div class="plan-view" id="level-first">
+      <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1000" height="700" fill="#0D0B08"/>
+
+        <!-- Mezzanine outline (partial coverage) -->
+        <rect x="120" y="80" width="600" height="520" fill="#1A1610" stroke="var(--gold-dark)" stroke-width="2" rx="2"/>
+        <text x="420" y="68" fill="var(--gold-dark)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">FIRST FLOOR &mdash; STEEL MEZZANINE AT +4.0m &mdash; COVERS 55% OF FOOTPRINT</text>
+
+        <!-- Void area (open to ground floor below) -->
+        <rect x="730" y="80" width="180" height="520" fill="#0A0806" stroke="#333" stroke-width="1" stroke-dasharray="8,4" rx="2"/>
+        <text x="820" y="330" fill="#444" font-size="10" font-weight="600" font-family="Inter" text-anchor="middle">VOID</text>
+        <text x="820" y="348" fill="#333" font-size="8" font-family="Inter" text-anchor="middle">Open to ground floor</text>
+        <text x="820" y="362" fill="#333" font-size="8" font-family="Inter" text-anchor="middle">(Drawing Room below)</text>
+        <text x="820" y="378" fill="#333" font-size="8" font-family="Inter" text-anchor="middle">Fly tower above</text>
+
+        <!-- LANDING / GALLERY -->
+        <rect x="360" y="380" width="180" height="210" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="450" y="470" fill="var(--gold)" font-size="12" font-weight="800" font-family="Playfair Display" text-anchor="middle">LANDING</text>
+        <text x="450" y="490" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Gallery overlooking hall</text>
+        <text x="450" y="504" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Balustrade, portraits, runner</text>
+        <!-- Stairs up from ground -->
+        <rect x="480" y="500" width="50" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1" rx="1"/>
+        <text x="505" y="545" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,505,545)">MAIN STAIR &uarr;</text>
+
+        <!-- MASTER BEDROOM -->
+        <rect x="130" y="90" width="220" height="200" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="240" y="170" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">MASTER</text>
+        <text x="240" y="190" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">BEDROOM</text>
+        <text x="240" y="210" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Four-poster bed, dressing table</text>
+        <text x="240" y="224" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Wardrobe with Pepper's Ghost mirror</text>
+        <text x="240" y="238" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Heavy curtains, candelabra</text>
+        <!-- Hidden wardrobe -->
+        <rect x="135" y="250" width="60" height="35" fill="#0D0806" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="5,3" rx="2"/>
+        <text x="165" y="270" fill="var(--secret)" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">WARDROBE</text>
+        <text x="165" y="280" fill="#5C2020" font-size="5" font-family="Inter" text-anchor="middle">Pepper's Ghost</text>
+
+        <!-- NURSERY -->
+        <rect x="360" y="90" width="200" height="180" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="460" y="160" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">NURSERY</text>
+        <text x="460" y="180" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Two small beds, rocking horse</text>
+        <text x="460" y="194" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Drawings on walls, toy chest</text>
+        <text x="460" y="208" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Music box (triggered, automated)</text>
+        <!-- Jib door -->
+        <rect x="552" y="140" width="10" height="50" fill="var(--secret)" stroke="#6B2020" stroke-width="1" rx="1"/>
+        <text x="578" y="158" fill="var(--secret)" font-size="6" font-weight="700" font-family="Inter">JIB DOOR</text>
+        <text x="578" y="168" fill="#5C2020" font-size="5" font-family="Inter">(flush w/ wallpaper)</text>
+
+        <!-- HIDDEN NURSERY ROOM -->
+        <rect x="570" y="90" width="100" height="100" fill="#0D0806" stroke="var(--secret)" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
+        <text x="620" y="130" fill="var(--secret)" font-size="9" font-weight="700" font-family="Playfair Display" text-anchor="middle">HIDDEN</text>
+        <text x="620" y="145" fill="var(--secret)" font-size="9" font-weight="700" font-family="Playfair Display" text-anchor="middle">ROOM</text>
+        <text x="620" y="162" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">Handprints on walls</text>
+        <text x="620" y="174" fill="#5C2020" font-size="7" font-family="Inter" text-anchor="middle">Bricked-up window</text>
+
+        <!-- DRESSING ROOM -->
+        <rect x="130" y="300" width="120" height="140" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="190" y="360" fill="var(--gold)" font-size="11" font-weight="800" font-family="Playfair Display" text-anchor="middle">DRESSING</text>
+        <text x="190" y="376" fill="var(--gold)" font-size="11" font-weight="800" font-family="Playfair Display" text-anchor="middle">ROOM</text>
+        <text x="190" y="396" fill="#7A6C50" font-size="7" font-family="Inter" text-anchor="middle">Vanity, corset, letters</text>
+        <text x="190" y="408" fill="#7A6C50" font-size="7" font-family="Inter" text-anchor="middle">Personal belongings</text>
+
+        <!-- LOCKED ROOM -->
+        <rect x="260" y="300" width="90" height="140" fill="#0D0806" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="305" y="360" fill="var(--gold)" font-size="11" font-weight="800" font-family="Playfair Display" text-anchor="middle">LOCKED</text>
+        <text x="305" y="376" fill="var(--gold)" font-size="11" font-weight="800" font-family="Playfair Display" text-anchor="middle">ROOM</text>
+        <text x="305" y="396" fill="#7A6C50" font-size="7" font-family="Inter" text-anchor="middle">Climax reveal</text>
+        <text x="305" y="408" fill="#7A6C50" font-size="7" font-family="Inter" text-anchor="middle">(Act Four only)</text>
+        <text x="305" y="422" fill="var(--secret)" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">MAGNETICALLY LOCKED</text>
+
+        <!-- UPPER CORRIDOR -->
+        <rect x="130" y="450" width="220" height="40" fill="#18150E" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+        <text x="240" y="475" fill="#7A6C50" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">UPPER CORRIDOR</text>
+
+        <!-- Backstage -->
+        <rect x="130" y="500" width="220" height="90" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="240" y="545" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">BACKSTAGE / PERFORMER AREA</text>
+        <text x="240" y="560" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Quick change, props table, cue lights</text>
+
+        <!-- Safety rail around void -->
+        <line x1="720" y1="80" x2="720" y2="600" stroke="#F57C00" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+        <text x="726" y="400" fill="#F57C00" font-size="7" font-family="Inter" opacity="0.4" transform="rotate(90,726,400)">SAFETY BALUSTRADE (1.1m, scenic finish)</text>
+
+        <!-- Actor positions -->
+        <g fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" opacity="0.6">
+          <circle cx="240" cy="140" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="240" y="143" text-anchor="middle">2</text>
+          <circle cx="460" cy="140" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="460" y="143" text-anchor="middle">2</text>
+          <circle cx="305" cy="430" r="8" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <text x="305" y="433" text-anchor="middle">1</text>
+        </g>
+        <text x="420" y="660" fill="var(--amber)" font-size="9" font-family="Inter" text-anchor="middle" opacity="0.5">&#9675; Performer positions (5 on first floor)</text>
+
+        <!-- Mezzanine structure note -->
+        <text x="420" y="685" fill="#444" font-size="9" font-family="Inter" text-anchor="middle" font-style="italic">Steel mezzanine on UC columns at 4.0m AFL. 150mm composite deck with timber overlay. Load rating: 4.0 kN/m&sup2; (crowd loading).</text>
+      </svg>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#1E1A12;border-color:var(--gold);"></div>Performance Room</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#0D0806;border-color:var(--secret);border-style:dashed;"></div>Hidden / Secret Room</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--secret);"></div>Secret Door / Reveal</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2C2418;border-color:var(--gold-dark);"></div>Staircase</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a1a1a;border-color:#333;"></div>Backstage</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2E7D32;"></div>Fire Exit</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:none;border:1.5px solid var(--amber);border-radius:50%;"></div>Performer Position</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CROSS SECTION ═══════════════════ -->
+<section class="section dark" id="crosssection">
+  <div class="section-label">03 &mdash; Cross Section</div>
+  <div class="section-title">Section A-A: The Three Levels</div>
+  <div class="section-desc">Cut through the barn from south (entry) to north, showing the raised ground floor, the mezzanine first floor, the sunken cellar excavation, and the fly tower void above the drawing room. The 2m descent to the cellar is achieved by raising the main floor 1m and excavating 1m below the barn slab.</div>
+
+  <div class="xsection-container">
+    <div class="xsection-title">Longitudinal Section A-A (South &rarr; North)</div>
+    <svg viewBox="0 0 1100 600" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1100" height="600" fill="#0D0B08"/>
+
+      <!-- Ground level reference -->
+      <line x1="50" y1="400" x2="1050" y2="400" stroke="#3D3020" stroke-width="1" stroke-dasharray="10,6"/>
+      <text x="30" y="404" fill="#5C4A30" font-size="8" font-family="Inter" text-anchor="end">0.0m</text>
+
+      <!-- Sub-ground (earth) -->
+      <rect x="50" y="400" width="1000" height="100" fill="#1A140E" opacity="0.4"/>
+
+      <!-- Cellar pit excavation -->
+      <rect x="350" y="400" width="250" height="80" fill="#0D0A06" stroke="#5C4A30" stroke-width="1.5"/>
+      <text x="475" y="445" fill="#5C4A30" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">CELLAR</text>
+      <text x="475" y="460" fill="#3D3020" font-size="8" font-family="Inter" text-anchor="middle">-1.0m &bull; RC retaining walls</text>
+      <!-- Cellar ceiling (underside of raised floor) -->
+      <line x1="350" y1="400" x2="600" y2="400" stroke="#5C4A30" stroke-width="2"/>
+      <!-- Stairs down to cellar -->
+      <g stroke="var(--gold-dark)" stroke-width="1" fill="#2C2418">
+        <rect x="590" y="340" width="15" height="5"/><rect x="590" y="347" width="15" height="5"/><rect x="590" y="354" width="15" height="5"/>
+        <rect x="590" y="361" width="15" height="5"/><rect x="590" y="368" width="15" height="5"/><rect x="590" y="375" width="15" height="5"/>
+        <rect x="590" y="382" width="15" height="5"/><rect x="590" y="389" width="15" height="5"/><rect x="590" y="396" width="15" height="5"/>
+        <rect x="590" y="403" width="15" height="5"/><rect x="590" y="410" width="15" height="5"/><rect x="590" y="417" width="15" height="5"/>
+      </g>
+      <text x="620" y="385" fill="var(--gold)" font-size="7" font-weight="600" font-family="Inter">12 TREADS</text>
+      <text x="620" y="397" fill="var(--gold)" font-size="7" font-weight="600" font-family="Inter">2.0m DESCENT</text>
+
+      <!-- Raised floor platform -->
+      <rect x="100" y="330" width="880" height="15" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5"/>
+      <text x="30" y="342" fill="var(--gold)" font-size="8" font-family="Inter" text-anchor="end">+1.0m</text>
+
+      <!-- Ground floor rooms -->
+      <rect x="100" y="220" width="200" height="110" fill="#1E1A12" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="200" y="270" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">ENTRANCE</text>
+      <text x="200" y="285" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">HALL</text>
+      <text x="200" y="302" fill="#5C4A30" font-size="7" font-family="Inter" text-anchor="middle">3.0m ceiling</text>
+
+      <rect x="310" y="220" width="200" height="110" fill="#1E1A12" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="410" y="270" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">DRAWING</text>
+      <text x="410" y="285" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">ROOM</text>
+      <text x="410" y="302" fill="#5C4A30" font-size="7" font-family="Inter" text-anchor="middle">Open to roof (fly tower)</text>
+
+      <rect x="620" y="220" width="180" height="110" fill="#1E1A12" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="710" y="275" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">LIBRARY</text>
+
+      <rect x="810" y="220" width="170" height="110" fill="#1E1A12" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="895" y="275" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">KITCHEN</text>
+
+      <!-- Mezzanine floor -->
+      <rect x="100" y="170" width="190" height="8" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1"/>
+      <rect x="620" y="170" width="360" height="8" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1"/>
+      <text x="30" y="178" fill="var(--gold)" font-size="8" font-family="Inter" text-anchor="end">+4.0m</text>
+
+      <!-- First floor rooms -->
+      <rect x="100" y="100" width="190" height="70" fill="#241E14" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="195" y="140" fill="var(--gold)" font-size="9" font-weight="700" font-family="Playfair Display" text-anchor="middle">MASTER BEDROOM</text>
+
+      <rect x="620" y="100" width="170" height="70" fill="#241E14" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="705" y="140" fill="var(--gold)" font-size="9" font-weight="700" font-family="Playfair Display" text-anchor="middle">NURSERY</text>
+
+      <rect x="800" y="100" width="180" height="70" fill="#241E14" stroke="var(--gold)" stroke-width="1" rx="1"/>
+      <text x="890" y="140" fill="var(--gold)" font-size="9" font-weight="700" font-family="Playfair Display" text-anchor="middle">LOCKED ROOM</text>
+
+      <!-- Void above drawing room (fly tower) -->
+      <rect x="310" y="60" width="200" height="160" fill="none" stroke="#444" stroke-width="1" stroke-dasharray="6,4"/>
+      <text x="410" y="120" fill="#555" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">FLY TOWER VOID</text>
+      <text x="410" y="136" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Rigging grid at +7.0m</text>
+      <text x="410" y="150" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Flying performer harness</text>
+      <text x="410" y="164" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Projection from above</text>
+
+      <!-- Lighting grid -->
+      <line x1="100" y1="92" x2="980" y2="92" stroke="var(--amber)" stroke-width="1" stroke-dasharray="8,4" opacity="0.4"/>
+      <text x="1000" y="96" fill="var(--amber)" font-size="7" font-family="Inter" opacity="0.5">LIGHTING GRID +7.0m</text>
+      <text x="30" y="96" fill="var(--amber)" font-size="8" font-family="Inter" text-anchor="end" opacity="0.5">+7.0m</text>
+
+      <!-- Roof -->
+      <path d="M95,50 L550,10 L1005,50" fill="none" stroke="var(--gold-dark)" stroke-width="2.5"/>
+      <text x="30" y="38" fill="var(--gold-dark)" font-size="8" font-family="Inter" text-anchor="end">+8.0m</text>
+
+      <!-- Steel columns -->
+      <g fill="#666" opacity="0.5">
+        <rect x="97" y="50" width="6" height="350"/>
+        <rect x="307" y="50" width="6" height="280"/>
+        <rect x="507" y="50" width="6" height="280"/>
+        <rect x="617" y="50" width="6" height="350"/>
+        <rect x="977" y="50" width="6" height="350"/>
+      </g>
+
+      <!-- Entry ramp -->
+      <path d="M60,400 L100,340" stroke="var(--gold)" stroke-width="2"/>
+      <text x="55" y="375" fill="var(--gold)" font-size="7" font-weight="600" font-family="Inter" text-anchor="end">ENTRY RAMP</text>
+      <text x="55" y="387" fill="var(--gold)" font-size="7" font-family="Inter" text-anchor="end">(1:12 gradient)</text>
+
+      <!-- Key height annotations -->
+      <g fill="#555" font-size="7" font-family="Inter">
+        <text x="200" y="216" text-anchor="middle">3.0m floor-to-ceiling</text>
+        <text x="710" y="95" text-anchor="middle">2.8m floor-to-ceiling</text>
+        <text x="475" y="395" text-anchor="middle">2.2m ceiling</text>
+      </g>
+
+      <!-- Bricked arch in cellar -->
+      <rect x="350" y="420" width="40" height="50" fill="var(--secret)" opacity="0.3" rx="1"/>
+      <text x="370" y="450" fill="var(--secret)" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">ARCH</text>
+
+      <!-- Scale -->
+      <g transform="translate(100,540)">
+        <line x1="0" y1="0" x2="150" y2="0" stroke="#444" stroke-width="1.5"/>
+        <line x1="0" y1="-3" x2="0" y2="3" stroke="#444"/>
+        <line x1="150" y1="-3" x2="150" y2="3" stroke="#444"/>
+        <text x="75" y="15" fill="#555" font-size="8" font-family="Inter" text-anchor="middle">~10m</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════ HIDDEN REVEALS (Room Cards) ═══════════════════ -->
+<section class="section mansion" id="secrets">
+  <div class="section-label">04 &mdash; Hidden Reveals</div>
+  <div class="section-title">Secrets of the House</div>
+  <div class="section-desc">Every room contains a hidden element that is discovered during Act Two (first exploration) and then transforms after the s&eacute;ance in Act Four. Red-bordered cards indicate rooms with physical hidden doors or passages.</div>
+
+  <div class="room-grid">
+    <div class="room-card secret">
+      <div class="room-card-floor">Ground Floor</div>
+      <div class="room-card-name">The Library</div>
+      <div class="room-card-dims">8m &times; 6.5m &bull; Ground Floor &bull; 3.0m ceiling</div>
+      <div class="room-card-desc">Floor-to-ceiling bookshelves on three walls, leather armchairs, globe, writing desk with correspondence, ladder on brass rail. The son's territory — he spends most of Act Two here, growing increasingly agitated, pulling books from shelves.</div>
+      <div class="room-card-secret">A specific book triggers a mechanical latch releasing one shelf section as a concealed pivot door. Behind it: a narrow passage (1.2m wide) leading to a hidden study — desk covered in frantic handwriting, newspaper clippings pinned to walls, a half-finished letter revealing a crucial piece of backstory. Only discovered by the group following the son.</div>
+      <div class="room-card-change">The hidden study lamp is now on. Someone has been in here since Act Two. The half-finished letter has been completed — in different handwriting. A new photograph sits on the desk that wasn't there before.</div>
+    </div>
+
+    <div class="room-card secret">
+      <div class="room-card-floor">First Floor</div>
+      <div class="room-card-name">The Nursery</div>
+      <div class="room-card-dims">6.5m &times; 5.5m &bull; Mezzanine Level &bull; 2.8m ceiling</div>
+      <div class="room-card-desc">Two small iron beds, a rocking horse, a chest of wooden toys, children's drawings pinned to faded wallpaper. A music box on the windowsill that plays intermittently (automated trigger from show control). The governess's domain.</div>
+      <div class="room-card-secret">A jib door — flush with the wallpaper, nearly invisible — swings open on a balanced pivot hinge behind one of the beds. Behind it: a tiny room (2m &times; 2m), child's handprints on the plaster walls, a small window bricked up from the outside. Scratches around the brickwork as if someone tried to claw their way out. The governess shows this to her group and says the children used to hide here.</div>
+      <div class="room-card-change">The hidden room now has fresh handprints on the walls. Wet. The bricked-up window has a crack that wasn't there before — cold air coming through. The music box is playing continuously and won't stop.</div>
+    </div>
+
+    <div class="room-card secret">
+      <div class="room-card-floor">Ground Floor</div>
+      <div class="room-card-name">The Kitchen &amp; Larder</div>
+      <div class="room-card-dims">7m &times; 6.5m &bull; Under Mezzanine &bull; 2.8m ceiling</div>
+      <div class="room-card-desc">A working Victorian range (gas effect), copper pans, a long servants' table, meat hooks, drying herbs. The housekeeper's territory. Functional, warm, but with an edge of unease — one chair at the table is always pulled out, as if someone just stood up.</div>
+      <div class="room-card-secret">The larder at the back of the kitchen. Shelves of jars, dried herbs, sacks. But the back wall slides aside (motorised, triggered by performer) revealing the top of the cellar stairs. This is how one group accesses the cellar — through a route that feels like it wasn't meant to be found. 12 steep treads descending 2m into the dark.</div>
+      <div class="room-card-change">The larder wall is open. It won't close. Cold air is pouring up from the cellar. The jars on the shelves have shifted — some have fallen and smashed. The chair at the table has moved again.</div>
+    </div>
+
+    <div class="room-card">
+      <div class="room-card-floor">Ground Floor</div>
+      <div class="room-card-name">The Drawing Room</div>
+      <div class="room-card-dims">8m &times; 6m &bull; Open to Fly Tower &bull; Full height void</div>
+      <div class="room-card-desc">The grandest room. Fireplace with mantle, sofas, drinks cabinet (serves real drinks to audience), piano, portrait above the fireplace. The s&eacute;ance table sits centre — round, heavy, with a mechanical rig beneath for movement effects. This room has the full-height void above it for Act Five's spectacle moment.</div>
+      <div class="room-card-secret">The portrait above the fireplace is a high-resolution screen behind period glass. During Act Two, the face subtly shifts its gaze to follow specific audience members (tracked by the tech operator). Most people won't consciously notice. The ones who do will feel genuinely unsettled.</div>
+      <div class="room-card-change">During the s&eacute;ance (Act Three): table moves, candles extinguish simultaneously, directional audio voice. In Act Five: the ghost manifests — performer descends on flying rig from the 7m void above, projection mapping transforms the walls, wind and cold effects, full surround sound. The portrait shows a completely different face.</div>
+    </div>
+
+    <div class="room-card secret">
+      <div class="room-card-floor">First Floor</div>
+      <div class="room-card-name">The Master Bedroom</div>
+      <div class="room-card-dims">7m &times; 6.5m &bull; Mezzanine Level &bull; 2.8m ceiling</div>
+      <div class="room-card-desc">Four-poster bed with heavy drapes, dressing table with brushes and a hand mirror, writing desk with sealed letters, heavy curtains blocking a window that seems to look onto nothing. A large mahogany wardrobe dominates one wall.</div>
+      <div class="room-card-secret">The wardrobe is deeper than it should be. Push past the hanging clothes and there's a second compartment — a hidden dressing area with a vanity mirror. But the mirror is a Pepper's Ghost rig (half-silvered glass with a lit cavity behind). At first it reflects normally. Then the tech operator fades in an image behind the glass — a figure standing in the room that isn't there when you turn around.</div>
+      <div class="room-card-change">The Pepper's Ghost is now fully committed. The figure in the mirror is clear, present, breathing. It moves. The vanity mirror on the dressing table outside the wardrobe shows something different to what's in front of it. The sealed letters on the desk have been opened.</div>
+    </div>
+
+    <div class="room-card">
+      <div class="room-card-floor">Ground Floor</div>
+      <div class="room-card-name">The Parlour</div>
+      <div class="room-card-dims">7m &times; 6.5m &bull; Ground Floor &bull; 3.0m ceiling</div>
+      <div class="room-card-desc">A smaller, more intimate sitting room. Two armchairs by a fireplace, a writing desk, a clock that ticks too slowly, family photographs on every surface. This is where the mysterious guest takes their group for quiet, intense 1:1 conversations with individual audience members.</div>
+      <div class="room-card-secret">A window on the east wall that has been bricked up from the inside. The mysterious guest draws attention to it — asks the audience why someone would brick up a window from inside a room. During the conversation, if you listen carefully, there's a faint tapping from behind the bricks. Rhythmic. Patient.</div>
+      <div class="room-card-change">The tapping is louder. Persistent. One brick has shifted — light is visible behind it. A different light to anything in the house. The clock has stopped. The photographs on the surfaces have changed — the same faces, but older, or younger, or in different combinations.</div>
+    </div>
+
+    <div class="room-card secret">
+      <div class="room-card-floor">Cellar Level</div>
+      <div class="room-card-name">The Cellar</div>
+      <div class="room-card-dims">10m &times; 8m &bull; -1.0m Below Slab &bull; 2.2m ceiling</div>
+      <div class="room-card-desc">Every group visits at some point. Accessed via the main cellar stairs (12 treads, genuine 2m descent) or the secret larder stairs. Rough brick walls, flagstone floor, shelving with preserves, old furniture under dust sheets. Oil-lamp lighting. The temperature is noticeably colder. It smells of earth, damp stone, and something faintly sweet.</div>
+      <div class="room-card-secret">The bricked-up archway in the far wall. In Act Two, it's sealed — solid brickwork, but with scratched words near the base (a name, a date, a single word: "FORGIVE"). The housekeeper won't go near it. One brick near the top is very slightly loose — you can see mortar dust on the floor beneath it. Something is behind that wall.</div>
+      <div class="room-card-change">Bricks have been removed — from the inside. A gap large enough to see through into a small chamber beyond. A single candle burns in the chamber. A chair faces the opening. There is the clear sense of a presence — sound design, scent (old perfume), a cold spot from directional air. For one group, a performer is physically present in the chamber. For others, it's empty but the candle is still lit.</div>
+    </div>
+
+    <div class="room-card">
+      <div class="room-card-floor">First Floor</div>
+      <div class="room-card-name">The Locked Room</div>
+      <div class="room-card-dims">3m &times; 4.5m &bull; Mezzanine Level &bull; Magnetically locked</div>
+      <div class="room-card-desc">Locked during Act Two — audience can see the door but it won't open. The mysterious guest has the key. In Act Four, one group is led inside. This is the narrative climax: the room where everything happened. Small, sparse, claustrophobic. A single bed, a chair, a window with bars. The truth of the house is written on the walls.</div>
+      <div class="room-card-secret">The room itself is the reveal. It doesn't exist during Act Two — the door is locked, the room is just a rumour. When it finally opens in Act Four, the audience enters the emotional core of the story. What they find depends on the narrative, but architecturally: the walls are covered in layered wallpaper that's been torn back to reveal writing beneath, the window looks out onto a back-projected image that changes, and the floor creaks in a pattern that mirrors footsteps from the cellar below.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SHOW STRUCTURE ═══════════════════ -->
+<section class="section dark" id="narrative">
+  <div class="section-label">05 &mdash; Show Structure</div>
+  <div class="section-title">Two-Hour Narrative Arc</div>
+  <div class="section-desc">The performance alternates between together moments (full cast, all audience) and split moments (4 groups of ~50, following different characters through different rooms). Every group visits the cellar at a different point. The show is controlled from the technical gallery via QLab show control.</div>
+
+  <div class="act-timeline">
+    <div class="act-block together">
+      <div class="act-dur">0:00 &mdash; 0:30</div>
+      <div class="act-name">Act I: The Gathering</div>
+      <div class="act-desc">All 200 guests together. Drinks reception in the drawing room. Meet the household. Slow build. Then something shifts.</div>
+      <div class="act-tag together">Together &bull; 200 guests</div>
+    </div>
+    <div class="act-block split">
+      <div class="act-dur">0:30 &mdash; 1:10</div>
+      <div class="act-name">Act II: The Exploration</div>
+      <div class="act-desc">Audience splits into 4 groups of ~50. Each follows a character. Each discovers a secret. Every group visits the cellar at a different time. Intimate moments.</div>
+      <div class="act-tag split">Split &bull; 4 &times; 50</div>
+    </div>
+    <div class="act-block together">
+      <div class="act-dur">1:10 &mdash; 1:30</div>
+      <div class="act-name">Act III: The S&eacute;ance</div>
+      <div class="act-desc">All reconvene in the drawing room. The s&eacute;ance. Table moves. Candles die. A voice answers. One character vanishes.</div>
+      <div class="act-tag together">Together &bull; 200 guests</div>
+    </div>
+    <div class="act-block interval">
+      <div class="act-dur">1:30 &mdash; 1:45</div>
+      <div class="act-name">Interval</div>
+      <div class="act-desc">Exit to The Yard. Drinks, compare notes, decompress. The house resets for Act IV behind closed doors.</div>
+      <div class="act-tag interval">The Yard &bull; 15 min</div>
+    </div>
+    <div class="act-block split">
+      <div class="act-dur">1:45 &mdash; 2:15</div>
+      <div class="act-name">Act IV: The Search</div>
+      <div class="act-desc">Back inside. House has changed. New groups, new routes. The secrets have evolved. Cellar arch is breached. Locked room opens. The truth emerges.</div>
+      <div class="act-tag split">Split &bull; 4 &times; 50</div>
+    </div>
+    <div class="act-block together">
+      <div class="act-dur">2:15 &mdash; 2:30</div>
+      <div class="act-name">Act V: The Haunting</div>
+      <div class="act-desc">Full spectacle. Ghost manifests via flying rig in the drawing room void. Projection, wind, sound, cold. Then resolution. Exit one by one through a final corridor for a personal last moment.</div>
+      <div class="act-tag together">Together &bull; Spectacle</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BACKSTAGE ═══════════════════ -->
+<section class="section warm" id="backstage">
+  <div class="section-label">06 &mdash; Backstage &amp; Operations</div>
+  <div class="section-title">Performer Circulation &amp; Technical</div>
+  <div class="section-desc">Hidden corridors behind the set walls allow performers to move unseen between rooms, reappearing in different locations throughout the show. The technical gallery above the mezzanine houses show control, lighting, and sound operators with sightlines to the drawing room.</div>
+
+  <table class="spec-table" style="background: #fff;">
+    <thead>
+      <tr>
+        <th style="background:#FAFAF8;color:var(--gold-dark);">Element</th>
+        <th style="background:#FAFAF8;color:var(--gold-dark);">Specification</th>
+        <th style="background:#FAFAF8;color:var(--gold-dark);">Notes</th>
+      </tr>
+    </thead>
+    <tbody style="color:var(--text);">
+      <tr><td>Backstage Corridor (Ground)</td><td>1.2m wide, full length of barn (35m), sound-isolated</td><td>Connects all ground floor rooms via hidden performer doors</td></tr>
+      <tr><td>Backstage Corridor (Cellar)</td><td>1.0m wide, runs beneath raised platform</td><td>Allows performers to appear/disappear from cellar scenes</td></tr>
+      <tr><td>Backstage Area (First Floor)</td><td>6m &times; 5m behind mezzanine rooms</td><td>Quick change, props table, cue light monitors, water</td></tr>
+      <tr><td>Technical Gallery</td><td>8m &times; 4m steel platform at +6.5m</td><td>Show control desk, lighting operator, sound operator, fly operator</td></tr>
+      <tr><td>Performer Doors</td><td>6 concealed doors (jib doors flush with scenic)</td><td>Mechanical latch, silent operation, performer-only access</td></tr>
+      <tr><td>Show Control System</td><td>QLab Pro (or Medialon) on redundant Mac Pro</td><td>Controls all automated cues: lighting, sound, scent, locks, portrait screen, motorised walls</td></tr>
+      <tr><td>Cue Lights</td><td>12-channel cue light system (green/red)</td><td>At every performer position and backstage hold point</td></tr>
+      <tr><td>Comms</td><td>Clear-Com partyline, 8 beltpacks</td><td>Stage manager, performers, tech gallery, front of house</td></tr>
+      <tr><td>CCTV (Internal)</td><td>12 infrared cameras covering all audience areas</td><td>Stage manager monitors audience flow and safety</td></tr>
+      <tr><td>Flying Rig</td><td>Single-point fly, 250kg SWL, above drawing room void</td><td>Act V spectacle — performer descent or scenic flying piece</td></tr>
+      <tr><td>Projection</td><td>2 &times; laser projectors (Epson EB-PU2220B or equiv)</td><td>Drawing room walls (Act V), locked room window back-projection</td></tr>
+      <tr><td>Pepper's Ghost</td><td>Half-silvered glass (1.5m &times; 2m), lit cavity, DMX dimmer</td><td>Master bedroom wardrobe mirror — figure fades in/out</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ TECHNICAL SPEC ═══════════════════ -->
+<section class="section dark" id="technical">
+  <div class="section-label">07 &mdash; Technical Specification</div>
+  <div class="section-title">Theatre Barn Build Specification</div>
+  <div class="section-desc">Full structural and services specification for the purpose-built immersive theatre barn. Designed for a two-storey mansion set with sunken cellar, fly tower capability, and acoustic isolation from the adjacent Scare Core maze barns.</div>
+
+  <table class="spec-table" style="background: #0D0B08;">
+    <thead>
+      <tr><th>Category</th><th>Specification</th><th>Budget</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>External Dimensions</td><td>40m &times; 35m, 8.0m eaves, 10.2m ridge</td><td rowspan="4">&pound;1,000,000<br><span style="font-size:10px;color:#666;">(shell &amp; envelope)</span></td></tr>
+      <tr><td>Structure</td><td>Clear-span steel portal frame, 6m bay centres, haunched rafters</td></tr>
+      <tr><td>Cladding</td><td>Composite insulated panels (80mm PUR core, 0.7mm steel skins) &mdash; acoustic rated</td></tr>
+      <tr><td>Roof</td><td>Standing seam with acoustic underlayer, no rooflights (full blackout)</td></tr>
+      <tr><td>Foundation (Standard)</td><td>Reinforced concrete pad foundations, 150mm power-floated slab</td><td rowspan="2">&pound;120,000<br><span style="font-size:10px;color:#666;">(incl. cellar pit)</span></td></tr>
+      <tr><td>Cellar Excavation</td><td>10m &times; 8m &times; 1.0m deep RC box, tanked, ventilated, sump pump</td></tr>
+      <tr><td>Raised Floor Platform</td><td>Steel UC columns at 3m centres, composite metal deck, timber overlay, 1.0m above slab</td><td>&pound;80,000</td></tr>
+      <tr><td>Mezzanine (First Floor)</td><td>Steel UC columns, composite deck, 55% footprint coverage, at +4.0m, 4.0 kN/m&sup2; crowd loading</td><td>&pound;120,000</td></tr>
+      <tr><td>Technical Gallery</td><td>Steel platform at +6.5m, 8m &times; 4m, access ladder + spiral stair</td><td>&pound;25,000</td></tr>
+      <tr><td>Fly Tower / Rigging</td><td>Structural steelwork above drawing room void, 250kg SWL flying point, rigging grid at +7.0m</td><td>&pound;45,000</td></tr>
+      <tr><td>Acoustic Treatment</td><td>Floating floor (resilient layer), acoustic composite cladding, double-skin partitions between rooms</td><td>&pound;60,000</td></tr>
+      <tr><td>Electrical</td><td>3-phase supply, 96-way DMX dimming, 400A main incomer, emergency lighting (3hr maintained)</td><td>&pound;85,000</td></tr>
+      <tr><td>Sound System</td><td>Multi-zone distributed audio (24 zones), subwoofers, directional speakers for spot effects</td><td>&pound;45,000</td></tr>
+      <tr><td>Lighting</td><td>Unistrut grid at 7.0m, 96 circuits, 40 moving heads, 60 fixed LED, 20 practical fittings</td><td>&pound;55,000</td></tr>
+      <tr><td>Scent System</td><td>8-zone scent diffusion (earth, damp, woodsmoke, lavender, perfume, decay, candle wax, library dust)</td><td>&pound;8,000</td></tr>
+      <tr><td>HVAC</td><td>Zoned climate control &mdash; cellar 4-5&deg;C below ambient, drawing room neutral, localised cold spots</td><td>&pound;40,000</td></tr>
+      <tr><td>Fire Detection</td><td>Addressable system (L1), beam detectors above false ceilings, aspirating detection in cellar</td><td>&pound;18,000</td></tr>
+      <tr><td>Sprinklers</td><td>Wet riser system, concealed heads throughout</td><td>&pound;30,000</td></tr>
+      <tr><td>Access Control</td><td>Magnetic door locks (show-controlled), NFC staff access, emergency release on fire alarm</td><td>&pound;12,000</td></tr>
+      <tr><td>Show Control</td><td>QLab Pro, 12-ch cue lights, Clear-Com, 12 IR cameras, motorised wall actuators</td><td>&pound;35,000</td></tr>
+      <tr><td>Scenic Build (Mansion)</td><td>Full 22-room set: SFS walls, period finishes, furniture, props, mechanical secrets</td><td>&pound;200,000</td></tr>
+      <tr><td>Pepper's Ghost Rig</td><td>Half-silvered glass panel, lit cavity, DMX-controlled lighting</td><td>&pound;8,000</td></tr>
+      <tr><td>Portrait Screen</td><td>55" 4K display behind period glass frame, media server</td><td>&pound;4,000</td></tr>
+      <tr><td>Flying Rig (Performer)</td><td>Single-point fly, motorised winch, harness, safety certification</td><td>&pound;15,000</td></tr>
+      <tr><td style="font-weight:900;color:var(--gold);">TOTAL</td><td style="font-weight:700;color:var(--gold);">Purpose-built immersive theatre barn, fully equipped</td><td style="font-weight:900;color:var(--gold);font-size:16px;">&pound;2,005,000</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="doc-footer">
+  <div class="doc-footer-left">
+    <strong style="color:var(--gold);">SCARE CORE</strong> <span style="color:#555;">by Immersive Core</span> &nbsp;&mdash;&nbsp; <span style="color:#444;">Theatre Barn Architectural Plan v1.0 &nbsp;&mdash;&nbsp; February 2026</span>
+  </div>
+  <div class="doc-footer-right">Confidential</div>
+</div>
+
+<script>
+function showLevel(level) {
+  document.querySelectorAll('.plan-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('level-' + level).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

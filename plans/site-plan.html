@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCARE CORE — Site Development Plan</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0a0f;color:#e0e0e0;min-height:100vh}
+.header{background:linear-gradient(135deg,#0d0d15 0%,#1a0a0a 100%);padding:24px 32px;border-bottom:2px solid #ff2200;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:28px;font-weight:800;letter-spacing:4px;color:#ff2200;text-transform:uppercase}
+.header .sub{font-size:13px;color:#888;letter-spacing:1px}
+.tabs{display:flex;gap:2px;background:#111;padding:4px 16px;border-bottom:1px solid #222;flex-wrap:wrap}
+.tab{padding:10px 18px;cursor:pointer;font-size:13px;font-weight:600;color:#666;border:none;background:transparent;letter-spacing:0.5px;transition:all 0.2s;border-bottom:2px solid transparent}
+.tab:hover{color:#ccc}
+.tab.active{color:#ff2200;border-bottom-color:#ff2200;background:rgba(255,34,0,0.05)}
+.view{display:none;padding:24px;min-height:calc(100vh - 120px)}
+.view.active{display:block}
+.map-container{background:#0d0d12;border:1px solid #222;border-radius:8px;overflow:hidden;position:relative}
+.map-title{padding:16px 20px;background:rgba(255,34,0,0.08);border-bottom:1px solid #222;font-size:16px;font-weight:700;color:#ff2200;letter-spacing:1px}
+.map-subtitle{font-size:12px;color:#777;font-weight:400;margin-left:12px;letter-spacing:0}
+.legend{display:flex;flex-wrap:wrap;gap:16px;padding:16px 20px;background:rgba(0,0,0,0.3);border-top:1px solid #222}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#aaa}
+.legend-swatch{width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,0.15)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:20px}
+.info-card{background:#111;border:1px solid #222;border-radius:8px;padding:20px;transition:border-color 0.2s}
+.info-card:hover{border-color:#333}
+.info-card h3{font-size:15px;color:#ff2200;margin-bottom:12px;font-weight:700;letter-spacing:0.5px}
+.info-card p{font-size:13px;line-height:1.6;color:#aaa}
+.info-card .stat{font-size:22px;font-weight:800;color:#fff;margin:4px 0}
+.info-card .label{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th{text-align:left;padding:10px 12px;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #222}
+td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;color:#ccc}
+tr:hover td{background:rgba(255,34,0,0.03)}
+.cost{color:#ff2200;font-weight:700}
+.note{font-size:11px;color:#555;font-style:italic;margin-top:12px;padding:10px;background:rgba(255,255,255,0.02);border-left:2px solid #333;border-radius:0 4px 4px 0}
+.world-detail{background:#111;border:1px solid #222;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.world-header{padding:16px 20px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+.world-header h3{font-size:16px;font-weight:700}
+.world-header .cost-badge{font-size:13px;color:#ff2200;font-weight:700;background:rgba(255,34,0,0.1);padding:4px 12px;border-radius:12px}
+.world-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.world-body p{font-size:13px;line-height:1.6;color:#aaa}
+.world-body .field-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+@media(max-width:768px){.world-body{grid-template-columns:1fr}.header h1{font-size:20px}.tabs{overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="header">
+<div><h1>Scare Core</h1><div class="sub">Cowsland Farm Site Development Plan — Lots 1 &amp; 2 — £20M Investment</div></div>
+<div style="text-align:right"><div class="sub">Grove Road, South Leverton, Retford DN22 0EA</div><div class="sub" style="color:#ff2200">INDICATIVE LAYOUT — Not to Scale</div></div>
+</div>
+<div class="tabs">
+<button class="tab active" onclick="showView('master',this)">Master Overview</button>
+<button class="tab" onclick="showView('lot1',this)">Lot 1 — HQ</button>
+<button class="tab" onclick="showView('yard',this)">The Yard — Hub</button>
+<button class="tab" onclick="showView('worlds',this)">The Six Worlds</button>
+<button class="tab" onclick="showView('parking',this)">Parking &amp; Access</button>
+<button class="tab" onclick="showView('infra',this)">Infrastructure</button>
+<button class="tab" onclick="showView('costs',this)">Costs &amp; Revenue</button>
+</div>
+
+<!-- ===== MASTER OVERVIEW ===== -->
+<div class="view active" id="view-master">
+<div class="map-container">
+<div class="map-title">MASTER SITE OVERVIEW — LOTS 1 &amp; 2 <span class="map-subtitle">Cowsland Farm — 301.59 acres total</span></div>
+<svg viewBox="0 0 1600 1100" style="width:100%;height:auto;display:block;background:#080810">
+<defs>
+<pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></pattern>
+<pattern id="overage-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(255,0,0,0.3)" stroke-width="2"/></pattern>
+<filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1600" height="1100" fill="url(#grid)"/>
+
+<!-- Compass -->
+<g transform="translate(1520,60)"><circle r="22" fill="none" stroke="#333" stroke-width="1"/><text y="-28" text-anchor="middle" fill="#ff2200" font-size="12" font-weight="700">N</text><line x1="0" y1="-20" x2="0" y2="-8" stroke="#ff2200" stroke-width="2"/><text y="36" text-anchor="middle" fill="#444" font-size="8">S</text><text x="-32" y="4" text-anchor="middle" fill="#444" font-size="8">W</text><text x="32" y="4" text-anchor="middle" fill="#444" font-size="8">E</text></g>
+
+<!-- GROVE ROAD running E-W across the site, slightly angled as per Bidwells map -->
+<path d="M 30,720 Q 400,732 780,738 Q 900,740 1100,736 L 1560,725" stroke="#554422" stroke-width="14" fill="none" opacity="0.5"/>
+<path d="M 30,720 Q 400,732 780,738 Q 900,740 1100,736 L 1560,725" stroke="#887755" stroke-width="3" fill="none" stroke-dasharray="12,8" opacity="0.4"/>
+<text x="200" y="760" fill="#998866" font-size="14" font-weight="600" letter-spacing="4">GROVE ROAD</text>
+<text x="1300" y="758" fill="#887755" font-size="11" letter-spacing="2">→ to A620 / Retford</text>
+<text x="60" y="758" fill="#887755" font-size="11" letter-spacing="2">← to A1</text>
+
+<!-- MINOR ROAD running N-S, west side of Lot 1. Per the Bidwells map it runs roughly through the middle of the site separating the western Lot 2 block from Lot 1 -->
+<path d="M 830,30 L 826,200 Q 824,350 822,500 L 820,620 Q 819,680 820,738" stroke="#554422" stroke-width="12" fill="none" opacity="0.5"/>
+<path d="M 830,30 L 826,200 Q 824,350 822,500 L 820,620 Q 819,680 820,738" stroke="#887755" stroke-width="2.5" fill="none" stroke-dasharray="10,8" opacity="0.4"/>
+<text transform="translate(850,400) rotate(-89)" fill="#887755" font-size="12" letter-spacing="2">MINOR ROAD (N—S)</text>
+
+<!-- ===== LOT 2 — WESTERN BLOCK (the big blue area west of the minor road) ===== -->
+<!-- This is the main scare park area. Traced from the Bidwells sale plan page 19. -->
+<!-- The shape follows: NW boundary along Co Const Bdy, north along field edges, east to minor road, south along minor road, along Grove Road back west -->
+<polygon points="80,75 250,62 450,68 650,74 790,80 810,80 812,200 812,350 812,500 812,620 812,725 650,732 450,734 250,732 100,728 70,600 60,450 65,300 72,160" fill="rgba(50,100,180,0.15)" stroke="rgba(80,140,220,0.5)" stroke-width="2.5"/>
+
+<!-- Internal field boundaries (hedgerows) dividing the western block into named fields -->
+<line x1="82" y1="270" x2="812" y2="268" stroke="rgba(80,140,220,0.18)" stroke-width="1" stroke-dasharray="6,4"/>
+<line x1="68" y1="455" x2="812" y2="452" stroke="rgba(80,140,220,0.18)" stroke-width="1" stroke-dasharray="6,4"/>
+<line x1="72" y1="600" x2="812" y2="596" stroke="rgba(80,140,220,0.18)" stroke-width="1" stroke-dasharray="6,4"/>
+<line x1="430" y1="72" x2="428" y2="734" stroke="rgba(80,140,220,0.18)" stroke-width="1" stroke-dasharray="6,4"/>
+
+<!-- Field names from Lot 2 cropping schedule -->
+<text x="220" y="180" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Cowsland Hill</text>
+<text x="600" y="180" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Grove Hill</text>
+<text x="220" y="375" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Scrog Hill</text>
+<text x="600" y="375" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Mast</text>
+<text x="220" y="535" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Whinleys</text>
+<text x="600" y="535" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Windmill 27a</text>
+<text x="350" y="665" fill="rgba(80,140,220,0.3)" font-size="12" font-style="italic">Windmill 11a</text>
+
+<text x="440" y="130" fill="rgba(80,140,220,0.55)" font-size="26" font-weight="800" text-anchor="middle" letter-spacing="8">LOT 2</text>
+<text x="440" y="150" fill="rgba(80,140,220,0.35)" font-size="10" text-anchor="middle">289.07 acres — Blue on Bidwells sale plan</text>
+
+<!-- LOT 2 — Northern parcels east of minor road (smaller fields) -->
+<polygon points="838,80 1100,76 1200,82 1200,270 1050,268 838,270" fill="rgba(50,100,180,0.08)" stroke="rgba(80,140,220,0.25)" stroke-width="1.5"/>
+<text x="1020" y="180" fill="rgba(80,140,220,0.25)" font-size="10" font-style="italic">Lot 2 northern parcels</text>
+
+<!-- LOT 2 — Eastern parcels (Cowsland Farmhouse fields) -->
+<polygon points="838,285 1120,280 1120,495 838,500" fill="rgba(50,100,180,0.06)" stroke="rgba(80,140,220,0.2)" stroke-width="1"/>
+<text x="980" y="395" fill="rgba(80,140,220,0.2)" font-size="10" font-style="italic">Cowsland Farmhouse fields</text>
+
+<!-- LOT 2 — Southern parcels (south of Grove Road) -->
+<polygon points="180,760 560,758 700,755 700,940 500,945 180,940" fill="rgba(50,100,180,0.07)" stroke="rgba(80,140,220,0.2)" stroke-width="1.5"/>
+<text x="440" y="850" fill="rgba(80,140,220,0.25)" font-size="11" font-style="italic">Rathole Crossing / Dunstone Rd</text>
+<text x="440" y="868" fill="rgba(80,140,220,0.18)" font-size="9">(Lot 2 southern parcels — used for car parking)</text>
+
+<!-- ===== LOT 1 (Pink — the farm buildings compound) ===== -->
+<!-- Per the Bidwells map: small pink area east of the minor road, south of the northern Lot 2 parcels -->
+<polygon points="832,505 1080,500 1085,518 1095,518 1095,730 832,735" fill="rgba(220,100,120,0.18)" stroke="rgba(220,100,120,0.55)" stroke-width="2.5"/>
+<text x="963" y="575" fill="rgba(220,100,120,0.65)" font-size="20" font-weight="800" text-anchor="middle" letter-spacing="5">LOT 1</text>
+<text x="963" y="595" fill="rgba(220,100,120,0.4)" font-size="10" text-anchor="middle">12.52 acres — Pink on Bidwells sale plan</text>
+
+<!-- Overage area — hatched zone on western edge of Lot 1 spilling into Lot 2 -->
+<rect x="802" y="535" width="40" height="185" fill="url(#overage-hatch)" opacity="0.5"/>
+<text x="822" y="528" fill="rgba(255,0,0,0.45)" font-size="8" text-anchor="middle">OVERAGE 3.09ac</text>
+
+<!-- LOT 1 BUILDINGS cluster -->
+<rect x="860" y="565" width="60" height="38" fill="rgba(100,140,100,0.25)" stroke="rgba(100,140,100,0.5)" stroke-width="1.5" rx="2"/>
+<text x="890" y="588" text-anchor="middle" fill="rgba(140,200,140,0.7)" font-size="7">Bldgs 1-2</text>
+<rect x="930" y="565" width="55" height="38" fill="rgba(100,140,100,0.25)" stroke="rgba(100,140,100,0.5)" stroke-width="1.5" rx="2"/>
+<text x="957" y="588" text-anchor="middle" fill="rgba(140,200,140,0.7)" font-size="7">Bldgs 3-5</text>
+<rect x="995" y="575" width="40" height="25" fill="rgba(140,120,80,0.25)" stroke="rgba(140,120,80,0.5)" stroke-width="1.5" rx="2"/>
+<text x="1015" y="592" text-anchor="middle" fill="rgba(180,160,100,0.7)" font-size="6">Bldg 6</text>
+<rect x="1010" y="620" width="55" height="42" fill="rgba(180,100,60,0.3)" stroke="rgba(180,100,60,0.6)" stroke-width="1.5" rx="2"/>
+<text x="1038" y="645" text-anchor="middle" fill="rgba(220,140,80,0.8)" font-size="7">Farmhouse</text>
+
+<!-- Lot 1 conversion label -->
+<text x="963" y="700" text-anchor="middle" fill="rgba(220,100,120,0.55)" font-size="11" font-weight="700">→ IMMERSIVE CORE HQ</text>
+<text x="963" y="715" text-anchor="middle" fill="rgba(220,100,120,0.35)" font-size="9">Offices • Workshops • Studios • Costume</text>
+
+<!-- Lakes -->
+<ellipse cx="1060" cy="555" rx="14" ry="9" fill="rgba(50,100,170,0.25)" stroke="rgba(60,120,200,0.3)" stroke-width="1"/>
+<ellipse cx="1080" cy="690" rx="12" ry="8" fill="rgba(50,100,170,0.25)" stroke="rgba(60,120,200,0.3)" stroke-width="1"/>
+
+<!-- ===== SCARE CORE PARK ZONE on western Lot 2 block ===== -->
+<rect x="120" y="285" width="670" height="400" rx="8" fill="none" stroke="#ff2200" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.4"/>
+<text x="455" y="308" text-anchor="middle" fill="#ff2200" font-size="15" font-weight="800" letter-spacing="4" opacity="0.55">SCARE CORE PARK (~60 ACRES)</text>
+
+<!-- ===== THE YARD — Central Hub ===== -->
+<circle cx="455" cy="480" r="45" fill="rgba(255,160,0,0.12)" stroke="rgba(255,160,0,0.55)" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="455" cy="480" r="30" fill="rgba(255,160,0,0.08)" stroke="rgba(255,160,0,0.25)" stroke-width="1"/>
+<text x="455" y="474" text-anchor="middle" fill="#ffaa00" font-size="13" font-weight="800">THE YARD</text>
+<text x="455" y="490" text-anchor="middle" fill="rgba(255,160,0,0.5)" font-size="8">Central Hub • 1,500m²</text>
+<text x="455" y="502" text-anchor="middle" fill="rgba(255,160,0,0.35)" font-size="7">£600k</text>
+
+<!-- ===== 6 SPOKES + WORLDS ===== -->
+<!-- 1. NW: The Estate / The Bunker -->
+<line x1="425" y1="445" x2="255" y2="345" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="425" y1="445" x2="255" y2="345" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="225" cy="330" r="38" fill="rgba(139,90,43,0.18)" stroke="rgba(139,90,43,0.45)" stroke-width="1.5"/>
+<rect x="187" y="306" width="76" height="20" rx="3" fill="rgba(139,90,43,0.25)" stroke="rgba(139,90,43,0.45)" stroke-width="1"/>
+<text x="225" y="320" text-anchor="middle" fill="rgba(220,180,120,0.85)" font-size="9" font-weight="700">THE ESTATE</text>
+<text x="225" y="343" text-anchor="middle" fill="rgba(220,180,120,0.55)" font-size="8">The Bunker</text>
+<text x="225" y="358" text-anchor="middle" fill="rgba(220,180,120,0.35)" font-size="7">£1.43m</text>
+<rect x="207" y="292" width="16" height="10" fill="none" stroke="rgba(160,140,100,0.4)" stroke-width="0.8" rx="1"/><text x="215" y="300" text-anchor="middle" fill="rgba(160,140,100,0.5)" font-size="5">BARN</text>
+
+<!-- 2. N: Sleep Institute / Night Terrors -->
+<line x1="455" y1="435" x2="455" y2="345" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="455" y1="435" x2="455" y2="345" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="455" cy="330" r="38" fill="rgba(100,100,120,0.18)" stroke="rgba(150,150,180,0.45)" stroke-width="1.5"/>
+<rect x="414" y="306" width="82" height="20" rx="3" fill="rgba(100,100,120,0.25)" stroke="rgba(150,150,180,0.45)" stroke-width="1"/>
+<text x="455" y="320" text-anchor="middle" fill="rgba(200,200,220,0.85)" font-size="8" font-weight="700">SLEEP INSTITUTE</text>
+<text x="455" y="343" text-anchor="middle" fill="rgba(200,200,220,0.55)" font-size="8">Night Terrors</text>
+<text x="455" y="358" text-anchor="middle" fill="rgba(200,200,220,0.35)" font-size="7">£1.61m (highest)</text>
+<rect x="437" y="292" width="16" height="10" fill="none" stroke="rgba(150,150,170,0.4)" stroke-width="0.8" rx="1"/><text x="445" y="300" text-anchor="middle" fill="rgba(150,150,170,0.5)" font-size="5">BARN</text>
+
+<!-- 3. NE: Westlake Town / Witch Trials -->
+<line x1="485" y1="445" x2="660" y2="345" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="485" y1="445" x2="660" y2="345" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="690" cy="330" r="38" fill="rgba(0,200,100,0.1)" stroke="rgba(100,255,150,0.35)" stroke-width="1.5"/>
+<rect x="648" y="306" width="84" height="20" rx="3" fill="rgba(0,200,100,0.12)" stroke="rgba(100,255,150,0.35)" stroke-width="1"/>
+<text x="690" y="320" text-anchor="middle" fill="rgba(100,255,150,0.85)" font-size="8" font-weight="700">WESTLAKE TOWN</text>
+<text x="690" y="343" text-anchor="middle" fill="rgba(100,255,150,0.55)" font-size="8">Witch Trials</text>
+<text x="690" y="358" text-anchor="middle" fill="rgba(100,255,150,0.35)" font-size="7">£1.48m</text>
+<rect x="672" y="292" width="16" height="10" fill="none" stroke="rgba(80,200,120,0.4)" stroke-width="0.8" rx="1"/><text x="680" y="300" text-anchor="middle" fill="rgba(80,200,120,0.5)" font-size="5">BARN</text>
+
+<!-- 4. SW: Ashwell Docks / Drowned -->
+<line x1="425" y1="515" x2="255" y2="615" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="425" y1="515" x2="255" y2="615" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="225" cy="630" r="38" fill="rgba(0,80,160,0.18)" stroke="rgba(60,140,220,0.45)" stroke-width="1.5"/>
+<rect x="183" y="606" width="84" height="20" rx="3" fill="rgba(0,80,160,0.22)" stroke="rgba(60,140,220,0.45)" stroke-width="1"/>
+<text x="225" y="620" text-anchor="middle" fill="rgba(100,180,255,0.85)" font-size="8" font-weight="700">ASHWELL DOCKS</text>
+<text x="225" y="643" text-anchor="middle" fill="rgba(100,180,255,0.55)" font-size="8">Drowned</text>
+<text x="225" y="658" text-anchor="middle" fill="rgba(100,180,255,0.35)" font-size="7">£1.87m (MOST £)</text>
+<rect x="207" y="662" width="16" height="10" fill="none" stroke="rgba(60,130,200,0.4)" stroke-width="0.8" rx="1"/><text x="215" y="670" text-anchor="middle" fill="rgba(60,130,200,0.5)" font-size="5">BARN</text>
+
+<!-- 5. S: Bellamy & Co / Strings of Control -->
+<line x1="455" y1="525" x2="455" y2="615" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="455" y1="525" x2="455" y2="615" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="455" cy="630" r="38" fill="rgba(120,60,20,0.18)" stroke="rgba(180,120,60,0.45)" stroke-width="1.5"/>
+<rect x="411" y="606" width="88" height="20" rx="3" fill="rgba(120,60,20,0.22)" stroke="rgba(180,120,60,0.45)" stroke-width="1"/>
+<text x="455" y="620" text-anchor="middle" fill="rgba(220,170,100,0.85)" font-size="8" font-weight="700">BELLAMY &amp; CO</text>
+<text x="455" y="643" text-anchor="middle" fill="rgba(220,170,100,0.55)" font-size="8">Strings of Control</text>
+<text x="455" y="658" text-anchor="middle" fill="rgba(220,170,100,0.35)" font-size="7">£1.53m</text>
+<rect x="437" y="662" width="16" height="10" fill="none" stroke="rgba(160,100,50,0.4)" stroke-width="0.8" rx="1"/><text x="445" y="670" text-anchor="middle" fill="rgba(160,100,50,0.5)" font-size="5">BARN</text>
+
+<!-- 6. SE: Station 34 / Signal Loss -->
+<line x1="485" y1="515" x2="660" y2="615" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-linecap="round"/>
+<line x1="485" y1="515" x2="660" y2="615" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3,5"/>
+<circle cx="690" cy="630" r="38" fill="rgba(0,180,180,0.1)" stroke="rgba(0,220,220,0.35)" stroke-width="1.5"/>
+<rect x="651" y="606" width="78" height="20" rx="3" fill="rgba(0,180,180,0.12)" stroke="rgba(0,220,220,0.35)" stroke-width="1"/>
+<text x="690" y="620" text-anchor="middle" fill="rgba(0,255,255,0.85)" font-size="9" font-weight="700">STATION 34</text>
+<text x="690" y="643" text-anchor="middle" fill="rgba(0,255,255,0.55)" font-size="8">Signal Loss</text>
+<text x="690" y="658" text-anchor="middle" fill="rgba(0,255,255,0.35)" font-size="7">£1.48m</text>
+<rect x="672" y="662" width="16" height="10" fill="none" stroke="rgba(0,200,200,0.4)" stroke-width="0.8" rx="1"/><text x="680" y="670" text-anchor="middle" fill="rgba(0,200,200,0.5)" font-size="5">BARN</text>
+
+<!-- ===== CAR PARKING south of Grove Road ===== -->
+<rect x="220" y="775" width="220" height="90" rx="4" fill="rgba(80,80,80,0.18)" stroke="rgba(140,140,140,0.4)" stroke-width="1.5"/>
+<g opacity="0.12"><line x1="235" y1="820" x2="425" y2="820" stroke="#aaa" stroke-width="0.5"/><line x1="235" y1="830" x2="425" y2="830" stroke="#aaa" stroke-width="0.5"/><line x1="235" y1="840" x2="425" y2="840" stroke="#aaa" stroke-width="0.5"/><line x1="235" y1="850" x2="425" y2="850" stroke="#aaa" stroke-width="0.5"/></g>
+<text x="330" y="805" text-anchor="middle" fill="rgba(200,200,200,0.7)" font-size="12" font-weight="700">HARDSTANDING</text>
+<text x="330" y="822" text-anchor="middle" fill="rgba(200,200,200,0.45)" font-size="10">750 spaces • £500k</text>
+
+<rect x="470" y="775" width="210" height="90" rx="4" fill="rgba(60,80,60,0.12)" stroke="rgba(80,130,80,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="575" y="805" text-anchor="middle" fill="rgba(140,200,140,0.6)" font-size="12" font-weight="700">OVERFLOW</text>
+<text x="575" y="822" text-anchor="middle" fill="rgba(140,200,140,0.4)" font-size="10">1,500 spaces (grass)</text>
+
+<!-- Walking route: car park → Grove Road crossing → Entrance → The Yard -->
+<path d="M 330,775 L 330,750 Q 330,743 340,743 L 435,743 Q 440,743 440,738 L 440,700 Q 440,690 445,690 L 455,690 L 455,525" stroke="#ff2200" stroke-width="2" fill="none" stroke-dasharray="4,4" opacity="0.45"/>
+<text x="375" y="703" fill="rgba(255,34,0,0.5)" font-size="9" font-weight="600">Guest Walking Route</text>
+<text x="375" y="716" fill="rgba(255,34,0,0.3)" font-size="8">(~5 min, no shuttle)</text>
+
+<!-- Entrance gate on Grove Road -->
+<circle cx="440" cy="738" r="9" fill="rgba(255,34,0,0.2)" stroke="#ff2200" stroke-width="1.5"/>
+<text x="440" y="741" text-anchor="middle" fill="#ff2200" font-size="6" font-weight="800">GATE</text>
+
+<!-- Safety & Accessibility icons -->
+<g opacity="0.55">
+<rect x="488" y="468" width="10" height="10" rx="2" fill="rgba(255,0,0,0.25)" stroke="rgba(255,0,0,0.4)" stroke-width="0.8"/><text x="493" y="476" text-anchor="middle" fill="#fff" font-size="7">+</text>
+<text x="455" y="518" text-anchor="middle" fill="rgba(100,180,255,0.45)" font-size="7">♿ Accessible Routes</text>
+<g transform="translate(128,478)"><rect width="22" height="10" rx="2" fill="rgba(0,180,0,0.15)" stroke="rgba(0,180,0,0.4)" stroke-width="0.8"/><text x="11" y="8" text-anchor="middle" fill="rgba(0,255,0,0.6)" font-size="6">EXIT</text></g>
+<g transform="translate(760,478)"><rect width="22" height="10" rx="2" fill="rgba(0,180,0,0.15)" stroke="rgba(0,180,0,0.4)" stroke-width="0.8"/><text x="11" y="8" text-anchor="middle" fill="rgba(0,255,0,0.6)" font-size="6">EXIT</text></g>
+<g transform="translate(444,290)"><rect width="22" height="10" rx="2" fill="rgba(0,180,0,0.15)" stroke="rgba(0,180,0,0.4)" stroke-width="0.8"/><text x="11" y="8" text-anchor="middle" fill="rgba(0,255,0,0.6)" font-size="6">EXIT</text></g>
+<g transform="translate(444,675)"><rect width="22" height="10" rx="2" fill="rgba(0,180,0,0.15)" stroke="rgba(0,180,0,0.4)" stroke-width="0.8"/><text x="11" y="8" text-anchor="middle" fill="rgba(0,255,0,0.6)" font-size="6">EXIT</text></g>
+<text x="510" y="467" fill="rgba(180,140,255,0.4)" font-size="6">Quiet Room</text>
+<text x="345" y="762" fill="rgba(255,100,100,0.4)" font-size="7">Medical Point</text>
+</g>
+
+<!-- Power / Water -->
+<g transform="translate(90,730)"><circle r="7" fill="rgba(255,200,0,0.15)" stroke="rgba(255,200,0,0.4)" stroke-width="1"/><text y="3" text-anchor="middle" fill="rgba(255,200,0,0.7)" font-size="7">⚡</text><text x="18" y="3" fill="rgba(255,200,0,0.4)" font-size="7">HV Power</text></g>
+<g transform="translate(90,755)"><circle r="7" fill="rgba(60,140,220,0.15)" stroke="rgba(60,140,220,0.4)" stroke-width="1"/><text y="3" text-anchor="middle" fill="rgba(60,140,220,0.7)" font-size="7">💧</text><text x="18" y="3" fill="rgba(60,140,220,0.4)" font-size="7">Water</text></g>
+
+<!-- Scale + disclaimer -->
+<g transform="translate(60,1040)"><line x1="0" y1="0" x2="140" y2="0" stroke="#444" stroke-width="2"/><line x1="0" y1="-4" x2="0" y2="4" stroke="#444" stroke-width="2"/><line x1="140" y1="-4" x2="140" y2="4" stroke="#444" stroke-width="2"/><text x="70" y="16" text-anchor="middle" fill="#444" font-size="9">~200m (approx)</text></g>
+<text x="800" y="1070" text-anchor="middle" fill="#2a2a2a" font-size="9">INDICATIVE LAYOUT — Lot boundaries traced from Bidwells sale plan (Drawing B.18,803, dated 05/03/2025). Not to scale.</text>
+<text x="800" y="1085" text-anchor="middle" fill="#2a2a2a" font-size="8">Scare Core — Immersive Core Ltd — Total Investment £20M (£15M Scare Core + £5M Infrastructure) — Opening October 2028</text>
+</svg>
+
+<div class="legend">
+<div class="legend-item"><div class="legend-swatch" style="background:rgba(50,100,180,0.3);border-color:rgba(80,140,220,0.5)"></div>Lot 2 — Farmland (289ac, blue)</div>
+<div class="legend-item"><div class="legend-swatch" style="background:rgba(220,100,120,0.3);border-color:rgba(220,100,120,0.6)"></div>Lot 1 — Buildings (12.52ac, pink)</div>
+<div class="legend-item"><div class="legend-swatch" style="background:rgba(255,160,0,0.3);border-color:rgba(255,160,0,0.6)"></div>The Yard — Central Hub</div>
+<div class="legend-item"><div class="legend-swatch" style="background:rgba(255,34,0,0.1);border-color:#ff2200"></div>Park Area (~60ac)</div>
+<div class="legend-item"><div class="legend-swatch" style="background:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(255,0,0,0.2) 2px,rgba(255,0,0,0.2) 4px);border-color:rgba(255,0,0,0.4)"></div>Overage (3.09ac)</div>
+<div class="legend-item"><div class="legend-swatch" style="background:rgba(80,80,80,0.3);border-color:rgba(140,140,140,0.4)"></div>Parking (750+1,500)</div>
+</div>
+</div>
+
+<div class="info-grid">
+<div class="info-card"><h3>Site Summary</h3><div class="stat">301.59 ac</div><div class="label">Total Land (Lots 1 + 2)</div><p style="margin-top:8px">Lot 1: 12.52ac farmhouse &amp; buildings (→ HQ). Lot 2: 289.07ac farmland (~60ac for park, remainder agricultural).</p></div>
+<div class="info-card"><h3>Purchase Price</h3><div class="stat">£6.55M</div><div class="label">Guide (Lots 1 + 2)</div><p style="margin-top:8px">Lot 1: £3.8M. Lot 2: £2.75M. Agent: Bidwells, Cambridge.</p></div>
+<div class="info-card"><h3>Total Investment</h3><div class="stat">£20M</div><div class="label">£15M Scare Core + £5M Site</div><p style="margin-top:8px">32-month build from March 2026. Opening: October 2028.</p></div>
+<div class="info-card"><h3>Hub-and-Spoke</h3><div class="stat">6 + 1</div><div class="label">6 Worlds + The Yard</div><p style="margin-top:8px">Each World = courtyard + maze barn. 6 obscured paths from hub. Acoustic containment, immersion, crowd flow.</p></div>
+</div>
+</div>
+
+<!-- ===== LOT 1 HQ ===== -->
+<div class="view" id="view-lot1">
+<div class="map-container">
+<div class="map-title">LOT 1 — IMMERSIVE CORE HQ <span class="map-subtitle">12.52 acres — Building Conversions — No New Development (avoids overage)</span></div>
+<svg viewBox="0 0 1000 650" style="width:100%;height:auto;display:block;background:#080810">
+<rect width="1000" height="650" fill="url(#grid)"/>
+<rect x="10" y="0" width="28" height="650" fill="rgba(85,68,34,0.2)"/><text transform="translate(12,325) rotate(-90)" fill="#887755" font-size="11" text-anchor="middle" letter-spacing="2">MINOR ROAD</text>
+<rect x="0" y="590" width="1000" height="60" fill="rgba(85,68,34,0.2)"/><text x="500" y="625" text-anchor="middle" fill="#887755" font-size="12" letter-spacing="2">GROVE ROAD</text>
+
+<!-- Building 1 → Scenic Workshop A -->
+<rect x="80" y="160" width="190" height="95" rx="3" fill="rgba(200,80,60,0.12)" stroke="rgba(200,80,60,0.45)" stroke-width="2"/>
+<text x="175" y="198" text-anchor="middle" fill="rgba(255,120,100,0.85)" font-size="14" font-weight="700">SCENIC WORKSHOP A</text>
+<text x="175" y="216" text-anchor="middle" fill="rgba(255,120,100,0.45)" font-size="10">Former Bldg 1 (Extruder) • 10,296 sqft</text>
+<text x="175" y="234" text-anchor="middle" fill="rgba(255,120,100,0.3)" font-size="9">Large-scale set building, scenic construction</text>
+
+<!-- Building 2 → Scenic Workshop B -->
+<rect x="80" y="280" width="170" height="80" rx="3" fill="rgba(200,80,60,0.1)" stroke="rgba(200,80,60,0.4)" stroke-width="1.5"/>
+<text x="165" y="314" text-anchor="middle" fill="rgba(255,120,100,0.8)" font-size="13" font-weight="700">SCENIC WORKSHOP B</text>
+<text x="165" y="332" text-anchor="middle" fill="rgba(255,120,100,0.4)" font-size="9">Former Bldg 2 • 5,108 sqft • Paint / prop fab</text>
+
+<!-- Building 3 → Technical Hub -->
+<rect x="300" y="160" width="230" height="120" rx="3" fill="rgba(60,120,200,0.12)" stroke="rgba(60,120,200,0.45)" stroke-width="2"/>
+<text x="415" y="205" text-anchor="middle" fill="rgba(100,170,255,0.85)" font-size="15" font-weight="700">TECHNICAL HUB</text>
+<text x="415" y="225" text-anchor="middle" fill="rgba(100,170,255,0.45)" font-size="10">Former Bldg 3 (Mixer) • 14,022 sqft (LARGEST)</text>
+<text x="415" y="243" text-anchor="middle" fill="rgba(100,170,255,0.35)" font-size="9">Audio (Nick Hutson) • Lighting • PLC show control</text>
+<text x="415" y="258" text-anchor="middle" fill="rgba(100,170,255,0.3)" font-size="8">DMX programming • AV test bay</text>
+
+<!-- Building 4 → Costume -->
+<rect x="560" y="120" width="140" height="75" rx="3" fill="rgba(180,100,200,0.1)" stroke="rgba(180,100,200,0.4)" stroke-width="1.5"/>
+<text x="630" y="155" text-anchor="middle" fill="rgba(220,150,255,0.8)" font-size="12" font-weight="700">COSTUME DEPT</text>
+<text x="630" y="172" text-anchor="middle" fill="rgba(220,150,255,0.4)" font-size="9">Bldg 4 • 5,155 sqft • Store, fitting, laundry</text>
+
+<!-- Building 5 → Props -->
+<rect x="560" y="210" width="140" height="65" rx="3" fill="rgba(180,160,100,0.1)" stroke="rgba(180,160,100,0.4)" stroke-width="1.5"/>
+<text x="630" y="240" text-anchor="middle" fill="rgba(220,200,130,0.8)" font-size="12" font-weight="700">PROPS STORE</text>
+<text x="630" y="257" text-anchor="middle" fill="rgba(220,200,130,0.4)" font-size="9">Bldg 5 (Tin) • 5,432 sqft</text>
+
+<!-- Building 6 → IC Offices -->
+<rect x="560" y="320" width="140" height="85" rx="3" fill="rgba(100,200,100,0.1)" stroke="rgba(100,200,100,0.45)" stroke-width="2"/>
+<text x="630" y="355" text-anchor="middle" fill="rgba(140,255,140,0.85)" font-size="13" font-weight="700">IC OFFICES</text>
+<text x="630" y="373" text-anchor="middle" fill="rgba(140,255,140,0.4)" font-size="9">Bldg 6 • 2,941 sqft • Already brick-built</text>
+<text x="630" y="390" text-anchor="middle" fill="rgba(140,255,140,0.3)" font-size="8">GM, HR, Finance, Admin, Meetings</text>
+
+<!-- Farmhouse -->
+<rect x="560" y="430" width="150" height="95" rx="3" fill="rgba(180,140,80,0.12)" stroke="rgba(180,140,80,0.45)" stroke-width="2"/>
+<text x="635" y="468" text-anchor="middle" fill="rgba(220,180,100,0.85)" font-size="13" font-weight="700">COWSLAND FARMHOUSE</text>
+<text x="635" y="486" text-anchor="middle" fill="rgba(220,180,100,0.4)" font-size="9">5-bed • 6,133 sqft • GM residence / VIP</text>
+<text x="635" y="502" text-anchor="middle" fill="rgba(220,180,100,0.3)" font-size="8">or lettable (currently £27,600/yr)</text>
+
+<!-- Courtyard -->
+<rect x="280" y="300" width="260" height="110" rx="3" fill="rgba(150,140,120,0.06)" stroke="rgba(150,140,120,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="410" y="355" text-anchor="middle" fill="rgba(150,140,120,0.45)" font-size="10">Existing Gravel Courtyard / Loading</text>
+
+<!-- Solar -->
+<text x="175" y="150" fill="rgba(255,200,0,0.35)" font-size="8">☀ 96kW solar (roof)</text>
+<text x="415" y="150" fill="rgba(255,200,0,0.35)" font-size="8">☀ 23kW solar (roof)</text>
+<text x="480" y="100" fill="rgba(255,200,0,0.45)" font-size="10" font-weight="600">119kW total solar — ~£31k/yr income</text>
+
+<!-- Paddocks -->
+<rect x="740" y="60" width="240" height="260" rx="4" fill="rgba(60,120,60,0.06)" stroke="rgba(60,120,60,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="860" y="160" text-anchor="middle" fill="rgba(80,160,80,0.4)" font-size="10">Paddocks &amp; Gardens</text>
+<text x="860" y="178" text-anchor="middle" fill="rgba(80,160,80,0.25)" font-size="8">~5ac pasture, tennis court, trees</text>
+<ellipse cx="800" cy="95" rx="28" ry="16" fill="rgba(40,80,140,0.15)" stroke="rgba(60,120,200,0.25)" stroke-width="1"/><text x="800" y="99" text-anchor="middle" fill="rgba(60,120,200,0.4)" font-size="8">Lake</text>
+<ellipse cx="910" cy="270" rx="22" ry="14" fill="rgba(40,80,140,0.15)" stroke="rgba(60,120,200,0.25)" stroke-width="1"/><text x="910" y="274" text-anchor="middle" fill="rgba(60,120,200,0.4)" font-size="8">Lake</text>
+
+<!-- Overage -->
+<rect x="38" y="180" width="40" height="370" fill="url(#overage-hatch)" opacity="0.35"/>
+<text transform="translate(58,380) rotate(-90)" fill="rgba(255,0,0,0.4)" font-size="9" text-anchor="middle">OVERAGE ZONE (3.09ac)</text>
+
+<!-- Summary -->
+<text x="80" y="560" fill="rgba(220,100,120,0.5)" font-size="11" font-weight="700">Total commercial space: 42,956 sqft — all existing buildings, conversion only</text>
+<text x="80" y="577" fill="rgba(220,100,120,0.35)" font-size="9">Strategy: Class R PD (agricultural → commercial) or COU application. Avoids triggering overage clause.</text>
+</svg>
+</div>
+
+<div class="info-grid" style="margin-top:16px">
+<div class="info-card"><h3>Building Conversions</h3>
+<table><tr><th>Building</th><th>Current</th><th>Proposed</th><th>Size</th></tr>
+<tr><td>1 (Extruder)</td><td>Pet food production</td><td>Scenic Workshop A</td><td>10,296 sqft</td></tr>
+<tr><td>2 (Middle)</td><td>Storage</td><td>Scenic Workshop B</td><td>5,108 sqft</td></tr>
+<tr><td>3 (Mixer)</td><td>Pet food / storage</td><td>Technical Hub</td><td>14,022 sqft</td></tr>
+<tr><td>4 (Top Shed)</td><td>Storage</td><td>Costume Department</td><td>5,155 sqft</td></tr>
+<tr><td>5 (Tin Shed)</td><td>Storage / production</td><td>Props Store</td><td>5,432 sqft</td></tr>
+<tr><td>6 (Offices)</td><td>Offices</td><td>IC Offices</td><td>2,941 sqft</td></tr></table>
+<div class="note">Cranswick Pet Products lease expires 3rd October 2026. Priority: complete purchase before 8-year extension is formalised.</div></div>
+<div class="info-card"><h3>Creative Pods (Build Phase)</h3>
+<p><strong>Industrial Pod</strong> — The Bunker + Drowned (hydraulics, water)</p>
+<p style="margin-top:6px"><strong>Period Pod</strong> — Strings of Control + The Estate (historical, puppets)</p>
+<p style="margin-top:6px"><strong>Modern Pod</strong> — Night Terrors + Signal Loss (AV, glitch tech)</p>
+<p style="margin-top:10px">Each pod: Lead Production Designer, CAD, Art Dept, Construction Lead, Carpenters ×3-4, Fabricator, Lead Scenic Artist, Painters ×2-3</p>
+<div class="note">65 roles, 32 months, £4.13M build phase staffing</div></div>
+</div>
+</div>
+
+<!-- ===== THE YARD ===== -->
+<div class="view" id="view-yard">
+<div class="map-container">
+<div class="map-title">THE YARD — CENTRAL HUB <span class="map-subtitle">~1,500m² • £600,000 • The only "safe zone"</span></div>
+<svg viewBox="0 0 800 800" style="width:100%;height:auto;display:block;background:#080810">
+<rect width="800" height="800" fill="url(#grid)"/>
+<circle cx="400" cy="400" r="210" fill="rgba(255,160,0,0.05)" stroke="rgba(255,160,0,0.25)" stroke-width="2"/>
+<circle cx="400" cy="400" r="165" fill="rgba(255,160,0,0.03)" stroke="rgba(255,160,0,0.12)" stroke-width="1"/>
+
+<!-- Fire pits -->
+<circle cx="365" cy="375" r="20" fill="rgba(255,80,0,0.12)" stroke="rgba(255,80,0,0.35)" stroke-width="1.5"/><text x="365" y="379" text-anchor="middle" fill="rgba(255,120,40,0.65)" font-size="9" font-weight="600">FIRE PIT</text>
+<circle cx="435" cy="425" r="20" fill="rgba(255,80,0,0.12)" stroke="rgba(255,80,0,0.35)" stroke-width="1.5"/><text x="435" y="429" text-anchor="middle" fill="rgba(255,120,40,0.65)" font-size="9" font-weight="600">FIRE PIT</text>
+
+<!-- Hub Barn -->
+<rect x="305" y="445" width="190" height="70" rx="4" fill="rgba(180,140,80,0.12)" stroke="rgba(180,140,80,0.45)" stroke-width="2"/>
+<text x="400" y="473" text-anchor="middle" fill="rgba(220,180,100,0.85)" font-size="15" font-weight="700">THE HUB BARN</text>
+<text x="400" y="492" text-anchor="middle" fill="rgba(220,180,100,0.45)" font-size="10">Guest Services • Merch • Bar/Food</text>
+<text x="400" y="507" text-anchor="middle" fill="rgba(220,180,100,0.35)" font-size="8">Ticket upgrades (One-Shot / Maze Master / VIP Infinite)</text>
+
+<!-- Festoon lighting -->
+<path d="M 270,310 Q 340,290 400,295 Q 460,290 530,310" fill="none" stroke="rgba(255,200,100,0.25)" stroke-width="1" stroke-dasharray="3,5"/>
+<text x="400" y="280" text-anchor="middle" fill="rgba(255,200,100,0.35)" font-size="8">~ Festoon lighting (flickering) ~</text>
+
+<!-- Seating -->
+<rect x="265" y="370" width="60" height="18" rx="3" fill="rgba(120,80,40,0.15)" stroke="rgba(120,80,40,0.25)" stroke-width="1"/><text x="295" y="383" text-anchor="middle" fill="rgba(160,120,60,0.5)" font-size="7">Timber seats</text>
+<rect x="475" y="370" width="60" height="18" rx="3" fill="rgba(120,80,40,0.15)" stroke="rgba(120,80,40,0.25)" stroke-width="1"/><text x="505" y="383" text-anchor="middle" fill="rgba(160,120,60,0.5)" font-size="7">Timber seats</text>
+
+<!-- Ticket desk -->
+<rect x="340" y="535" width="120" height="28" rx="3" fill="rgba(255,34,0,0.08)" stroke="rgba(255,34,0,0.25)" stroke-width="1.5"/>
+<text x="400" y="554" text-anchor="middle" fill="rgba(255,80,60,0.7)" font-size="10" font-weight="600">TICKET DESK</text>
+
+<!-- Safety -->
+<rect x="530" y="455" width="48" height="22" rx="3" fill="rgba(255,0,0,0.08)" stroke="rgba(255,0,0,0.25)" stroke-width="1"/><text x="554" y="470" text-anchor="middle" fill="rgba(255,80,80,0.6)" font-size="8" font-weight="600">FIRST AID</text>
+<rect x="222" y="455" width="50" height="22" rx="3" fill="rgba(180,140,255,0.08)" stroke="rgba(180,140,255,0.25)" stroke-width="1"/><text x="247" y="470" text-anchor="middle" fill="rgba(180,140,255,0.6)" font-size="8" font-weight="600">QUIET RM</text>
+
+<!-- 6 Spokes -->
+<line x1="305" y1="305" x2="125" y2="125" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="305" y1="305" x2="125" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text transform="translate(195,195) rotate(-45)" fill="rgba(220,180,120,0.55)" font-size="12" font-weight="600">→ THE ESTATE (Bunker)</text>
+
+<line x1="400" y1="235" x2="400" y2="55" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="400" y1="235" x2="400" y2="55" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text x="400" y="145" text-anchor="middle" fill="rgba(200,200,220,0.55)" font-size="12" font-weight="600">→ SLEEP INSTITUTE (Night Terrors)</text>
+
+<line x1="495" y1="305" x2="675" y2="125" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="495" y1="305" x2="675" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text transform="translate(615,195) rotate(45)" fill="rgba(100,255,150,0.55)" font-size="12" font-weight="600">→ WESTLAKE TOWN (Witch Trials)</text>
+
+<line x1="305" y1="495" x2="125" y2="675" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="305" y1="495" x2="125" y2="675" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text transform="translate(185,620) rotate(45)" fill="rgba(100,180,255,0.55)" font-size="12" font-weight="600">→ ASHWELL DOCKS (Drowned)</text>
+
+<line x1="400" y1="565" x2="400" y2="745" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="400" y1="565" x2="400" y2="745" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text x="400" y="680" text-anchor="middle" fill="rgba(220,170,100,0.55)" font-size="12" font-weight="600">→ BELLAMY &amp; CO (Strings of Control)</text>
+
+<line x1="495" y1="495" x2="675" y2="675" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><line x1="495" y1="495" x2="675" y2="675" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-dasharray="4,6"/>
+<text transform="translate(610,620) rotate(-45)" fill="rgba(0,255,255,0.55)" font-size="12" font-weight="600">→ STATION 34 (Signal Loss)</text>
+
+<!-- Point of No Return markers -->
+<g opacity="0.35"><text x="235" y="240" fill="#ff2200" font-size="7" transform="rotate(-45,235,240)">⚠ Point of No Return</text><text x="400" y="190" fill="#ff2200" font-size="7" text-anchor="middle">⚠ Point of No Return</text><text x="560" y="240" fill="#ff2200" font-size="7" transform="rotate(45,560,240)">⚠ Point of No Return</text><text x="235" y="570" fill="#ff2200" font-size="7" transform="rotate(45,235,570)">⚠ Point of No Return</text><text x="400" y="625" fill="#ff2200" font-size="7" text-anchor="middle">⚠ Point of No Return</text><text x="560" y="570" fill="#ff2200" font-size="7" transform="rotate(-45,560,570)">⚠ Point of No Return</text></g>
+
+<text x="400" y="340" text-anchor="middle" fill="#ffaa00" font-size="22" font-weight="800" letter-spacing="4">THE YARD</text>
+<text x="400" y="360" text-anchor="middle" fill="rgba(255,170,0,0.45)" font-size="11">The Only Safe Zone</text>
+</svg>
+</div>
+<div class="info-grid" style="margin-top:16px">
+<div class="info-card"><h3>The Yard — Design</h3><p>High-end industrial-rural courtyard. ~1,500m². Concrete hardstanding for 4,000+ daily guests. Advanced drainage, high-capacity utilities. Components: central fire pits, The Hub Barn (services/merch/bar), festoon lighting (flickering), reclaimed timber seating.</p></div>
+<div class="info-card"><h3>Hub-and-Spoke Benefits</h3><p><strong>Acoustic containment</strong> — silent Night Terrors not drowned out by noisy Signal Loss. <strong>Immersion</strong> — guests enter sovereign territories. <strong>Crowd flow</strong> — no queue-related immersion breaks. <strong>Operational independence</strong> — separate actor teams and safety zones per world.</p></div>
+</div>
+</div>
+
+<!-- ===== THE SIX WORLDS ===== -->
+<div class="view" id="view-worlds">
+<div class="map-container"><div class="map-title">THE SIX WORLDS <span class="map-subtitle">Each = Themed Courtyard + Maze Barn — Total: £9.4M (6 barns £3.6M + 6 fit-outs £4M + 6 courtyards £700k + tech £1.4M)</span></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(139,90,43,0.6);margin-top:16px"><div class="world-header"><h3 style="color:rgba(220,180,120,0.9)">1. THE BUNKER / THE ESTATE</h3><span class="cost-badge">£1.43M</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>Underground bunker beneath aristocratic compound. Lavish prestige, unsettlingly quiet.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Manicured courtyard, gravel paths, stone statues draped in blood-stained canvas. Grand ivy-covered manor facade. Heavy steel hatch in concrete plinth.</p></div><div><div class="field-label">Atmosphere</div><p>Low-level classical music, occasionally distorted by heavy metal scraping underground.</p><div class="field-label" style="margin-top:12px">Actors</div><p>Gamekeepers with lanterns</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>Heavy door mechanics. Steel hatch maze entry.</p></div></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(150,150,180,0.6)"><div class="world-header"><h3 style="color:rgba(200,200,220,0.9)">2. NIGHT TERRORS / SLEEP INSTITUTE</h3><span class="cost-badge">£1.61M (highest)</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>Clinical psychological institute. Monochromatic dreamscape, detached from reality.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Entire courtyard in stark grey/black. Monochrome fog. Non-functional looping stairs. Shadow actors projected onto fog.</p></div><div><div class="field-label">Atmosphere</div><p>Heavy silent "void". Sound feels muffled. Clinical white entrance, total sensory erasure.</p><div class="field-label" style="margin-top:12px">Actors</div><p>Silent, shadow-like — move only when guests blink.</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>Projection mapping, monochrome lighting, "looping" architectural disorientation.</p></div></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(100,255,150,0.5)"><div class="world-header"><h3 style="color:rgba(100,255,150,0.9)">3. WESTLAKE WITCH TRIALS / WESTLAKE TOWN</h3><span class="cost-badge">£1.48M</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>1690s Salem meets 1980s American paranoia. Neon-soaked moral panic, distorted town square.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Acid green/pink spotlights as roving searchlights, "trapping" guests. Plexiglass courtroom booths with screaming actors.</p></div><div><div class="field-label">Atmosphere</div><p>Hum of high-voltage neon, smell of ozone.</p><div class="field-label" style="margin-top:12px">Actors</div><p>Accusers on megaphones screaming from booths.</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>High-voltage neon, broadcast audio, spotlight rigs.</p></div></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(60,140,220,0.6)"><div class="world-header"><h3 style="color:rgba(100,180,255,0.9)">4. DROWNED / ASHWELL DOCKS</h3><span class="cost-badge">£1.87M (MOST £)</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>Sunken WWII submarine, naval horror. Perpetually damp and "infected" dockside.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Rusted shipping containers, oil drums. Red emergency strobes. Massive sweating submarine hull with sonar vibrating floor plates.</p></div><div><div class="field-label">Atmosphere</div><p>Mist machines, water drippers — constant "sweating" on all surfaces. Distant mournful Siren songs.</p><div class="field-label" style="margin-top:12px">Actors</div><p>"Infected" sailors dragging themselves along.</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>Water systems, floor vibration, binaural audio (Nick Hutson), mist, submarine hull.</p></div></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(180,120,60,0.6)"><div class="world-header"><h3 style="color:rgba(220,170,100,0.9)">5. STRINGS OF CONTROL / BELLAMY &amp; CO</h3><span class="cost-badge">£1.53M</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>Victorian puppet workshop. Mechanical control, lost souls. Physically oppressive.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Giant wooden "offcuts", swaying marionettes from 6m timber gallows. Decaying facade, "The Apprentice" silhouetted in dark windows.</p></div><div><div class="field-label">Atmosphere</div><p>Sawdust and old wood-stain. Rhythmic click-clack of wooden joints.</p><div class="field-label" style="margin-top:12px">Lore</div><p>Whitmore family history — puppet makers. Central mythology.</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>Marionette mechanisms, mechanical puppetry, period-correct machinery.</p></div></div></div>
+
+<div class="world-detail" style="border-left:3px solid rgba(0,220,220,0.5)"><div class="world-header"><h3 style="color:rgba(0,255,255,0.9)">6. SIGNAL LOSS / STATION 34</h3><span class="cost-badge">£1.48M</span></div><div class="world-body"><div><div class="field-label">Theme</div><p>Cold War comms station. Information overload, loss of signal/sanity. Reality-reset glitch.</p><div class="field-label" style="margin-top:12px">World Visuals</div><p>Rusted satellite dishes, antenna towers. Monitor walls with frantic static. Concrete/steel facility with glitching LEDs and periodic blackouts.</p></div><div><div class="field-label">Atmosphere</div><p>White noise, digital "screeches". Actors in jumpsuits performing looping tasks in strobe.</p><div class="field-label" style="margin-top:12px">Key Tech</div><p>DMX intelligent lighting, strobe arrays, glitch monitors, broadcast systems, "Show Stop" overrides.</p></div></div></div>
+</div>
+
+<!-- ===== PARKING ===== -->
+<div class="view" id="view-parking">
+<div class="map-container"><div class="map-title">PARKING &amp; GUEST ACCESS <span class="map-subtitle">750 Hardstanding + 1,500 Overflow — South of Grove Road (Lot 2 southern parcels)</span></div>
+<svg viewBox="0 0 1000 550" style="width:100%;height:auto;display:block;background:#080810">
+<rect width="1000" height="550" fill="url(#grid)"/>
+<rect x="0" y="130" width="1000" height="30" fill="rgba(85,68,34,0.25)"/><text x="500" y="150" text-anchor="middle" fill="#998866" font-size="14" font-weight="600" letter-spacing="3">GROVE ROAD</text>
+<rect x="200" y="15" width="420" height="110" rx="4" fill="rgba(255,34,0,0.04)" stroke="rgba(255,34,0,0.15)" stroke-width="1" stroke-dasharray="6,4"/>
+<text x="410" y="65" text-anchor="middle" fill="rgba(255,34,0,0.35)" font-size="13" font-weight="600">↑ SCARE CORE PARK (north of road)</text>
+<text x="410" y="85" text-anchor="middle" fill="rgba(255,34,0,0.25)" font-size="10">The Yard, 6 Worlds, 6 Maze Barns</text>
+
+<circle cx="410" cy="145" r="12" fill="rgba(255,34,0,0.15)" stroke="#ff2200" stroke-width="2"/><text x="410" y="149" text-anchor="middle" fill="#ff2200" font-size="8" font-weight="700">GATE</text>
+<rect x="370" y="160" width="80" height="20" rx="3" fill="rgba(200,180,0,0.08)" stroke="rgba(200,180,0,0.25)" stroke-width="1"/><text x="410" y="174" text-anchor="middle" fill="rgba(220,200,0,0.6)" font-size="8" font-weight="600">SECURITY</text>
+
+<rect x="100" y="210" width="380" height="180" rx="6" fill="rgba(80,80,80,0.12)" stroke="rgba(140,140,140,0.35)" stroke-width="2"/>
+<g opacity="0.1"><line x1="120" y1="260" x2="460" y2="260" stroke="#aaa" stroke-width="0.5"/><line x1="120" y1="280" x2="460" y2="280" stroke="#aaa" stroke-width="0.5"/><line x1="120" y1="300" x2="460" y2="300" stroke="#aaa" stroke-width="0.5"/><line x1="120" y1="320" x2="460" y2="320" stroke="#aaa" stroke-width="0.5"/><line x1="120" y1="340" x2="460" y2="340" stroke="#aaa" stroke-width="0.5"/><line x1="120" y1="360" x2="460" y2="360" stroke="#aaa" stroke-width="0.5"/></g>
+<text x="290" y="260" text-anchor="middle" fill="rgba(220,220,220,0.7)" font-size="18" font-weight="700">HARDSTANDING CAR PARK</text>
+<text x="290" y="285" text-anchor="middle" fill="rgba(220,220,220,0.45)" font-size="13">750 spaces</text>
+<text x="290" y="310" text-anchor="middle" fill="rgba(220,220,220,0.3)" font-size="10">Concrete/tarmac • LED low-level lighting • SuDS drainage</text>
+<rect x="350" y="215" width="120" height="22" rx="3" fill="rgba(100,180,255,0.08)" stroke="rgba(100,180,255,0.25)" stroke-width="1"/><text x="410" y="230" text-anchor="middle" fill="rgba(100,180,255,0.6)" font-size="8" font-weight="600">♿ ACCESSIBLE BAYS (nearest to gate)</text>
+<text x="290" y="370" text-anchor="middle" fill="rgba(255,34,0,0.45)" font-size="12" font-weight="600">Budget: £500,000</text>
+
+<rect x="520" y="210" width="380" height="180" rx="6" fill="rgba(60,100,60,0.08)" stroke="rgba(80,140,80,0.25)" stroke-width="2" stroke-dasharray="6,3"/>
+<text x="710" y="275" text-anchor="middle" fill="rgba(140,220,140,0.6)" font-size="16" font-weight="700">OVERFLOW PARKING</text>
+<text x="710" y="300" text-anchor="middle" fill="rgba(140,220,140,0.4)" font-size="13">1,500 spaces</text>
+<text x="710" y="325" text-anchor="middle" fill="rgba(140,220,140,0.3)" font-size="10">Temporary grass (reinforced mesh)</text>
+<text x="710" y="345" text-anchor="middle" fill="rgba(140,220,140,0.25)" font-size="9">Peak/Super-peak weekends only</text>
+
+<path d="M 290,210 L 290,190 Q 290,183 298,183 L 400,183 Q 408,183 408,175 L 408,160" stroke="#ff2200" stroke-width="2.5" fill="none" stroke-dasharray="4,4" opacity="0.4"/>
+<text x="270" y="195" fill="rgba(255,34,0,0.5)" font-size="10" font-weight="600">Walking ~5 min</text>
+
+<rect x="380" y="420" width="80" height="22" rx="3" fill="rgba(255,0,0,0.08)" stroke="rgba(255,0,0,0.25)" stroke-width="1"/><text x="420" y="435" text-anchor="middle" fill="rgba(255,80,80,0.6)" font-size="8" font-weight="600">MEDICAL POINT</text>
+<text x="420" y="455" fill="rgba(255,80,80,0.35)" font-size="8">5 medical staff per event night</text>
+<text x="500" y="500" text-anchor="middle" fill="rgba(80,140,220,0.2)" font-size="10">Lot 2 southern parcels — Rathole Crossing / Dunstone Rd fields</text>
+</svg></div>
+<div class="info-grid" style="margin-top:16px">
+<div class="info-card"><h3>Capacity</h3><table><tr><th>Type</th><th>Spaces</th><th>Surface</th><th>Use</th></tr><tr><td>Hardstanding</td><td>750</td><td>Concrete/tarmac</td><td>All nights</td></tr><tr><td>Overflow</td><td>1,500</td><td>Reinforced grass</td><td>Peak/Super-peak</td></tr><tr><td>Accessible</td><td>In 750 total</td><td>Nearest to gate</td><td>All nights</td></tr></table></div>
+<div class="info-card"><h3>Guest Journey</h3><p>Park → walk ~5 min lit path → security check → main gate on Grove Road → into The Yard. No shuttle; walk builds anticipation.</p><p style="margin-top:8px">Max capacity: 4,000 guests/night. 20 event nights October 2028. 22 security staff per night.</p></div>
+</div>
+</div>
+
+<!-- ===== INFRASTRUCTURE ===== -->
+<div class="view" id="view-infra">
+<div class="map-container"><div class="map-title">INFRASTRUCTURE <span class="map-subtitle">Immersive Core Site CapEx: £5M — Power, Water, Drainage, Tech</span></div></div>
+<div class="info-grid" style="margin-top:16px">
+<div class="info-card"><h3>Site CapEx (£5M)</h3><table><tr><th>Item</th><th>Budget</th></tr><tr><td>Land Purchase</td><td class="cost">£1,000,000</td></tr><tr><td>Planning &amp; Legal</td><td class="cost">£600,000</td></tr><tr><td>Earthworks &amp; Drainage</td><td class="cost">£280,000</td></tr><tr><td>Access Road</td><td class="cost">£350,000</td></tr><tr><td>Car Park (750)</td><td class="cost">£500,000</td></tr><tr><td>HV Power</td><td class="cost">£400,000</td></tr><tr><td>Water Systems</td><td class="cost">£120,000</td></tr><tr><td>Perimeter Fencing</td><td class="cost">£100,000</td></tr><tr><td>Fire Access</td><td class="cost">£150,000</td></tr><tr><td>Lighting</td><td class="cost">£50,000</td></tr><tr><td>Sector Hub (1,500m²)</td><td class="cost">£900,000</td></tr><tr><td>CCTV</td><td class="cost">£80,000</td></tr><tr><td>Contingency</td><td class="cost">£220,000</td></tr></table></div>
+<div class="info-card"><h3>Tech Systems (in £15M)</h3><table><tr><th>System</th><th>Budget</th><th>Detail</th></tr><tr><td>Audio</td><td class="cost">£750k</td><td>PA every barn, siren networks, binaural (Nick Hutson)</td></tr><tr><td>Lighting</td><td class="cost">£900k</td><td>DMX, strobes, Show Stop overrides</td></tr><tr><td>Control</td><td>Incl.</td><td>PLC show control, centralised monitoring</td></tr><tr><td>Display</td><td>Incl.</td><td>Monitors, projection mapping, LED glitch</td></tr></table><div class="note">Total tech: £1.4M within Scare Core CapEx</div></div>
+<div class="info-card"><h3>Existing (Lot 1)</h3><p><strong>Power:</strong> 3-phase. 119kW solar (~£31k/yr).</p><p style="margin-top:6px"><strong>Water:</strong> Mains connected.</p><p style="margin-top:6px"><strong>Drainage:</strong> Septic tank. New SuDS for parking.</p><p style="margin-top:6px"><strong>Broadband:</strong> May need dedicated fibre.</p></div>
+<div class="info-card"><h3>HR/Tech Stack</h3><table><tr><th>System</th><th>Use</th><th>Cost/yr</th></tr><tr><td>Deputy</td><td>Rota</td><td>~£1,800</td></tr><tr><td>Xero</td><td>Payroll</td><td>~£1,000</td></tr><tr><td>CharlieHR</td><td>HR</td><td>~£2,000</td></tr><tr><td>Workable</td><td>ATS</td><td>~£700</td></tr><tr><td>TicketTailor</td><td>Tickets</td><td>Variable</td></tr><tr><td>HubSpot</td><td>CRM</td><td>Variable</td></tr></table></div>
+</div>
+</div>
+
+<!-- ===== COSTS ===== -->
+<div class="view" id="view-costs">
+<div class="map-container"><div class="map-title">FINANCIAL MODEL <span class="map-subtitle">£20M Investment — Breakeven Year 3 — Year 5: £3.2M revenue, 25.1% margin</span></div></div>
+<div class="info-grid" style="margin-top:16px">
+<div class="info-card"><h3>Scare Core CapEx (£15M)</h3><table><tr><th>Category</th><th>Budget</th></tr><tr><td>Professional Fees</td><td class="cost">£500,000</td></tr><tr><td>Barn Shells (×6)</td><td class="cost">£3,600,000</td></tr><tr><td>Central Hub (The Yard)</td><td class="cost">£600,000</td></tr><tr><td>Maze Fit-Out/Theming</td><td class="cost">£4,000,000</td></tr><tr><td>Courtyards (×6)</td><td class="cost">£700,000</td></tr><tr><td>Technical Systems</td><td class="cost">£1,400,000</td></tr><tr><td>Costumes</td><td class="cost">£500,000</td></tr><tr><td>FF&amp;E</td><td class="cost">£300,000</td></tr><tr><td>Pre-Opening Team</td><td class="cost">£1,100,000</td></tr><tr><td>Contingency (15%)</td><td class="cost">£2,300,000</td></tr><tr style="border-top:2px solid #333"><td><strong>TOTAL</strong></td><td class="cost" style="font-size:16px"><strong>£15,000,000</strong></td></tr></table></div>
+<div class="info-card"><h3>Tickets (Year 1 — Oct 2028)</h3><table><tr><th>Period</th><th>Standard</th><th>Maze Master</th><th>VIP Infinite</th></tr><tr><td>Off-Peak (2 nights)</td><td>£30</td><td>£45</td><td>£70</td></tr><tr><td>Peak (10 nights)</td><td>£40</td><td>£60</td><td>£90</td></tr><tr><td>Super-Peak (8 nights)</td><td>£50</td><td>£70</td><td>£100</td></tr></table><p style="margin-top:10px"><strong>Mix:</strong> 50% Standard / 35% Maze Master / 15% VIP Infinite. <strong>Weighted avg:</strong> ~£58.33. <strong>Calendar:</strong> 20 nights.</p></div>
+<div class="info-card"><h3>Revenue Projections</h3><table><tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Margin</th></tr><tr><td>Year 1</td><td>£973,000</td><td class="cost">-£534,000</td><td>Loss</td></tr><tr><td>Year 3</td><td>~£2.1M</td><td>+£169,000</td><td>7.9%</td></tr><tr><td>Year 5</td><td>£3,200,000</td><td style="color:#4a4">+£802,000</td><td style="color:#4a4">25.1%</td></tr></table><p style="margin-top:10px"><strong>Year 1:</strong> Gate £667k + Secondary £206k + Year-round £100k. <strong>Year 5:</strong> 10 mazes, 27,192 guests.</p><div class="note">Future per-maze CapEx: £1.3M (barn £600k + fit-out £500k + courtyard £100k + tech £100k)</div></div>
+<div class="info-card"><h3>Staffing</h3><p><strong>Year-Round (13, £542k/yr):</strong> GM, Technical Manager, Ops/Safety, HR, Finance/Admin ×2, Maintenance ×4, Kitchen ×2, Security (PT)</p><p style="margin-top:10px"><strong>October Event (143/night, £414k/season):</strong></p><table><tr><th>Role</th><th>Count</th></tr><tr><td>Actors/Performers</td><td>72</td></tr><tr><td>Technical</td><td>8</td></tr><tr><td>Security</td><td>22</td></tr><tr><td>Hospitality</td><td>12</td></tr><tr><td>Medical</td><td>5</td></tr></table></div>
+<div class="info-card"><h3>Competitive Position</h3><p><strong>vs:</strong> Tulleys, Alton Towers Scarefest, York Hallowscream, Fright Nights, Xtreme Scream, Farmaggeddon, Scare City, Scare Kingdom</p><p style="margin-top:8px"><strong>Edge:</strong> £15M vs typical £1-3M. Permanent soundstage barns. Film-set quality. Punchdrunk/Secret Cinema ethos.</p><p style="margin-top:8px"><strong>Philosophy:</strong> "Sensory wrongness" not jump scares.</p></div>
+<div class="info-card"><h3>Marketing (32-Month)</h3><p><strong>Phase 1 (M1-12):</strong> The Silent Seed — recruitment, planning app as organic leak.</p><p style="margin-top:6px"><strong>Phase 2 (M13-24):</strong> The Sector is Active — 50 Founding Members hard-hat tours, The Glitch ARG.</p><p style="margin-top:6px"><strong>Phase 3 (M25-31):</strong> The Invasion — 6 cinematic teasers, Radio Hijack (Capital East Midlands), influencer "Extraction".</p></div>
+</div>
+</div>
+
+<script>
+function showView(id,el){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');el.classList.add('active');}
+</script>
+</body>
+</html>

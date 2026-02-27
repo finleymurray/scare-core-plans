@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1400">
+<title>SCARE CORE — Architectural Masterplan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --crimson: #C41E3A;
+    --crimson-dark: #9B1830;
+    --ic-blue: #1B4F72;
+    --ic-blue-light: #2471A3;
+    --dark: #0D0D0D;
+    --bg: #F8F7F5;
+    --card: #FFFFFF;
+    --border: #E5E2DD;
+    --text: #1A1A1A;
+    --text-mid: #6B6B6B;
+    --text-light: #999;
+    --green: #2E7D32;
+    --green-light: #4CAF50;
+    --amber: #F57C00;
+    --purple: #6A1B9A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0D0D0D 0%, #1a0a0e 50%, #0D0D0D 100%);
+    padding: 80px 60px 60px;
+    border-bottom: 3px solid var(--crimson);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(196,30,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--crimson); }
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .hero-stat {
+    border-left: 2px solid var(--crimson);
+    padding-left: 16px;
+  }
+  .hero-stat-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-stat-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: #111;
+    border-bottom: 1px solid #222;
+    padding: 0 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav a {
+    display: block;
+    padding: 16px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav a:hover, .nav a.active {
+    color: #fff;
+    border-bottom-color: var(--crimson);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 80px 60px;
+    background: var(--bg);
+  }
+  .section.dark {
+    background: var(--dark);
+    color: #fff;
+  }
+  .section.dark .section-label { color: var(--crimson); }
+  .section.dark .section-title { color: #fff; }
+  .section.dark .section-desc { color: rgba(255,255,255,0.5); }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--text-mid);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  /* ── SITE MAP ── */
+  .site-map-container {
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #222;
+    position: relative;
+  }
+  .site-map-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #222;
+  }
+  .site-map-toolbar .layers {
+    display: flex;
+    gap: 8px;
+  }
+  .layer-btn {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .layer-btn.active, .layer-btn:hover {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    color: #fff;
+  }
+  .compass {
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  svg.masterplan {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── BUILDING CARDS ── */
+  .building-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+    gap: 32px;
+  }
+  .building-card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .building-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+  .building-card.full-width {
+    grid-column: 1 / -1;
+  }
+  .building-card-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .building-card-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 4px;
+  }
+  .building-card-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .building-card-meta {
+    font-size: 12px;
+    color: var(--text-mid);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .building-card-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .building-card-body {
+    padding: 0;
+  }
+  .building-card-body svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .building-card-footer {
+    padding: 20px 28px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+  .building-card-footer strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── INFRA GRID ── */
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .infra-card {
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 28px 24px;
+  }
+  .infra-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .infra-card-icon.red { background: rgba(196,30,58,0.15); color: var(--crimson); }
+  .infra-card-icon.blue { background: rgba(27,79,114,0.15); color: var(--ic-blue-light); }
+  .infra-card-icon.green { background: rgba(46,125,50,0.15); color: var(--green-light); }
+  .infra-card-icon.amber { background: rgba(245,124,0,0.15); color: var(--amber); }
+  .infra-card-icon.purple { background: rgba(106,27,154,0.15); color: #AB47BC; }
+  .infra-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .infra-card-desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+  }
+  .infra-card-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--crimson);
+    margin-top: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: #0a0a0a;
+    border-top: 1px solid #222;
+    border-radius: 0 0 12px 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    letter-spacing: 0.3px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── JOURNEY ── */
+  .journey-steps {
+    display: flex;
+    gap: 0;
+    position: relative;
+    margin-top: 40px;
+  }
+  .journey-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding: 0 12px;
+  }
+  .journey-step::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background: #333;
+    z-index: 0;
+  }
+  .journey-step:last-child::after { display: none; }
+  .journey-dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--crimson);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .journey-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .journey-desc {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* ── SPEC TABLE ── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+  }
+  .spec-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--crimson);
+    border-bottom: 2px solid var(--border);
+    background: #FAFAF8;
+  }
+  .spec-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .spec-table td:first-child {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .spec-table tr:hover td { background: #FAFAF8; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .tag.red { background: rgba(196,30,58,0.1); color: var(--crimson); }
+  .tag.blue { background: rgba(27,79,114,0.1); color: var(--ic-blue); }
+  .tag.green { background: rgba(46,125,50,0.1); color: var(--green); }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: #0a0a0a;
+    padding: 40px 60px;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-footer-left { font-size: 12px; color: #555; }
+  .doc-footer-right { font-size: 11px; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 40px 24px; }
+    .section { padding: 40px 24px; }
+    .nav { padding: 0 24px; }
+    .building-grid { grid-template-columns: 1fr; }
+    .infra-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-meta { flex-wrap: wrap; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-label">Immersive Core Architectural Practice</div>
+  <h1><span>SCARE CORE</span><br>Architectural Masterplan</h1>
+  <p class="hero-sub">Full site design for a 60-acre immersive scream park on the A1 corridor, Bassetlaw, Nottinghamshire. Six purpose-built maze barns, central courtyard hub, 1,500m&sup2; headquarters, and supporting infrastructure for 1,000+ nightly guests.</p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <div class="hero-stat-val">60 acres</div>
+      <div class="hero-stat-label">Total Site Area</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">24.3 ha</div>
+      <div class="hero-stat-label">Metric Equivalent</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">&pound;25m</div>
+      <div class="hero-stat-label">Total Investment</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">14 Buildings</div>
+      <div class="hero-stat-label">Structures on Site</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">Oct 2028</div>
+      <div class="hero-stat-label">Target Opening</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav">
+  <a href="#masterplan" class="active">Masterplan</a>
+  <a href="#sector-hub">The Sector Hub</a>
+  <a href="#maze-barns">Maze Barns</a>
+  <a href="#the-yard">The Yard</a>
+  <a href="#outdoor">Outdoor Spaces</a>
+  <a href="#infrastructure">Infrastructure</a>
+  <a href="#journey">Guest Journey</a>
+  <a href="#schedule">Building Schedule</a>
+</nav>
+
+<!-- ═══════════════════ MASTERPLAN ═══════════════════ -->
+<section class="section dark" id="masterplan">
+  <div class="section-label">01 &mdash; Site Masterplan</div>
+  <div class="section-title">60-Acre Site Overview</div>
+  <div class="section-desc">The full site layout viewed from above, orientated with the A1 road to the east. The design clusters the guest-facing experience in a compact core (approximately 8 acres) while distributing infrastructure, parking, and buffer landscaping across the remaining 52 acres. This keeps the immersive experience tight and atmospheric while providing generous space for vehicles, services, and future expansion.</div>
+
+  <div class="site-map-container">
+    <div class="site-map-toolbar">
+      <div class="layers">
+        <button class="layer-btn active" onclick="toggleLayer('all')">All Layers</button>
+        <button class="layer-btn" onclick="toggleLayer('buildings')">Buildings</button>
+        <button class="layer-btn" onclick="toggleLayer('roads')">Roads &amp; Parking</button>
+        <button class="layer-btn" onclick="toggleLayer('landscape')">Landscape</button>
+        <button class="layer-btn" onclick="toggleLayer('utilities')">Utilities</button>
+      </div>
+      <div class="compass">N &uarr; &nbsp; Scale: 1:2000 approx.</div>
+    </div>
+
+    <svg class="masterplan" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grassPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+          <rect width="20" height="20" fill="#1a2e1a"/>
+          <circle cx="3" cy="5" r="0.5" fill="#1f361f" opacity="0.5"/>
+          <circle cx="13" cy="12" r="0.5" fill="#1f361f" opacity="0.5"/>
+          <circle cx="8" cy="18" r="0.5" fill="#1f361f" opacity="0.5"/>
+        </pattern>
+        <pattern id="parkingHatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+          <rect width="2" height="8" fill="#2a2a2a"/>
+        </pattern>
+        <pattern id="treePattern" patternUnits="userSpaceOnUse" width="30" height="30">
+          <circle cx="15" cy="15" r="6" fill="#1a3a1a" opacity="0.3"/>
+        </pattern>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3a3a3a"/>
+          <stop offset="100%" stop-color="#2a2a2a"/>
+        </linearGradient>
+      </defs>
+
+      <!-- BACKGROUND -->
+      <rect width="1200" height="900" fill="#111611"/>
+      <rect x="0" y="0" width="1200" height="900" fill="url(#grassPattern)"/>
+
+      <!-- SITE BOUNDARY -->
+      <g class="layer-landscape layer-all">
+        <path d="M60,60 L1140,60 L1140,840 L60,840 Z" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-dasharray="12,6" opacity="0.6"/>
+        <text x="100" y="48" fill="#2E7D32" font-size="10" font-weight="600" font-family="Inter" letter-spacing="2" opacity="0.6">SITE BOUNDARY (60 ACRES / 24.3 HA)</text>
+      </g>
+
+      <!-- PERIMETER FENCING -->
+      <g class="layer-all layer-landscape" opacity="0.3">
+        <path d="M70,70 L1130,70 L1130,830 L70,830 Z" fill="none" stroke="#4CAF50" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="80" y="86" fill="#4CAF50" font-size="8" font-family="Inter" opacity="0.7">PERIMETER SECURITY FENCE (2.4m PALISADE)</text>
+      </g>
+
+      <!-- BUFFER PLANTING / LANDSCAPE ZONES -->
+      <g class="layer-landscape layer-all" opacity="0.4">
+        <!-- North buffer -->
+        <rect x="70" y="70" width="1060" height="60" fill="url(#treePattern)" rx="4"/>
+        <!-- South buffer -->
+        <rect x="70" y="770" width="1060" height="60" fill="url(#treePattern)" rx="4"/>
+        <!-- West buffer -->
+        <rect x="70" y="70" width="80" height="760" fill="url(#treePattern)" rx="4"/>
+        <!-- East buffer (along A1) -->
+        <rect x="1050" y="70" width="80" height="760" fill="url(#treePattern)" rx="4"/>
+      </g>
+
+      <!-- A1 ROAD (EAST SIDE) -->
+      <g class="layer-roads layer-all">
+        <rect x="1150" y="0" width="50" height="900" fill="#2a2a2a"/>
+        <line x1="1175" y1="0" x2="1175" y2="900" stroke="#F57C00" stroke-width="2" stroke-dasharray="20,15"/>
+        <text x="1160" y="455" fill="#F57C00" font-size="10" font-weight="700" font-family="Inter" letter-spacing="3" transform="rotate(90, 1160, 455)">A1 TRUNK ROAD</text>
+      </g>
+
+      <!-- ACCESS ROAD (500m from A1 junction) -->
+      <g class="layer-roads layer-all">
+        <!-- Junction from A1 -->
+        <rect x="1050" y="380" width="100" height="50" fill="url(#roadGrad)" rx="2"/>
+        <!-- Main access road running west -->
+        <rect x="350" y="380" width="700" height="50" fill="url(#roadGrad)" rx="2"/>
+        <!-- Road centre line -->
+        <line x1="370" y1="405" x2="1130" y2="405" stroke="#FFD54F" stroke-width="1.5" stroke-dasharray="12,8" opacity="0.6"/>
+        <text x="700" y="400" fill="#FFD54F" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle" opacity="0.7">MAIN ACCESS ROAD (500m, 7.3m WIDE, TARMAC, LIT)</text>
+      </g>
+
+      <!-- ROUNDABOUT / ARRIVAL POINT -->
+      <g class="layer-roads layer-all">
+        <circle cx="350" cy="405" r="40" fill="none" stroke="#3a3a3a" stroke-width="20"/>
+        <circle cx="350" cy="405" r="40" fill="none" stroke="#FFD54F" stroke-width="1" stroke-dasharray="6,4" opacity="0.4"/>
+        <circle cx="350" cy="405" r="15" fill="#1a3a1a" stroke="#2E7D32" stroke-width="1"/>
+        <text x="350" y="365" fill="#ccc" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">ARRIVAL</text>
+        <text x="350" y="375" fill="#ccc" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">ROUNDABOUT</text>
+      </g>
+
+      <!-- ═══ CAR PARK (750 SPACES) ═══ -->
+      <g class="layer-roads layer-all">
+        <rect x="420" y="520" width="500" height="280" fill="#1a1a1a" stroke="#333" stroke-width="1.5" rx="6"/>
+        <rect x="430" y="530" width="480" height="260" fill="url(#parkingHatch)" opacity="0.3" rx="4"/>
+        <!-- Parking rows -->
+        <line x1="440" y1="570" x2="900" y2="570" stroke="#333" stroke-width="0.5"/>
+        <line x1="440" y1="610" x2="900" y2="610" stroke="#333" stroke-width="0.5"/>
+        <line x1="440" y1="650" x2="900" y2="650" stroke="#333" stroke-width="0.5"/>
+        <line x1="440" y1="690" x2="900" y2="690" stroke="#333" stroke-width="0.5"/>
+        <line x1="440" y1="730" x2="900" y2="730" stroke="#333" stroke-width="0.5"/>
+        <!-- Label -->
+        <text x="660" y="640" fill="#888" font-size="18" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="4" opacity="0.5">CAR PARK</text>
+        <text x="660" y="660" fill="#666" font-size="10" font-weight="500" font-family="Inter" text-anchor="middle">750 SPACES &bull; TARMAC &bull; LED LIT &bull; CCTV</text>
+        <!-- Entry/exit from roundabout -->
+        <rect x="420" y="490" width="60" height="30" fill="url(#roadGrad)"/>
+        <text x="450" y="510" fill="#FFD54F" font-size="7" font-family="Inter" text-anchor="middle" opacity="0.6">IN/OUT</text>
+      </g>
+
+      <!-- COACH PARK -->
+      <g class="layer-roads layer-all">
+        <rect x="940" y="520" width="80" height="120" fill="#1a1a1a" stroke="#333" stroke-width="1" rx="4"/>
+        <text x="980" y="578" fill="#666" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">COACH</text>
+        <text x="980" y="590" fill="#666" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">BAY (6)</text>
+      </g>
+
+      <!-- STAFF PARKING -->
+      <g class="layer-roads layer-all">
+        <rect x="940" y="660" width="80" height="80" fill="#1a1a1a" stroke="#333" stroke-width="1" rx="4"/>
+        <text x="980" y="700" fill="#666" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">STAFF</text>
+        <text x="980" y="712" fill="#666" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">PARKING</text>
+        <text x="980" y="724" fill="#555" font-size="7" font-family="Inter" text-anchor="middle">(40 spaces)</text>
+      </g>
+
+      <!-- ═══ FIRE ACCESS ROAD (perimeter) ═══ -->
+      <g class="layer-roads layer-all" opacity="0.5">
+        <path d="M310,180 L310,460 L160,460 L160,180 Z" fill="none" stroke="#EF5350" stroke-width="1.5" stroke-dasharray="8,4"/>
+        <text x="170" y="475" fill="#EF5350" font-size="7" font-family="Inter">FIRE ACCESS ROAD (3.7m MIN, TURNING HEAD)</text>
+      </g>
+
+      <!-- ═══ ENTRANCE GATEWAY ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="305" y="440" width="90" height="35" fill="#C41E3A" stroke="#9B1830" stroke-width="1.5" rx="4" filter="url(#glow)"/>
+        <text x="350" y="460" fill="#fff" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">ENTRANCE</text>
+        <text x="350" y="471" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter" text-anchor="middle">TICKETING &bull; BAG CHECK &bull; WAIVERS</text>
+      </g>
+
+      <!-- ═══ THE YARD (Central Hub) ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="240" y="260" width="220" height="120" fill="#8B0000" stroke="#C41E3A" stroke-width="2" rx="6" opacity="0.85"/>
+        <text x="350" y="310" fill="#fff" font-size="16" font-weight="900" font-family="Inter" text-anchor="middle" letter-spacing="2">THE YARD</text>
+        <text x="350" y="328" fill="rgba(255,255,255,0.6)" font-size="8" font-weight="500" font-family="Inter" text-anchor="middle">CENTRAL COURTYARD HUB</text>
+        <text x="350" y="342" fill="rgba(255,255,255,0.5)" font-size="7" font-family="Inter" text-anchor="middle">Bar &bull; Food &bull; Merch &bull; Stage &bull; Photo Ops &bull; 1,200m&sup2;</text>
+        <!-- Covered courtyard structures -->
+        <rect x="250" y="270" width="55" height="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3,3" rx="2"/>
+        <text x="277" y="294" fill="rgba(255,255,255,0.3)" font-size="6" font-family="Inter" text-anchor="middle">COVER</text>
+        <rect x="395" y="270" width="55" height="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3,3" rx="2"/>
+        <text x="422" y="294" fill="rgba(255,255,255,0.3)" font-size="6" font-family="Inter" text-anchor="middle">COVER</text>
+      </g>
+
+      <!-- ═══ MAZE BARNS (6 total, arranged around The Yard) ═══ -->
+      <!-- Maze 1 - North West -->
+      <g class="layer-buildings layer-all">
+        <rect x="160" y="145" width="110" height="85" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="215" y="182" fill="#C41E3A" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle">MAZE 1</text>
+        <text x="215" y="195" fill="#888" font-size="7" font-family="Inter" text-anchor="middle">BARN A &bull; 900m&sup2;</text>
+        <text x="215" y="207" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">30m &times; 30m</text>
+      </g>
+
+      <!-- Maze 2 - North Centre -->
+      <g class="layer-buildings layer-all">
+        <rect x="295" y="145" width="110" height="85" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="350" y="182" fill="#C41E3A" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle">MAZE 2</text>
+        <text x="350" y="195" fill="#888" font-size="7" font-family="Inter" text-anchor="middle">BARN B &bull; 900m&sup2;</text>
+        <text x="350" y="207" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">30m &times; 30m</text>
+      </g>
+
+      <!-- Maze 3 - North East -->
+      <g class="layer-buildings layer-all">
+        <rect x="430" y="145" width="110" height="85" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="485" y="182" fill="#C41E3A" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle">MAZE 3</text>
+        <text x="485" y="195" fill="#888" font-size="7" font-family="Inter" text-anchor="middle">BARN C &bull; 900m&sup2;</text>
+        <text x="485" y="207" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">30m &times; 30m</text>
+      </g>
+
+      <!-- Maze 4 - West -->
+      <g class="layer-buildings layer-all">
+        <rect x="160" y="272" width="65" height="100" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="192" y="318" fill="#C41E3A" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle">MAZE</text>
+        <text x="192" y="330" fill="#C41E3A" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle">4</text>
+        <text x="192" y="345" fill="#888" font-size="6" font-family="Inter" text-anchor="middle">BARN D</text>
+        <text x="192" y="355" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">850m&sup2;</text>
+      </g>
+
+      <!-- Maze 5 - East -->
+      <g class="layer-buildings layer-all">
+        <rect x="475" y="272" width="65" height="100" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="507" y="318" fill="#C41E3A" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle">MAZE</text>
+        <text x="507" y="330" fill="#C41E3A" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle">5</text>
+        <text x="507" y="345" fill="#888" font-size="6" font-family="Inter" text-anchor="middle">BARN E</text>
+        <text x="507" y="355" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">850m&sup2;</text>
+      </g>
+
+      <!-- Maze 6 - South (behind The Yard) -->
+      <g class="layer-buildings layer-all">
+        <rect x="270" y="395" width="100" height="35" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+        <text x="320" y="416" fill="#C41E3A" font-size="9" font-weight="800" font-family="Inter" text-anchor="middle">MAZE 6 &bull; BARN F &bull; 950m&sup2;</text>
+      </g>
+
+      <!-- ═══ THE SECTOR HUB (HQ) ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="620" y="165" width="260" height="170" fill="#0D2E4A" stroke="#1B4F72" stroke-width="2" rx="6"/>
+        <!-- Internal divisions -->
+        <line x1="750" y1="165" x2="750" y2="335" stroke="#1B4F72" stroke-width="0.5" opacity="0.5"/>
+        <line x1="620" y1="265" x2="880" y2="265" stroke="#1B4F72" stroke-width="0.5" opacity="0.5"/>
+        <!-- Labels -->
+        <text x="750" y="195" fill="#2471A3" font-size="14" font-weight="900" font-family="Inter" text-anchor="middle" letter-spacing="2">THE SECTOR HUB</text>
+        <text x="750" y="212" fill="rgba(36,113,163,0.6)" font-size="8" font-weight="500" font-family="Inter" text-anchor="middle">IMMERSIVE CORE HEADQUARTERS &bull; 1,500m&sup2;</text>
+        <!-- Quadrants -->
+        <text x="685" y="242" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">OFFICES</text>
+        <text x="685" y="252" fill="rgba(255,255,255,0.25)" font-size="6" font-family="Inter" text-anchor="middle">Executive, Open Plan</text>
+        <text x="815" y="242" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">PRODUCTION</text>
+        <text x="815" y="252" fill="rgba(255,255,255,0.25)" font-size="6" font-family="Inter" text-anchor="middle">Workshop, Store</text>
+        <text x="685" y="298" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">COSTUME &amp;</text>
+        <text x="685" y="308" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">WARDROBE</text>
+        <text x="815" y="295" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">BLACK BOX</text>
+        <text x="815" y="305" fill="rgba(255,255,255,0.4)" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">REHEARSAL</text>
+        <text x="815" y="316" fill="rgba(255,255,255,0.25)" font-size="6" font-family="Inter" text-anchor="middle">22m &times; 12m &times; 6m</text>
+      </g>
+
+      <!-- ═══ SERVICE / DELIVERY YARD ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="620" y="355" width="140" height="75" fill="#1a1a1a" stroke="#444" stroke-width="1" rx="4"/>
+        <text x="690" y="390" fill="#888" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">SERVICE YARD</text>
+        <text x="690" y="404" fill="#666" font-size="7" font-family="Inter" text-anchor="middle">Deliveries &bull; Skips &bull; Plant</text>
+        <text x="690" y="416" fill="#555" font-size="7" font-family="Inter" text-anchor="middle">Loading bay, turning circle</text>
+      </g>
+
+      <!-- ═══ GENERATOR / SUBSTATION ═══ -->
+      <g class="layer-utilities layer-all">
+        <rect x="780" y="355" width="100" height="45" fill="#1a1a1a" stroke="#F57C00" stroke-width="1" rx="3"/>
+        <text x="830" y="378" fill="#F57C00" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">HV SUBSTATION</text>
+        <text x="830" y="390" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">11kV/400V &bull; 1MW capacity</text>
+      </g>
+
+      <!-- WATER / PUMPING -->
+      <g class="layer-utilities layer-all">
+        <rect x="780" y="410" width="100" height="30" fill="#1a1a1a" stroke="#2196F3" stroke-width="1" rx="3"/>
+        <text x="830" y="429" fill="#2196F3" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">WATER &bull; PUMP &bull; SuDS TANK</text>
+      </g>
+
+      <!-- ═══ EMERGENCY ASSEMBLY POINT ═══ -->
+      <g class="layer-all">
+        <rect x="420" y="480" width="100" height="25" fill="none" stroke="#4CAF50" stroke-width="1" stroke-dasharray="4,3" rx="3"/>
+        <text x="470" y="496" fill="#4CAF50" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">EMERGENCY ASSEMBLY</text>
+      </g>
+
+      <!-- ═══ FIRST AID / MEDICAL POST ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="540" y="430" width="60" height="30" fill="#1a1a1a" stroke="#4CAF50" stroke-width="1" rx="3"/>
+        <text x="570" y="449" fill="#4CAF50" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">FIRST AID</text>
+      </g>
+
+      <!-- ═══ WELFARE BLOCK ═══ -->
+      <g class="layer-buildings layer-all">
+        <rect x="540" y="280" width="60" height="50" fill="#1a1a1a" stroke="#888" stroke-width="1" rx="3"/>
+        <text x="570" y="302" fill="#aaa" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">WELFARE</text>
+        <text x="570" y="314" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">WC &bull; Baby</text>
+        <text x="570" y="324" fill="#666" font-size="6" font-family="Inter" text-anchor="middle">Accessible</text>
+      </g>
+
+      <!-- ═══ QUEUING PATHS (between Yard and Mazes) ═══ -->
+      <g class="layer-all" opacity="0.4">
+        <!-- Queue lines shown as dotted paths -->
+        <path d="M260,260 L215,230" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <path d="M350,260 L350,230" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <path d="M440,260 L485,230" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <path d="M240,320 L225,320" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <path d="M460,320 L475,320" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <path d="M350,380 L320,395" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/>
+      </g>
+
+      <!-- ═══ FUTURE EXPANSION ZONE ═══ -->
+      <g class="layer-landscape layer-all" opacity="0.4">
+        <rect x="620" y="500" width="300" height="280" fill="none" stroke="#6A1B9A" stroke-width="1.5" stroke-dasharray="10,6" rx="8"/>
+        <text x="770" y="640" fill="#6A1B9A" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">FUTURE EXPANSION</text>
+        <text x="770" y="658" fill="#6A1B9A" font-size="9" font-family="Inter" text-anchor="middle" opacity="0.7">Mazes 7-10 &bull; Additional Barns</text>
+        <text x="770" y="673" fill="#6A1B9A" font-size="9" font-family="Inter" text-anchor="middle" opacity="0.7">Year 2-5 Build Programme</text>
+      </g>
+
+      <!-- ═══ SuDS / ATTENUATION ═══ -->
+      <g class="layer-utilities layer-all" opacity="0.5">
+        <ellipse cx="150" cy="700" rx="60" ry="35" fill="#0D47A1" opacity="0.15" stroke="#2196F3" stroke-width="1"/>
+        <text x="150" y="698" fill="#2196F3" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle">SuDS POND</text>
+        <text x="150" y="710" fill="#2196F3" font-size="6" font-family="Inter" text-anchor="middle">Attenuation basin</text>
+      </g>
+
+      <!-- ═══ SCALE BAR ═══ -->
+      <g transform="translate(80,860)">
+        <line x1="0" y1="0" x2="100" y2="0" stroke="#555" stroke-width="2"/>
+        <line x1="0" y1="-4" x2="0" y2="4" stroke="#555" stroke-width="1.5"/>
+        <line x1="100" y1="-4" x2="100" y2="4" stroke="#555" stroke-width="1.5"/>
+        <text x="50" y="14" fill="#555" font-size="8" font-family="Inter" text-anchor="middle">~100m</text>
+      </g>
+
+      <!-- COMPASS -->
+      <g transform="translate(1100,100)">
+        <circle cx="0" cy="0" r="20" fill="#111" stroke="#333" stroke-width="1"/>
+        <polygon points="0,-16 -4,-4 4,-4" fill="#C41E3A"/>
+        <polygon points="0,16 -4,4 4,4" fill="#555"/>
+        <text x="0" y="-24" fill="#C41E3A" font-size="10" font-weight="800" font-family="Inter" text-anchor="middle">N</text>
+      </g>
+
+      <!-- ANNOTATION LABELS -->
+      <g fill="#555" font-size="7" font-family="Inter" opacity="0.6">
+        <text x="350" y="135" text-anchor="middle">MAZE CLUSTER (NORTH)</text>
+        <text x="750" y="155" text-anchor="middle">OPERATIONS &amp; ADMIN ZONE</text>
+        <text x="350" y="480" text-anchor="middle">GUEST ARRIVAL ZONE</text>
+      </g>
+    </svg>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#4A0E0E;border-color:#C41E3A;"></div>Maze Barns (6)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#8B0000;"></div>The Yard (Central Hub)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#0D2E4A;border-color:#1B4F72;"></div>The Sector Hub (HQ)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#C41E3A;"></div>Entrance Gateway</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:url(#parkingHatch);border-color:#333;"></div>Car Park (750 spaces)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2a2a2a;border-color:#FFD54F;"></div>Roads</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:none;border:1.5px dashed #EF5350;"></div>Fire Access</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:none;border:1.5px dashed #6A1B9A;"></div>Future Expansion</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a3a1a;border-color:#2E7D32;"></div>Landscape Buffer</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#F57C00;"></div>HV Substation</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2196F3;"></div>Water / SuDS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ THE SECTOR HUB ═══════════════════ -->
+<section class="section" id="sector-hub">
+  <div class="section-label">02 &mdash; Headquarters</div>
+  <div class="section-title">The Sector Hub &mdash; Detailed Floor Plan</div>
+  <div class="section-desc">1,500m&sup2; purpose-built headquarters for Immersive Core. Steel frame with insulated cladding, 6m eaves height to the rehearsal space, 3.5m standard ceiling elsewhere. The building is divided into four functional zones: administration, production, costume/wardrobe, and the black box rehearsal studio.</div>
+
+  <div class="building-grid">
+    <div class="building-card full-width">
+      <div class="building-card-header">
+        <div class="building-card-num">Building 01</div>
+        <div class="building-card-name">The Sector Hub &mdash; Ground Floor</div>
+        <div class="building-card-meta">
+          <span><strong>GIA:</strong> 1,500m&sup2;</span>
+          <span><strong>Footprint:</strong> 50m &times; 30m</span>
+          <span><strong>Height:</strong> 3.5m (offices) / 6m (rehearsal)</span>
+          <span><strong>Structure:</strong> Steel Portal Frame</span>
+          <span><strong>Budget:</strong> &pound;1,800,000</span>
+        </div>
+      </div>
+      <div class="building-card-body">
+        <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+          <rect width="1000" height="600" fill="#FAFAF8"/>
+
+          <!-- BUILDING OUTLINE -->
+          <rect x="50" y="50" width="900" height="500" fill="#fff" stroke="#1B4F72" stroke-width="3" rx="2"/>
+
+          <!-- GRID -->
+          <g stroke="#f0f0f0" stroke-width="0.5">
+            <line x1="50" y1="150" x2="950" y2="150"/>
+            <line x1="50" y1="250" x2="950" y2="250"/>
+            <line x1="50" y1="350" x2="950" y2="350"/>
+            <line x1="50" y1="450" x2="950" y2="450"/>
+            <line x1="250" y1="50" x2="250" y2="550"/>
+            <line x1="500" y1="50" x2="500" y2="550"/>
+            <line x1="700" y1="50" x2="700" y2="550"/>
+          </g>
+
+          <!-- ── ZONE A: OFFICES (Left) ── -->
+          <rect x="50" y="50" width="450" height="250" fill="#E8F4FD" stroke="#1B4F72" stroke-width="1.5"/>
+          <text x="275" y="76" fill="#1B4F72" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="2">ZONE A: ADMINISTRATION</text>
+
+          <!-- Reception -->
+          <rect x="55" y="85" width="140" height="90" fill="#D4E6F1" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="125" y="126" fill="#1B4F72" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">RECEPTION</text>
+          <text x="125" y="140" fill="#5B7FA5" font-size="7" font-family="Inter" text-anchor="middle">Visitor waiting</text>
+          <text x="125" y="152" fill="#5B7FA5" font-size="7" font-family="Inter" text-anchor="middle">Security desk</text>
+
+          <!-- CEO Office -->
+          <rect x="200" y="85" width="95" height="65" fill="#fff" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="247" y="115" fill="#1B4F72" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">CEO</text>
+          <text x="247" y="126" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Private office</text>
+          <rect x="210" y="125" width="12" height="8" fill="#ddd" rx="1"/><rect x="230" y="125" width="12" height="8" fill="#ddd" rx="1"/>
+
+          <!-- AD Office -->
+          <rect x="300" y="85" width="95" height="65" fill="#fff" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="347" y="115" fill="#1B4F72" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">ARTISTIC DIR.</text>
+          <text x="347" y="126" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Private office</text>
+
+          <!-- MD Office -->
+          <rect x="400" y="85" width="95" height="65" fill="#fff" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="447" y="115" fill="#1B4F72" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">MANAGING DIR.</text>
+          <text x="447" y="126" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Private office</text>
+
+          <!-- Open Plan -->
+          <rect x="55" y="180" width="240" height="110" fill="#EBF5FB" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="175" y="225" fill="#1B4F72" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">OPEN PLAN OFFICE</text>
+          <text x="175" y="240" fill="#5B7FA5" font-size="7" font-family="Inter" text-anchor="middle">12 desks &bull; Hot-desking for seasonal leads</text>
+          <!-- Desk symbols -->
+          <g fill="#D4E6F1" stroke="#B3CDE0" stroke-width="0.5">
+            <rect x="70" y="250" width="20" height="12" rx="1"/><rect x="95" y="250" width="20" height="12" rx="1"/><rect x="120" y="250" width="20" height="12" rx="1"/>
+            <rect x="150" y="250" width="20" height="12" rx="1"/><rect x="175" y="250" width="20" height="12" rx="1"/><rect x="200" y="250" width="20" height="12" rx="1"/>
+            <rect x="70" y="268" width="20" height="12" rx="1"/><rect x="95" y="268" width="20" height="12" rx="1"/><rect x="120" y="268" width="20" height="12" rx="1"/>
+            <rect x="150" y="268" width="20" height="12" rx="1"/><rect x="175" y="268" width="20" height="12" rx="1"/><rect x="200" y="268" width="20" height="12" rx="1"/>
+          </g>
+
+          <!-- Meeting Room -->
+          <rect x="300" y="155" width="195" height="60" fill="#fff" stroke="#1B4F72" stroke-width="0.8" rx="2"/>
+          <text x="397" y="185" fill="#1B4F72" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">MEETING ROOM</text>
+          <text x="397" y="198" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">12-seat boardroom, AV, screen</text>
+
+          <!-- Kitchen / Break -->
+          <rect x="300" y="220" width="195" height="70" fill="#FFF8E1" stroke="#F57C00" stroke-width="0.8" rx="2"/>
+          <text x="397" y="252" fill="#E65100" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">KITCHEN / BREAK ROOM</text>
+          <text x="397" y="266" fill="#BF7730" font-size="7" font-family="Inter" text-anchor="middle">Full kitchen, seating for 16, vending</text>
+
+          <!-- ── ZONE B: PRODUCTION (Right-Top) ── -->
+          <rect x="500" y="50" width="450" height="280" fill="#FBE9E7" stroke="#C41E3A" stroke-width="1.5"/>
+          <text x="725" y="76" fill="#C41E3A" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="2">ZONE B: PRODUCTION</text>
+
+          <!-- Main Workshop -->
+          <rect x="505" y="85" width="280" height="180" fill="#FFCCBC" stroke="#C41E3A" stroke-width="0.8" rx="2"/>
+          <text x="645" y="165" fill="#C41E3A" font-size="14" font-weight="800" font-family="Inter" text-anchor="middle">MAIN WORKSHOP</text>
+          <text x="645" y="182" fill="#9B1830" font-size="8" font-family="Inter" text-anchor="middle">Scenic construction, prop fabrication, painting</text>
+          <text x="645" y="196" fill="#9B1830" font-size="8" font-family="Inter" text-anchor="middle">Table saws, panel saw, spray booth, assembly area</text>
+          <text x="645" y="210" fill="#9B1830" font-size="7" font-family="Inter" text-anchor="middle">ROLLER SHUTTER DOOR (4m &times; 4m) &rarr;</text>
+
+          <!-- Materials Store -->
+          <rect x="790" y="85" width="155" height="100" fill="#fff" stroke="#C41E3A" stroke-width="0.8" rx="2"/>
+          <text x="867" y="125" fill="#C41E3A" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">MATERIALS</text>
+          <text x="867" y="137" fill="#C41E3A" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">STORE</text>
+          <text x="867" y="152" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Timber, steel, foam,</text>
+          <text x="867" y="162" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">fabric, paint, fixings</text>
+
+          <!-- Tech Store -->
+          <rect x="790" y="190" width="155" height="75" fill="#fff" stroke="#C41E3A" stroke-width="0.8" rx="2"/>
+          <text x="867" y="225" fill="#C41E3A" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">TECH STORE</text>
+          <text x="867" y="238" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Lighting, audio, fog,</text>
+          <text x="867" y="248" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">controllers, spares</text>
+
+          <!-- Paint / Finishing -->
+          <rect x="505" y="270" width="200" height="55" fill="#fff" stroke="#C41E3A" stroke-width="0.8" rx="2"/>
+          <text x="605" y="298" fill="#C41E3A" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">PAINT / FINISHING ROOM</text>
+          <text x="605" y="311" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Spray booth, drying racks, detail painting</text>
+
+          <!-- ── ZONE C: COSTUME & WARDROBE (Left-Bottom) ── -->
+          <rect x="50" y="300" width="450" height="250" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.5"/>
+          <text x="275" y="326" fill="#6A1B9A" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="2">ZONE C: COSTUME &amp; WARDROBE</text>
+
+          <!-- Costume Workshop -->
+          <rect x="55" y="340" width="220" height="100" fill="#E1BEE7" stroke="#6A1B9A" stroke-width="0.8" rx="2"/>
+          <text x="165" y="382" fill="#6A1B9A" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">COSTUME WORKSHOP</text>
+          <text x="165" y="396" fill="#8E24AA" font-size="7" font-family="Inter" text-anchor="middle">Sewing machines, cutting tables,</text>
+          <text x="165" y="408" fill="#8E24AA" font-size="7" font-family="Inter" text-anchor="middle">overlockers, mannequins, pattern store</text>
+
+          <!-- Makeup Studio -->
+          <rect x="280" y="340" width="215" height="100" fill="#E1BEE7" stroke="#6A1B9A" stroke-width="0.8" rx="2"/>
+          <text x="387" y="382" fill="#6A1B9A" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">MAKEUP STUDIO</text>
+          <text x="387" y="396" fill="#8E24AA" font-size="7" font-family="Inter" text-anchor="middle">12 stations, lit mirrors, FX bench,</text>
+          <text x="387" y="408" fill="#8E24AA" font-size="7" font-family="Inter" text-anchor="middle">prosthetics workspace, cleaning station</text>
+
+          <!-- Wardrobe Storage -->
+          <rect x="55" y="445" width="180" height="100" fill="#fff" stroke="#6A1B9A" stroke-width="0.8" rx="2"/>
+          <text x="145" y="490" fill="#6A1B9A" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">WARDROBE STORE</text>
+          <text x="145" y="504" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Hanging rails, 150+ costumes</text>
+          <text x="145" y="516" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Labelled by world &amp; character</text>
+
+          <!-- Laundry -->
+          <rect x="240" y="445" width="120" height="100" fill="#fff" stroke="#6A1B9A" stroke-width="0.8" rx="2"/>
+          <text x="300" y="492" fill="#6A1B9A" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">LAUNDRY</text>
+          <text x="300" y="506" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">Industrial washer,</text>
+          <text x="300" y="516" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">dryer, drying cabinet</text>
+
+          <!-- Cast Green Room -->
+          <rect x="365" y="445" width="130" height="100" fill="#FFF8E1" stroke="#F57C00" stroke-width="0.8" rx="2"/>
+          <text x="430" y="488" fill="#E65100" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">CAST GREEN</text>
+          <text x="430" y="502" fill="#E65100" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">ROOM</text>
+          <text x="430" y="516" fill="#BF7730" font-size="6" font-family="Inter" text-anchor="middle">Lockers, seating, tea</text>
+          <text x="430" y="526" fill="#BF7730" font-size="6" font-family="Inter" text-anchor="middle">point, notice board</text>
+
+          <!-- ── ZONE D: BLACK BOX REHEARSAL (Right-Bottom) ── -->
+          <rect x="500" y="330" width="450" height="220" fill="#1a1a1a" stroke="#C41E3A" stroke-width="2"/>
+          <text x="725" y="360" fill="#C41E3A" font-size="14" font-weight="900" font-family="Inter" text-anchor="middle" letter-spacing="3">ZONE D: BLACK BOX</text>
+          <text x="725" y="380" fill="rgba(196,30,58,0.7)" font-size="10" font-weight="500" font-family="Inter" text-anchor="middle">REHEARSAL &amp; PERFORMANCE STUDIO</text>
+          <text x="725" y="430" fill="#888" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle">22m &times; 12m &times; 6m clear height</text>
+          <text x="725" y="450" fill="#666" font-size="8" font-family="Inter" text-anchor="middle">264m&sup2; floor area &bull; Full blackout capability</text>
+          <text x="725" y="468" fill="#666" font-size="8" font-family="Inter" text-anchor="middle">Lighting grid (48-way dimmer) &bull; PA system &bull; Mirror wall (removable)</text>
+          <text x="725" y="486" fill="#666" font-size="8" font-family="Inter" text-anchor="middle">Sprung floor &bull; Sound isolation &bull; Loading door to workshop</text>
+          <text x="725" y="510" fill="#555" font-size="7" font-family="Inter" text-anchor="middle" font-style="italic">Doubles as immersive theatre venue (100-seat capacity)</text>
+
+          <!-- WC block -->
+          <rect x="710" y="270" width="80" height="55" fill="#E0E0E0" stroke="#999" stroke-width="0.8" rx="2"/>
+          <text x="750" y="296" fill="#666" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">WC</text>
+          <text x="750" y="310" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">M/F/Acc/Shower</text>
+
+          <!-- Server / Comms -->
+          <rect x="795" y="270" width="70" height="55" fill="#E0E0E0" stroke="#999" stroke-width="0.8" rx="2"/>
+          <text x="830" y="296" fill="#666" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">SERVER</text>
+          <text x="830" y="310" fill="#999" font-size="6" font-family="Inter" text-anchor="middle">IT/Comms</text>
+
+          <!-- Dimension lines -->
+          <g stroke="#999" stroke-width="0.5" opacity="0.5">
+            <line x1="50" y1="570" x2="950" y2="570"/>
+            <line x1="50" y1="566" x2="50" y2="574"/>
+            <line x1="950" y1="566" x2="950" y2="574"/>
+            <text x="500" y="584" fill="#999" font-size="9" font-family="Inter" text-anchor="middle">50m</text>
+            <line x1="970" y1="50" x2="970" y2="550"/>
+            <line x1="966" y1="50" x2="974" y2="50"/>
+            <line x1="966" y1="550" x2="974" y2="550"/>
+            <text x="985" y="305" fill="#999" font-size="9" font-family="Inter" text-anchor="middle" transform="rotate(90, 985, 305)">30m</text>
+          </g>
+
+          <!-- Door symbols -->
+          <g fill="none" stroke="#1B4F72" stroke-width="1.5">
+            <path d="M50,200 Q30,200 30,180" />
+            <path d="M500,400 Q520,400 520,380"/>
+          </g>
+        </svg>
+      </div>
+      <div class="building-card-footer">
+        <strong>Construction:</strong> Steel portal frame, insulated composite cladding, concrete slab floor (power-floated in workshop, raised access in offices). Standing seam metal roof with 10% rooflights. <strong>Services:</strong> 3-phase power throughout, gas heating to offices, workshop extract ventilation, sprinkler system, fire alarm (L2), intruder alarm, Cat6A network cabling, NFC door access on all zones.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ MAZE BARNS ═══════════════════ -->
+<section class="section dark" id="maze-barns">
+  <div class="section-label">03 &mdash; Maze Structures</div>
+  <div class="section-title">Maze Barn Design</div>
+  <div class="section-desc">Six purpose-built steel-frame barns arranged around The Yard. Each barn is a blank canvas: a clear-span shell that the creative team fits out with modular wall systems, scenic elements, lighting rigs, and audio. The barn design allows complete reconfiguration between seasons without structural modification.</div>
+
+  <div class="building-grid">
+    <!-- TYPICAL MAZE BARN -->
+    <div class="building-card full-width">
+      <div class="building-card-header">
+        <div class="building-card-num">Buildings 02-07</div>
+        <div class="building-card-name">Typical Maze Barn &mdash; Sections &amp; Layout</div>
+        <div class="building-card-meta">
+          <span><strong>GIA:</strong> 850&ndash;950m&sup2;</span>
+          <span><strong>Footprint:</strong> 30m &times; 30m (typical)</span>
+          <span><strong>Eaves:</strong> 5.5m clear</span>
+          <span><strong>Structure:</strong> Clear-Span Steel Portal</span>
+          <span><strong>Budget:</strong> &pound;600k shell + &pound;500k fit-out</span>
+        </div>
+      </div>
+      <div class="building-card-body">
+        <svg viewBox="0 0 1000 550" xmlns="http://www.w3.org/2000/svg">
+          <rect width="1000" height="550" fill="#111"/>
+
+          <!-- PLAN VIEW (left half) -->
+          <text x="270" y="30" fill="#C41E3A" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="2">PLAN VIEW (TYPICAL LAYOUT)</text>
+
+          <!-- Barn outline -->
+          <rect x="50" y="50" width="450" height="450" fill="#1a1a1a" stroke="#C41E3A" stroke-width="2" rx="2"/>
+
+          <!-- Maze corridors (example layout) -->
+          <g stroke="#444" stroke-width="1.5" fill="none">
+            <!-- Outer ring -->
+            <rect x="70" y="70" width="410" height="410" rx="2"/>
+            <!-- Inner walls creating maze paths -->
+            <line x1="70" y1="170" x2="380" y2="170"/>
+            <line x1="150" y1="170" x2="150" y2="380"/>
+            <line x1="150" y1="280" x2="380" y2="280"/>
+            <line x1="280" y1="70" x2="280" y2="170"/>
+            <line x1="380" y1="170" x2="380" y2="380"/>
+            <line x1="280" y1="280" x2="280" y2="480"/>
+            <line x1="70" y1="380" x2="280" y2="380"/>
+            <line x1="380" y1="380" x2="480" y2="380"/>
+          </g>
+
+          <!-- Room labels -->
+          <g fill="#C41E3A" font-size="7" font-weight="600" font-family="Inter" text-anchor="middle" opacity="0.8">
+            <text x="175" y="125">SCENE 1</text>
+            <text x="380" y="125">SCENE 2</text>
+            <text x="110" y="230">CORRIDOR</text>
+            <text x="265" y="230">SCENE 3</text>
+            <text x="430" y="230">SCENE 4</text>
+            <text x="110" y="340">SCENE 5</text>
+            <text x="215" y="340">SCENE 6</text>
+            <text x="430" y="340">CORRIDOR</text>
+            <text x="175" y="440">SCENE 7</text>
+            <text x="380" y="440">FINALE</text>
+          </g>
+
+          <!-- Entry/Exit -->
+          <rect x="50" y="90" width="20" height="40" fill="#C41E3A" rx="2"/>
+          <text x="60" y="115" fill="#fff" font-size="7" font-weight="800" font-family="Inter" text-anchor="middle" transform="rotate(-90, 60, 115)">ENTRY</text>
+
+          <rect x="480" y="410" width="20" height="40" fill="#4CAF50" rx="2"/>
+          <text x="490" y="435" fill="#fff" font-size="7" font-weight="800" font-family="Inter" text-anchor="middle" transform="rotate(-90, 490, 435)">EXIT</text>
+
+          <!-- Actor hide points -->
+          <g fill="#F57C00" opacity="0.7">
+            <circle cx="120" cy="110" r="4"/>
+            <circle cx="350" cy="140" r="4"/>
+            <circle cx="120" cy="250" r="4"/>
+            <circle cx="250" cy="310" r="4"/>
+            <circle cx="430" cy="260" r="4"/>
+            <circle cx="160" cy="420" r="4"/>
+            <circle cx="430" cy="420" r="4"/>
+          </g>
+          <text x="270" y="505" fill="#F57C00" font-size="8" font-family="Inter" text-anchor="middle" opacity="0.6">&#9679; Actor hide points (7 per maze)</text>
+
+          <!-- CROSS SECTION (right half) -->
+          <text x="750" y="30" fill="#C41E3A" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="2">CROSS SECTION A-A</text>
+
+          <!-- Ground line -->
+          <line x1="550" y1="450" x2="950" y2="450" stroke="#444" stroke-width="1"/>
+          <rect x="550" y="450" width="400" height="20" fill="#2a1a0a" opacity="0.3"/>
+
+          <!-- Foundation -->
+          <rect x="565" y="440" width="30" height="30" fill="#555" stroke="#666" stroke-width="0.5"/>
+          <rect x="905" y="440" width="30" height="30" fill="#555" stroke="#666" stroke-width="0.5"/>
+          <text x="750" y="480" fill="#666" font-size="7" font-family="Inter" text-anchor="middle">CONCRETE PAD FOUNDATIONS (600mm DEEP)</text>
+
+          <!-- Steel columns -->
+          <rect x="580" y="170" width="8" height="270" fill="#888" stroke="#aaa" stroke-width="0.5"/>
+          <rect x="912" y="170" width="8" height="270" fill="#888" stroke="#aaa" stroke-width="0.5"/>
+
+          <!-- Roof truss -->
+          <path d="M575,170 L750,90 L925,170" fill="none" stroke="#aaa" stroke-width="2"/>
+          <line x1="650" y1="130" x2="650" y2="170" stroke="#888" stroke-width="1"/>
+          <line x1="750" y1="90" x2="750" y2="170" stroke="#888" stroke-width="1"/>
+          <line x1="850" y1="130" x2="850" y2="170" stroke="#888" stroke-width="1"/>
+
+          <!-- Roof cladding -->
+          <path d="M570,172 L750,88 L930,172" fill="none" stroke="#C41E3A" stroke-width="3"/>
+
+          <!-- Internal walls (maze partitions) -->
+          <rect x="660" y="230" width="6" height="220" fill="#666"/>
+          <rect x="810" y="200" width="6" height="250" fill="#666"/>
+          <text x="710" y="350" fill="#999" font-size="8" font-family="Inter" text-anchor="middle">2.7m wall</text>
+          <text x="860" y="350" fill="#999" font-size="8" font-family="Inter" text-anchor="middle">3.0m wall</text>
+
+          <!-- Lighting grid -->
+          <line x1="590" y1="185" x2="910" y2="185" stroke="#F57C00" stroke-width="1" stroke-dasharray="6,4"/>
+          <text x="750" y="200" fill="#F57C00" font-size="7" font-family="Inter" text-anchor="middle">LIGHTING GRID (UNISTRUT @ 5.0m AFL)</text>
+
+          <!-- Height dimensions -->
+          <g stroke="#999" stroke-width="0.5">
+            <line x1="560" y1="170" x2="560" y2="450"/>
+            <text x="548" y="310" fill="#999" font-size="8" font-family="Inter" text-anchor="middle" transform="rotate(-90, 548, 310)">5.5m eaves</text>
+            <line x1="935" y1="90" x2="935" y2="450"/>
+            <text x="947" y="270" fill="#999" font-size="8" font-family="Inter" text-anchor="middle" transform="rotate(-90, 947, 270)">7.2m ridge</text>
+          </g>
+
+          <!-- Width dimension -->
+          <line x1="580" y1="500" x2="920" y2="500" stroke="#999" stroke-width="0.5"/>
+          <text x="750" y="515" fill="#999" font-size="9" font-family="Inter" text-anchor="middle">30m clear span</text>
+
+          <!-- Floor build-up -->
+          <rect x="590" y="440" width="320" height="10" fill="#444"/>
+          <text x="750" y="448" fill="#aaa" font-size="6" font-family="Inter" text-anchor="middle">150mm POWER-FLOAT CONCRETE SLAB</text>
+        </svg>
+      </div>
+      <div class="building-card-footer">
+        <strong>Maze wall system:</strong> Modular steel-stud partition framework (SFS) with 18mm OSB sheathing both sides, allowing scenic attachment via screws. Walls at 2.7m standard height with 3.0m feature walls. False ceilings at 2.5m using fabric/timber frames. <strong>Services per barn:</strong> 48-way DMX lighting grid, 8-zone audio (individual speakers per scene), 4 fog machines, 2 scent machines, emergency lighting (3hr maintained), fire detection (beam detectors above false ceiling), 2 fire exits (illuminated, panic hardware). <strong>Acoustic:</strong> 50mm mineral wool insulation in all partition walls to prevent sound bleed between scenes.
+      </div>
+    </div>
+  </div>
+
+  <!-- BARN SPECIFICATION TABLE -->
+  <table class="spec-table" style="margin-top: 40px; background: #161616; border: 1px solid #222; border-radius: 8px; overflow: hidden;">
+    <thead>
+      <tr>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Barn</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Maze Name (TBC)</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">GIA</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Scenes</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Actors</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Walk Time</th>
+        <th style="background:#111; color:#C41E3A; border-color:#333;">Throughput</th>
+      </tr>
+    </thead>
+    <tbody style="color:#ccc;">
+      <tr><td style="border-color:#222;">Barn A</td><td style="border-color:#222;">World 1</td><td style="border-color:#222;">900m&sup2;</td><td style="border-color:#222;">8 scenes</td><td style="border-color:#222;">10&ndash;12</td><td style="border-color:#222;">~12 min</td><td style="border-color:#222;">~180/hr</td></tr>
+      <tr><td style="border-color:#222;">Barn B</td><td style="border-color:#222;">World 2</td><td style="border-color:#222;">900m&sup2;</td><td style="border-color:#222;">8 scenes</td><td style="border-color:#222;">10&ndash;12</td><td style="border-color:#222;">~12 min</td><td style="border-color:#222;">~180/hr</td></tr>
+      <tr><td style="border-color:#222;">Barn C</td><td style="border-color:#222;">World 3</td><td style="border-color:#222;">900m&sup2;</td><td style="border-color:#222;">8 scenes</td><td style="border-color:#222;">10&ndash;12</td><td style="border-color:#222;">~12 min</td><td style="border-color:#222;">~180/hr</td></tr>
+      <tr><td style="border-color:#222;">Barn D</td><td style="border-color:#222;">World 4</td><td style="border-color:#222;">850m&sup2;</td><td style="border-color:#222;">7 scenes</td><td style="border-color:#222;">8&ndash;10</td><td style="border-color:#222;">~10 min</td><td style="border-color:#222;">~200/hr</td></tr>
+      <tr><td style="border-color:#222;">Barn E</td><td style="border-color:#222;">World 5</td><td style="border-color:#222;">850m&sup2;</td><td style="border-color:#222;">7 scenes</td><td style="border-color:#222;">8&ndash;10</td><td style="border-color:#222;">~10 min</td><td style="border-color:#222;">~200/hr</td></tr>
+      <tr><td style="border-color:#222;">Barn F</td><td style="border-color:#222;">World 6</td><td style="border-color:#222;">950m&sup2;</td><td style="border-color:#222;">9 scenes</td><td style="border-color:#222;">12&ndash;14</td><td style="border-color:#222;">~14 min</td><td style="border-color:#222;">~160/hr</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ THE YARD ═══════════════════ -->
+<section class="section" id="the-yard">
+  <div class="section-label">04 &mdash; Central Hub</div>
+  <div class="section-title">The Yard &mdash; Courtyard Hub</div>
+  <div class="section-desc">The social heart of Scare Core. An open-air courtyard surrounded by the maze barns, featuring themed food and drink, merchandise, live entertainment, and queue management. Designed to feel like a dystopian industrial compound that guests explore between mazes.</div>
+
+  <div class="building-grid">
+    <div class="building-card full-width">
+      <div class="building-card-header">
+        <div class="building-card-num">Zone 01</div>
+        <div class="building-card-name">The Yard &mdash; Courtyard Layout</div>
+        <div class="building-card-meta">
+          <span><strong>Area:</strong> ~1,200m&sup2; open courtyard</span>
+          <span><strong>Capacity:</strong> 400 standing</span>
+          <span><strong>Covered:</strong> 2&times; canopy structures</span>
+          <span><strong>F&amp;B:</strong> Main bar + 2 satellite points</span>
+        </div>
+      </div>
+      <div class="building-card-body">
+        <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+          <rect width="900" height="600" fill="#FAFAF8"/>
+
+          <!-- Yard boundary -->
+          <rect x="100" y="60" width="700" height="480" fill="#F5F0EB" stroke="#8B0000" stroke-width="2" rx="4"/>
+
+          <!-- Central performance area -->
+          <circle cx="450" cy="300" r="80" fill="#FBE9E7" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="6,4"/>
+          <text x="450" y="290" fill="#C41E3A" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle">PERFORMANCE</text>
+          <text x="450" y="305" fill="#C41E3A" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle">STAGE</text>
+          <text x="450" y="322" fill="#9B1830" font-size="7" font-family="Inter" text-anchor="middle">Roaming actors, DJ, live scares</text>
+
+          <!-- Main Bar -->
+          <rect x="120" y="80" width="200" height="80" fill="#4A0E0E" stroke="#C41E3A" stroke-width="1.5" rx="4"/>
+          <text x="220" y="118" fill="#C41E3A" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">MAIN BAR</text>
+          <text x="220" y="136" fill="rgba(196,30,58,0.6)" font-size="7" font-family="Inter" text-anchor="middle">4 taps, cocktails, soft drinks, 6m counter</text>
+
+          <!-- Food Stall 1 -->
+          <rect x="580" y="80" width="200" height="70" fill="#E65100" stroke="#F57C00" stroke-width="1.5" rx="4" opacity="0.85"/>
+          <text x="680" y="115" fill="#fff" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">FOOD POINT 1</text>
+          <text x="680" y="130" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter" text-anchor="middle">Burgers, hot dogs, loaded fries</text>
+
+          <!-- Merch Stand -->
+          <rect x="120" y="440" width="180" height="80" fill="#1B4F72" stroke="#2471A3" stroke-width="1.5" rx="4" opacity="0.85"/>
+          <text x="210" y="478" fill="#fff" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">MERCHANDISE</text>
+          <text x="210" y="494" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter" text-anchor="middle">Survivor's Log, clothing, world merch</text>
+
+          <!-- Photo Op -->
+          <rect x="600" y="440" width="180" height="80" fill="#6A1B9A" stroke="#AB47BC" stroke-width="1.5" rx="4" opacity="0.85"/>
+          <text x="690" y="478" fill="#fff" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">PHOTO STATION</text>
+          <text x="690" y="494" fill="rgba(255,255,255,0.6)" font-size="7" font-family="Inter" text-anchor="middle">Green screen, instant print, digital</text>
+
+          <!-- Covered structures -->
+          <rect x="330" y="80" width="120" height="80" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" rx="4"/>
+          <text x="390" y="118" fill="#888" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">COVERED</text>
+          <text x="390" y="132" fill="#888" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">SEATING</text>
+
+          <rect x="330" y="440" width="120" height="80" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="6,4" rx="4"/>
+          <text x="390" y="478" fill="#888" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">COVERED</text>
+          <text x="390" y="492" fill="#888" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">SEATING</text>
+
+          <!-- Queue lines -->
+          <g stroke="#C41E3A" stroke-width="1" opacity="0.4" fill="none">
+            <path d="M160,180 L160,250 L250,250 L250,200 L340,200"/>
+            <path d="M540,180 L540,250 L630,250 L630,200 L720,200"/>
+            <path d="M250,420 L250,360 L180,360 L180,310"/>
+            <path d="M650,420 L650,360 L720,360 L720,310"/>
+          </g>
+          <text x="200" y="215" fill="#C41E3A" font-size="7" font-family="Inter" opacity="0.5">Queue 1-2</text>
+          <text x="620" y="215" fill="#C41E3A" font-size="7" font-family="Inter" opacity="0.5">Queue 3-4</text>
+
+          <!-- Atmosphere elements -->
+          <g fill="#888" font-size="7" font-family="Inter" opacity="0.5">
+            <text x="470" y="180">Fire pit</text>
+            <text x="470" y="420">Fog zone</text>
+            <text x="130" y="350">Lighting tower</text>
+            <text x="700" y="280">Lighting tower</text>
+          </g>
+        </svg>
+      </div>
+      <div class="building-card-footer">
+        <strong>Atmosphere:</strong> Low-level theatrical lighting throughout (no standard floodlights). Permanent PA system for music/announcements. 4 fog machines on timers creating ground-level haze. Fire pit (gas, controlled) as central feature. Themed scenic dressing: industrial signage, warning barriers, dystopian props. <strong>Covered structures:</strong> Two 10m &times; 6m steel canopy frames with stretched fabric roofing, open sides, festoon lighting. Protects seated guests from rain.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ OUTDOOR SPACES ═══════════════════ -->
+<section class="section dark" id="outdoor">
+  <div class="section-label">05 &mdash; Outdoor Spaces</div>
+  <div class="section-title">Landscape &amp; External Areas</div>
+  <div class="section-desc">The 52 acres beyond the guest core provide essential buffer landscaping, parking, drainage, and future expansion space. The landscape strategy serves both practical (screening, drainage, ecological mitigation) and atmospheric (approach experience, isolation) purposes.</div>
+
+  <div class="infra-grid">
+    <div class="infra-card">
+      <div class="infra-card-icon green">&#9650;</div>
+      <div class="infra-card-title">Perimeter Buffer Planting</div>
+      <div class="infra-card-desc">20m-deep native woodland planting around the full site boundary. Screens the attraction from surrounding farmland and provides ecological mitigation. Mix of birch, alder, hawthorn, and blackthorn.</div>
+      <div class="infra-card-val">~8 acres</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon red">P</div>
+      <div class="infra-card-title">Guest Car Park</div>
+      <div class="infra-card-desc">750-space tarmac car park with LED column lighting, CCTV coverage, 20 accessible bays, 12 EV charging points, motorcycle parking, and clear pedestrian routes to the entrance.</div>
+      <div class="infra-card-val">750 spaces</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon blue">&#8634;</div>
+      <div class="infra-card-title">Arrival Roundabout</div>
+      <div class="infra-card-desc">Single-lane roundabout at the junction of the access road and car park. Landscaped central island with branded signage. Separates guest traffic from service vehicles and coaches.</div>
+      <div class="infra-card-val">35m dia.</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon amber">&#9733;</div>
+      <div class="infra-card-title">Approach Walk</div>
+      <div class="infra-card-desc">200m atmospheric walk from car park to entrance through landscaped corridor. Low-level lighting, audio effects, themed signage. Builds anticipation before guests reach the gates.</div>
+      <div class="infra-card-val">200m route</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon purple">&#9670;</div>
+      <div class="infra-card-title">Future Expansion Land</div>
+      <div class="infra-card-desc">~15 acres reserved for Mazes 7-10 (Years 2-5), additional courtyard spaces, potential outdoor maze trails, and long-term development of second-phase attractions.</div>
+      <div class="infra-card-val">~15 acres</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon blue">&#8776;</div>
+      <div class="infra-card-title">SuDS Attenuation</div>
+      <div class="infra-card-desc">Sustainable drainage system with attenuation pond, swales along access road, and permeable paving in staff parking. Designed for 1-in-100 year storm event plus 40% climate change allowance.</div>
+      <div class="infra-card-val">&pound;300k</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon green">&#9671;</div>
+      <div class="infra-card-title">Ecological Mitigation</div>
+      <div class="infra-card-desc">Bat and bird boxes, wildflower meadow seeding, hedgerow planting along field boundaries, badger-proof fencing where required. Net biodiversity gain of 10%+ as per planning policy.</div>
+      <div class="infra-card-val">10%+ BNG</div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-icon red">&#9888;</div>
+      <div class="infra-card-title">Emergency Assembly</div>
+      <div class="infra-card-desc">Designated emergency assembly point between car park and entrance. Clear of all structures, lit, with PA coverage. Capacity for full site evacuation (1,200 guests + 200 staff).</div>
+      <div class="infra-card-val">1,400 capacity</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ INFRASTRUCTURE ═══════════════════ -->
+<section class="section" id="infrastructure">
+  <div class="section-label">06 &mdash; Infrastructure</div>
+  <div class="section-title">Utilities &amp; Services</div>
+  <div class="section-desc">The full civil and mechanical infrastructure required to operate a 1,000+ guest entertainment venue on a greenfield rural site. All utility connections require significant lead times and are on the critical path.</div>
+
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Specification</th>
+        <th>Capacity</th>
+        <th>Budget</th>
+        <th>Lead Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>HV Power Supply</td>
+        <td>11kV/400V transformer substation, DNO connection from nearest pylon</td>
+        <td>1MW (peak October demand ~600kW)</td>
+        <td>&pound;500,000</td>
+        <td>6&ndash;12 months</td>
+      </tr>
+      <tr>
+        <td>Water Main</td>
+        <td>New mains connection from nearest trunk main (~800m)</td>
+        <td>Domestic + fire hydrant supply</td>
+        <td>&pound;100,000</td>
+        <td>4&ndash;8 months</td>
+      </tr>
+      <tr>
+        <td>Foul Sewerage</td>
+        <td>Gravity sewer to nearest adopted manhole, or private treatment works</td>
+        <td>WC provision for 1,400 persons</td>
+        <td>&pound;50,000</td>
+        <td>3&ndash;6 months</td>
+      </tr>
+      <tr>
+        <td>Surface Water Drainage</td>
+        <td>SuDS scheme: swales, attenuation pond, permeable paving</td>
+        <td>1-in-100yr +40% CC</td>
+        <td>&pound;300,000</td>
+        <td>Built with earthworks</td>
+      </tr>
+      <tr>
+        <td>Access Road</td>
+        <td>500m single carriageway, 7.3m wide, tarmac, LED lit, footpath</td>
+        <td>Peak hour: ~400 vehicles</td>
+        <td>&pound;420,000</td>
+        <td>8&ndash;12 weeks</td>
+      </tr>
+      <tr>
+        <td>Broadband</td>
+        <td>Leased line fibre (1Gbps symmetrical), backup 5G failover</td>
+        <td>1Gbps dedicated</td>
+        <td>&pound;15,000</td>
+        <td>6&ndash;12 weeks</td>
+      </tr>
+      <tr>
+        <td>Fire Alarm</td>
+        <td>Addressable system (L2), linked to ARC, smoke/heat/beam detectors</td>
+        <td>All buildings + courtyard</td>
+        <td>&pound;55,000</td>
+        <td>4&ndash;6 weeks</td>
+      </tr>
+      <tr>
+        <td>CCTV</td>
+        <td>IP camera system, 40+ cameras, NVR on-site, 30-day retention</td>
+        <td>Full site coverage</td>
+        <td>&pound;60,000</td>
+        <td>4&ndash;6 weeks</td>
+      </tr>
+      <tr>
+        <td>Perimeter Fencing</td>
+        <td>2.4m steel palisade, vehicle gates, pedestrian gates, anti-climb</td>
+        <td>~2km perimeter</td>
+        <td>&pound;120,000</td>
+        <td>4&ndash;8 weeks</td>
+      </tr>
+      <tr>
+        <td>NFC Access Control</td>
+        <td>Paxton Net2, NFC cards for all staff, zone-based permissions</td>
+        <td>All doors, gates, zones</td>
+        <td>&pound;35,000</td>
+        <td>2&ndash;4 weeks</td>
+      </tr>
+      <tr>
+        <td>External Lighting</td>
+        <td>LED column lighting (car park, roads), bollard lighting (paths), atmospheric (courtyard)</td>
+        <td>Full site coverage</td>
+        <td>&pound;80,000</td>
+        <td>4&ndash;6 weeks</td>
+      </tr>
+      <tr>
+        <td>Fire Access Roads</td>
+        <td>3.7m min width, 11.3m turning heads, load-bearing for 26t appliance</td>
+        <td>All buildings within 45m</td>
+        <td>&pound;180,000</td>
+        <td>Built with main roads</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ GUEST JOURNEY ═══════════════════ -->
+<section class="section dark" id="journey">
+  <div class="section-label">07 &mdash; Guest Journey</div>
+  <div class="section-title">From Car Park to Final Scare</div>
+  <div class="section-desc">The entire guest experience is designed as a single continuous narrative arc, from the moment they park their car through to the final scare. Every transition point is an opportunity to build tension, excitement, or relief.</div>
+
+  <div class="journey-steps">
+    <div class="journey-step">
+      <div class="journey-dot">1</div>
+      <div class="journey-label">Arrive &amp; Park</div>
+      <div class="journey-desc">750-space car park. First glimpse of atmospheric lighting beyond the treeline. Audio begins.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">2</div>
+      <div class="journey-label">The Approach</div>
+      <div class="journey-desc">200m walk through landscaped corridor. Low fog, distant screams, themed signage builds dread.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">3</div>
+      <div class="journey-label">Entrance Gate</div>
+      <div class="journey-desc">Ticket scan, bag check, waiver. In-character staff. The threshold into the world.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">4</div>
+      <div class="journey-label">The Yard</div>
+      <div class="journey-desc">Central courtyard. Bar, food, merch, stage. Roaming actors. Queue for first maze.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">5</div>
+      <div class="journey-label">Maze Queue</div>
+      <div class="journey-desc">Themed queue experience with in-world lore, audio, and minor scares. ~20 min at peak.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">6</div>
+      <div class="journey-label">The Maze</div>
+      <div class="journey-desc">10-14 min immersive experience. 7-9 scenes, 8-14 actors, full sensory assault.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">7</div>
+      <div class="journey-label">Decompression</div>
+      <div class="journey-desc">Exit into The Yard. Photo station. Return to bar. Queue for next maze. Repeat &times;6.</div>
+    </div>
+    <div class="journey-step">
+      <div class="journey-dot">8</div>
+      <div class="journey-label">Departure</div>
+      <div class="journey-desc">Merch on exit. Survivor's Log QR code. Atmospheric walk back to car park.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BUILDING SCHEDULE ═══════════════════ -->
+<section class="section" id="schedule">
+  <div class="section-label">08 &mdash; Building Schedule</div>
+  <div class="section-title">Complete Structure Register</div>
+  <div class="section-desc">Every building, structure, and significant infrastructure element on site, with dimensions, structural type, and budget allocation.</div>
+
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>Ref</th>
+        <th>Building / Structure</th>
+        <th>GIA</th>
+        <th>Dimensions</th>
+        <th>Structure</th>
+        <th>Height</th>
+        <th>Budget</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>B01</td><td>The Sector Hub (HQ)</td><td>1,500m&sup2;</td><td>50m &times; 30m</td><td>Steel portal frame</td><td>3.5m / 6m</td><td>&pound;1,800,000</td></tr>
+      <tr><td>B02</td><td>Barn A (Maze 1)</td><td>900m&sup2;</td><td>30m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;600,000</td></tr>
+      <tr><td>B03</td><td>Barn B (Maze 2)</td><td>900m&sup2;</td><td>30m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;600,000</td></tr>
+      <tr><td>B04</td><td>Barn C (Maze 3)</td><td>900m&sup2;</td><td>30m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;600,000</td></tr>
+      <tr><td>B05</td><td>Barn D (Maze 4)</td><td>850m&sup2;</td><td>28m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;580,000</td></tr>
+      <tr><td>B06</td><td>Barn E (Maze 5)</td><td>850m&sup2;</td><td>28m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;580,000</td></tr>
+      <tr><td>B07</td><td>Barn F (Maze 6)</td><td>950m&sup2;</td><td>32m &times; 30m</td><td>Clear-span steel portal</td><td>5.5m eaves</td><td>&pound;640,000</td></tr>
+      <tr><td>S01</td><td>Entrance Gateway</td><td>60m&sup2;</td><td>12m &times; 5m</td><td>Steel frame + scenic cladding</td><td>4m feature</td><td>&pound;80,000</td></tr>
+      <tr><td>S02</td><td>Covered Courtyard (North)</td><td>60m&sup2;</td><td>10m &times; 6m</td><td>Steel canopy frame</td><td>3.5m</td><td>&pound;45,000</td></tr>
+      <tr><td>S03</td><td>Covered Courtyard (South)</td><td>60m&sup2;</td><td>10m &times; 6m</td><td>Steel canopy frame</td><td>3.5m</td><td>&pound;45,000</td></tr>
+      <tr><td>S04</td><td>Main Bar Structure</td><td>40m&sup2;</td><td>8m &times; 5m</td><td>Timber frame + scenic cladding</td><td>3m</td><td>&pound;35,000</td></tr>
+      <tr><td>S05</td><td>Welfare Block (WC)</td><td>50m&sup2;</td><td>10m &times; 5m</td><td>Modular / prefabricated</td><td>2.8m</td><td>&pound;60,000</td></tr>
+      <tr><td>S06</td><td>First Aid Post</td><td>25m&sup2;</td><td>5m &times; 5m</td><td>Modular / prefabricated</td><td>2.8m</td><td>&pound;20,000</td></tr>
+      <tr><td>U01</td><td>HV Substation</td><td>20m&sup2;</td><td>5m &times; 4m</td><td>GRP enclosure</td><td>2.5m</td><td>&pound;500,000</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="doc-footer">
+  <div class="doc-footer-left">
+    <strong style="color:#C41E3A;">SCARE CORE</strong> by Immersive Core &nbsp;&mdash;&nbsp; Architectural Masterplan v1.0 &nbsp;&mdash;&nbsp; February 2026
+  </div>
+  <div class="doc-footer-right">Confidential</div>
+</div>
+
+<script>
+function toggleLayer(layer) {
+  document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const allLayers = ['buildings', 'roads', 'landscape', 'utilities'];
+  const svg = document.querySelector('svg.masterplan');
+
+  if (layer === 'all') {
+    allLayers.forEach(l => {
+      svg.querySelectorAll('.layer-' + l).forEach(el => el.style.opacity = '');
+    });
+    svg.querySelectorAll('.layer-all').forEach(el => el.style.opacity = '');
+  } else {
+    svg.querySelectorAll('.layer-all').forEach(el => el.style.opacity = '0.15');
+    allLayers.forEach(l => {
+      svg.querySelectorAll('.layer-' + l).forEach(el => {
+        el.style.opacity = (l === layer) ? '1' : '0.15';
+      });
+    });
+  }
+}
+</script>
+
+</body>
+</html>
