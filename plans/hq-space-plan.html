@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-<title>Core HQ — Space Plan V2 (Revised Layout)</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Core HQ — Retrofit Space Plan</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap');
 
@@ -40,755 +40,405 @@
   }
   .section-header p { font-size: 13px; color: #666; letter-spacing: 1px; }
 
-  .divider { height: 1px; background: #222; max-width: 1400px; margin: 0 auto; }
-
   .plan-container {
-    background: #111; border: 1px solid #222; border-radius: 16px;
-    padding: 40px; margin-bottom: 40px; overflow-x: auto;
+    background: #0d0d12; border: 1px solid #222; border-radius: 12px;
+    overflow: hidden; margin-bottom: 40px;
   }
   .plan-title {
-    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 24px;
+    padding: 16px 24px; background: rgba(196,30,58,0.08);
+    border-bottom: 1px solid #222; font-size: 14px; font-weight: 700;
+    color: #C41E3A; letter-spacing: 2px; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
   }
+  .plan-title .note { font-size: 11px; color: #666; font-weight: 400; letter-spacing: 1px; text-transform: none; }
 
-  .room-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px; margin-bottom: 40px;
-  }
-  .room-card {
-    background: #151515; border: 1px solid #222; border-radius: 12px;
-    padding: 24px; transition: border-color 0.2s;
-  }
-  .room-card:hover { border-color: #C41E3A; }
-  .room-card .room-num {
-    font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700;
-    letter-spacing: 2px; color: #C41E3A; text-transform: uppercase; margin-bottom: 4px;
-  }
-  .room-card h3 {
-    font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700;
-    color: #fff; margin-bottom: 6px;
-  }
-  .room-card .room-sqft {
-    font-size: 12px; color: #666; letter-spacing: 1px; margin-bottom: 12px;
-  }
-  .room-card p { font-size: 12px; color: #999; line-height: 1.8; }
-  .room-card .room-features {
-    margin-top: 12px; padding-top: 12px; border-top: 1px solid #222;
-    font-size: 11px; color: #666; line-height: 2;
-  }
-
-  .summary-row {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px;
-  }
-  @media (max-width: 800px) { .summary-row { grid-template-columns: 1fr 1fr; } }
-  .summary-box {
-    background: #151515; border: 1px solid #222; border-radius: 12px;
-    padding: 22px; text-align: center;
-  }
-  .summary-box .num {
-    font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800;
-    color: #fff; margin-bottom: 4px;
-  }
-  .summary-box .num span { color: #C41E3A; }
-  .summary-box .label {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #666;
-  }
-
-  .cost-table-wrap {
-    background: #111; border: 1px solid #222; border-radius: 14px;
-    padding: 30px; margin-bottom: 40px; overflow-x: auto;
-  }
-  .cost-table {
-    width: 100%; border-collapse: collapse; font-size: 13px;
-  }
-  .cost-table th {
-    text-align: left; padding: 12px 14px; font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: #666; border-bottom: 2px solid #333;
-  }
-  .cost-table td {
-    padding: 12px 14px; border-bottom: 1px solid #1a1a1a; color: #ccc;
-  }
-  .cost-table td:nth-child(3), .cost-table td:nth-child(4),
-  .cost-table th:nth-child(3), .cost-table th:nth-child(4) { text-align: right; }
-  .cost-table tr.total-row td {
-    border-top: 2px solid #C41E3A; font-weight: 700; color: #fff; padding-top: 16px;
-  }
-  .cost-table tr.subtotal-row td {
-    border-top: 1px solid #333; font-weight: 600; color: #ddd; background: #151515;
-  }
-  .cost-table .cat-label {
-    font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase; color: #C41E3A; padding-top: 20px;
-  }
-
-  .note-box {
-    background: rgba(196,30,58,0.06); border: 1px solid rgba(196,30,58,0.2);
-    border-radius: 12px; padding: 24px 28px; margin-bottom: 40px;
-  }
-  .note-box h4 {
-    font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase; color: #C41E3A; margin-bottom: 10px;
-  }
-  .note-box p { font-size: 12px; color: #888; line-height: 1.8; margin-bottom: 6px; }
-  .note-box strong { color: #ccc; }
-
-  /* Legend */
   .legend {
-    display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 30px;
-    padding: 16px 20px; background: #151515; border-radius: 10px; border: 1px solid #222;
+    display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 24px;
+    background: rgba(0,0,0,0.3); border-top: 1px solid #222;
   }
-  .legend-item {
-    display: flex; align-items: center; gap: 8px; font-size: 11px; color: #888;
-  }
-  .legend-swatch {
-    width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1);
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aaa; }
+  .legend-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.15); }
+
+  .building-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px; margin-top: 30px;
   }
 
-  @media print {
-    body { background: #fff; color: #000; }
+  .building-card {
+    background: #111; border: 1px solid #222; border-radius: 10px;
+    overflow: hidden; transition: border-color 0.3s;
+  }
+  .building-card:hover { border-color: #333; }
+  .building-card-header {
+    padding: 20px 24px; border-bottom: 1px solid #1a1a1a;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .building-card-header h3 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700;
+    color: #fff; letter-spacing: 1px;
+  }
+  .building-card-header .tag {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 12px; font-weight: 600;
+  }
+  .building-card-body { padding: 20px 24px; }
+  .building-card-body p { font-size: 13px; color: #999; margin-bottom: 12px; }
+  .building-card-body p:last-child { margin-bottom: 0; }
+
+  .room-list { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .room-list li {
+    padding: 8px 0; border-bottom: 1px solid #1a1a1a;
+    font-size: 13px; color: #ccc; display: flex; justify-content: space-between;
+  }
+  .room-list li:last-child { border-bottom: none; }
+  .room-list .room-name { font-weight: 500; }
+  .room-list .room-note { color: #666; font-size: 12px; }
+
+  .stat-row {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px;
+    padding-top: 16px; border-top: 1px solid #1a1a1a;
+  }
+  .stat { flex: 1; min-width: 100px; }
+  .stat .label { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .stat .value { font-size: 18px; font-weight: 700; color: #fff; }
+
+  .future-note {
+    background: rgba(196,30,58,0.05); border: 1px dashed #333;
+    border-radius: 10px; padding: 24px; margin-top: 30px;
+  }
+  .future-note h3 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+    color: #C41E3A; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .future-note p { font-size: 13px; color: #888; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #C41E3A; text-decoration: none; font-size: 13px;
+    font-weight: 500; letter-spacing: 0.5px; margin-top: 40px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #e0354f; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 24px; letter-spacing: 2px; }
+    .section { padding: 40px 20px; }
+    .building-grid { grid-template-columns: 1fr; }
+    .plan-title { flex-direction: column; gap: 6px; }
   }
 </style>
 </head>
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">Core Creative Group &bull; £6,250,000 Infrastructure Budget &bull; V2 Revised</div>
-  <h1><span>Core</span> HQ</h1>
-  <p>L-shaped operations compound. Expanded workshop (2 full maze rooms), dedicated tech workshop, larger costume department, reception facing staff car park. Bassetlaw, Nottinghamshire.</p>
+  <div class="hero-badge">Lot 1 — Retrofit Plan</div>
+  <h1>Core <span>HQ</span></h1>
+  <p>Existing Cowsland Farm buildings retrofitted as the operational headquarters for Core Creative Group — workshop, studio, costume, tech, and office facilities</p>
 </div>
 
-<!-- KEY FIGURES -->
-<div class="section">
-  <div class="summary-row">
-    <div class="summary-box">
-      <div class="num">12,400 <span>ft²</span></div>
-      <div class="label">Total Internal Area</div>
-    </div>
-    <div class="summary-box">
-      <div class="num">£2.57<span>m</span></div>
-      <div class="label">HQ Build Cost</div>
-    </div>
-    <div class="summary-box">
-      <div class="num">14</div>
-      <div class="label">Distinct Spaces</div>
-    </div>
-    <div class="summary-box">
-      <div class="num">3,200 <span>ft²</span></div>
-      <div class="label">Workshop Floor</div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════════════ -->
-<!-- DETAILED FLOOR PLAN -->
-<!-- ════════════════════════════════════════ -->
-
+<!-- SITE PLAN SVG -->
 <div class="section">
   <div class="section-header">
-    <h2>01 — Detailed Floor Plan</h2>
-    <p>Revised L-shape: North Wing (offices, creative, welfare) faces staff car park. East Wing (workshop, tech, costume, storage, rehearsal). Compact courtyard in the corner. All doors, flow routes, and access points shown.</p>
-  </div>
-
-  <!-- LEGEND -->
-  <div class="legend">
-    <div class="legend-item"><div class="legend-swatch" style="background: #C41E3A;"></div> Main entrance / exit</div>
-    <div class="legend-item"><div class="legend-swatch" style="background: #F9A825;"></div> Fire exit / emergency</div>
-    <div class="legend-item"><div class="legend-swatch" style="background: #4CAF50;"></div> Internal door</div>
-    <div class="legend-item"><div class="legend-swatch" style="background: #1565C0;"></div> Roller shutter door</div>
-    <div class="legend-item"><div class="legend-swatch" style="background: #333; border-color: #666;"></div> Courtyard access</div>
-    <div class="legend-item" style="margin-left: 20px;">
-      <svg width="30" height="10"><line x1="0" y1="5" x2="30" y2="5" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="4,3"/></svg> Staff flow route
-    </div>
-    <div class="legend-item">
-      <svg width="30" height="10"><line x1="0" y1="5" x2="30" y2="5" stroke="#1565C0" stroke-width="1.5" stroke-dasharray="4,3"/></svg> Materials / loading flow
-    </div>
+    <h2>Building Layout</h2>
+    <p>Aerial plan of existing building cluster — Lot 1, Cowsland Farm</p>
   </div>
 
   <div class="plan-container">
-    <div class="plan-title">Ground Floor Plan — 12,400 sq ft (All dimensions approximate)</div>
+    <div class="plan-title">
+      Core HQ — Retrofit Building Plan
+      <span class="note">Indicative layout — not to scale</span>
+    </div>
 
-    <svg viewBox="0 0 1200 900" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 1200px; display: block; margin: 0 auto;">
-
-      <!-- BACKGROUND GRID -->
+    <svg viewBox="0 0 1000 800" style="width:100%;height:auto;display:block;background:#080810">
       <defs>
-        <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1a1a1a" stroke-width="0.3"/>
+        <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
         </pattern>
-        <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="#C41E3A"/>
-        </marker>
-        <marker id="arrowB" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="#1565C0"/>
-        </marker>
-        <marker id="arrowG" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto">
-          <path d="M0,0 L6,2.5 L0,5 Z" fill="#444"/>
-        </marker>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
-      <rect x="0" y="0" width="1200" height="900" fill="url(#grid2)"/>
+      <rect width="1000" height="800" fill="url(#grid)"/>
 
-      <!-- ════════════════════════ -->
-      <!-- STAFF CAR PARK (TOP) -->
-      <!-- ════════════════════════ -->
-      <rect x="40" y="20" width="500" height="70" rx="4" fill="#111" stroke="#333" stroke-width="1"/>
-      <text x="290" y="55" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#555" letter-spacing="3" font-weight="600">STAFF CAR PARK (40 SPACES)</text>
-      <text x="290" y="70" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#444">Tarmac, lit, NFC barrier gate, EV charging x4</text>
+      <!-- Compass -->
+      <g transform="translate(940,50)">
+        <circle r="18" fill="none" stroke="#333" stroke-width="1"/>
+        <text y="-24" text-anchor="middle" fill="#C41E3A" font-size="11" font-weight="700">N</text>
+        <line x1="0" y1="-16" x2="0" y2="-6" stroke="#C41E3A" stroke-width="2"/>
+        <text y="30" text-anchor="middle" fill="#444" font-size="7">S</text>
+        <text x="-26" y="4" text-anchor="middle" fill="#444" font-size="7">W</text>
+        <text x="26" y="4" text-anchor="middle" fill="#444" font-size="7">E</text>
+      </g>
 
-      <!-- Entry from car park -->
-      <line x1="290" y1="90" x2="290" y2="115" stroke="#C41E3A" stroke-width="2" marker-end="url(#arrowR)"/>
-      <text x="310" y="108" font-family="Inter, sans-serif" font-size="7" fill="#C41E3A" letter-spacing="1">STAFF ENTRY</text>
+      <!-- GROVE ROAD — runs along the right / east side -->
+      <path d="M 870,0 Q 875,200 878,400 Q 880,600 882,800" stroke="#554422" stroke-width="30" fill="none" opacity="0.3"/>
+      <path d="M 870,0 Q 875,200 878,400 Q 880,600 882,800" stroke="#887755" stroke-width="2" fill="none" stroke-dasharray="10,8" opacity="0.5"/>
+      <text transform="translate(900,400) rotate(90)" fill="#887755" font-size="13" font-weight="600" letter-spacing="4" text-anchor="middle">GROVE ROAD</text>
 
-      <!-- ════════════════════════════════════════ -->
-      <!-- NORTH WING — Horizontal (facing car park) -->
-      <!-- ════════════════════════════════════════ -->
+      <!-- FARMYARD — central courtyard area -->
+      <rect x="280" y="250" width="360" height="260" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="460" y="390" text-anchor="middle" fill="rgba(255,255,255,0.08)" font-size="12" letter-spacing="3" font-weight="500">COURTYARD</text>
 
-      <!-- Outer wall -->
-      <rect x="60" y="120" width="560" height="200" rx="4" fill="#181818" stroke="#555" stroke-width="3"/>
+      <!-- TREE LINE — north/west boundary -->
+      <g opacity="0.3">
+        <circle cx="40" cy="80" r="25" fill="#1a3a1a"/><circle cx="80" cy="50" r="30" fill="#1a3a1a"/>
+        <circle cx="130" cy="65" r="28" fill="#1a3a1a"/><circle cx="175" cy="45" r="25" fill="#1a3a1a"/>
+        <circle cx="220" cy="55" r="30" fill="#1a3a1a"/><circle cx="270" cy="40" r="26" fill="#1a3a1a"/>
+        <circle cx="30" cy="150" r="22" fill="#1a3a1a"/><circle cx="25" cy="220" r="28" fill="#1a3a1a"/>
+        <circle cx="35" cy="300" r="24" fill="#1a3a1a"/><circle cx="28" cy="370" r="26" fill="#1a3a1a"/>
+        <circle cx="40" cy="440" r="22" fill="#1a3a1a"/>
+      </g>
 
-      <!-- N01: RECEPTION -->
-      <rect x="60" y="120" width="160" height="200" fill="#1e1e1e" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="140" y="195" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" fill="#fff" font-weight="700">RECEPTION</text>
-      <text x="140" y="212" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">500 sq ft</text>
-      <text x="140" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Security desk, display wall</text>
-      <text x="140" y="240" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Visitor seating, CCTV bank</text>
-      <!-- Room ID -->
-      <rect x="68" y="128" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="82" y="138" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N01</text>
+      <!-- ========== BUILDING 1: TECH / STORAGE (top-left, large with solar panels) ========== -->
+      <g>
+        <rect x="100" y="100" width="280" height="160" rx="3" fill="rgba(100,140,220,0.15)" stroke="rgba(100,140,220,0.6)" stroke-width="2"/>
+        <!-- Solar panel lines -->
+        <line x1="120" y1="120" x2="120" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="150" y1="120" x2="150" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="180" y1="120" x2="180" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="210" y1="120" x2="210" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="240" y1="120" x2="240" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="270" y1="120" x2="270" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="300" y1="120" x2="300" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="330" y1="120" x2="330" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <line x1="360" y1="120" x2="360" y2="240" stroke="rgba(100,140,220,0.2)" stroke-width="1"/>
+        <!-- Label -->
+        <text x="240" y="170" text-anchor="middle" fill="rgba(100,140,220,0.9)" font-size="14" font-weight="700" letter-spacing="2">TECH / STORAGE</text>
+        <text x="240" y="192" text-anchor="middle" fill="rgba(100,140,220,0.5)" font-size="10" letter-spacing="1">Lighting · Sound · AV · Props</text>
+        <text x="240" y="208" text-anchor="middle" fill="rgba(100,140,220,0.4)" font-size="9" letter-spacing="1">Solar panels on roof</text>
+      </g>
 
-      <!-- Main entrance door (top of reception, facing car park) -->
-      <rect x="120" y="116" width="40" height="8" rx="2" fill="#C41E3A"/>
-      <text x="140" y="113" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#C41E3A" font-weight="600" letter-spacing="1">MAIN ENTRANCE</text>
+      <!-- ========== BUILDING 2: COSTUME (left of centre) ========== -->
+      <g>
+        <rect x="120" y="340" width="170" height="170" rx="3" fill="rgba(180,100,220,0.15)" stroke="rgba(180,100,220,0.6)" stroke-width="2"/>
+        <text x="205" y="415" text-anchor="middle" fill="rgba(180,100,220,0.9)" font-size="14" font-weight="700" letter-spacing="2">COSTUME</text>
+        <text x="205" y="437" text-anchor="middle" fill="rgba(180,100,220,0.5)" font-size="10" letter-spacing="1">Wardrobe · SFX Makeup</text>
+        <text x="205" y="453" text-anchor="middle" fill="rgba(180,100,220,0.4)" font-size="9" letter-spacing="1">Prosthetics Workshop</text>
+      </g>
 
-      <!-- Internal door: Reception → Office -->
-      <rect x="218" y="200" width="4" height="24" rx="1" fill="#4CAF50"/>
+      <!-- ========== BUILDING 3: REHEARSAL SPACE / STUDIO (centre) ========== -->
+      <g>
+        <rect x="310" y="290" width="260" height="200" rx="3" fill="rgba(220,180,60,0.15)" stroke="rgba(220,180,60,0.6)" stroke-width="2"/>
+        <!-- Internal division line for event night zones -->
+        <line x1="310" y1="420" x2="570" y2="420" stroke="rgba(220,180,60,0.25)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="440" y="340" text-anchor="middle" fill="rgba(220,180,60,0.9)" font-size="14" font-weight="700" letter-spacing="2">REHEARSAL</text>
+        <text x="440" y="360" text-anchor="middle" fill="rgba(220,180,60,0.9)" font-size="14" font-weight="700" letter-spacing="2">SPACE / STUDIO</text>
+        <text x="440" y="385" text-anchor="middle" fill="rgba(220,180,60,0.5)" font-size="10" letter-spacing="1">Actor Training · Scene Blocking</text>
+        <text x="440" y="400" text-anchor="middle" fill="rgba(220,180,60,0.5)" font-size="10" letter-spacing="1">Choreography · Run-throughs</text>
+        <!-- Event night zone label -->
+        <text x="440" y="450" text-anchor="middle" fill="rgba(220,180,60,0.35)" font-size="9" font-style="italic" letter-spacing="1">Event nights: Actor Prep · Green Room</text>
+      </g>
 
-      <!-- N02: OPEN PLAN OFFICE -->
-      <rect x="220" y="120" width="220" height="120" fill="#1c1c1c" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="330" y="170" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" fill="#fff" font-weight="700">OPEN PLAN OFFICE</text>
-      <text x="330" y="187" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">1,200 sq ft</text>
-      <text x="330" y="203" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">15 desks, 2 acoustic pods</text>
-      <text x="330" y="215" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Collaboration zone, pin boards</text>
-      <rect x="228" y="128" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="242" y="138" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N02</text>
-      <!-- Desk indicators -->
-      <circle cx="260" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="275" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="290" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="305" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="320" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="355" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="370" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="385" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="400" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="415" cy="155" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="260" cy="210" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="275" cy="210" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="290" cy="210" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="305" cy="210" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <circle cx="320" cy="210" r="3" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
+      <!-- ========== BUILDING 4: OFFICES (right side, along Grove Road) ========== -->
+      <g>
+        <rect x="620" y="280" width="200" height="240" rx="3" fill="rgba(60,200,140,0.15)" stroke="rgba(60,200,140,0.6)" stroke-width="2"/>
+        <!-- Internal divisions -->
+        <line x1="620" y1="370" x2="820" y2="370" stroke="rgba(60,200,140,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="620" y1="440" x2="820" y2="440" stroke="rgba(60,200,140,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="720" y="320" text-anchor="middle" fill="rgba(60,200,140,0.9)" font-size="14" font-weight="700" letter-spacing="2">OFFICES</text>
+        <text x="720" y="342" text-anchor="middle" fill="rgba(60,200,140,0.5)" font-size="10" letter-spacing="1">Management · Creative · Admin</text>
+        <!-- Sub-rooms -->
+        <text x="720" y="395" text-anchor="middle" fill="rgba(60,200,140,0.4)" font-size="9" letter-spacing="1">Staff Break Room</text>
+        <text x="720" y="410" text-anchor="middle" fill="rgba(60,200,140,0.4)" font-size="9" letter-spacing="1">Meeting Room</text>
+        <text x="720" y="465" text-anchor="middle" fill="rgba(60,200,140,0.4)" font-size="9" letter-spacing="1">IT / Comms Room</text>
+        <text x="720" y="480" text-anchor="middle" fill="rgba(60,200,140,0.4)" font-size="9" letter-spacing="1">Server · CCTV · Show Control</text>
+      </g>
 
-      <!-- N03: MEETING ROOM A -->
-      <rect x="220" y="240" width="110" height="80" fill="#1a1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="275" y="272" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="#fff" font-weight="700">MEETING A</text>
-      <text x="275" y="286" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#C41E3A">320 sq ft</text>
-      <text x="275" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">8-person, AV screen</text>
-      <rect x="228" y="248" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="242" y="258" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N03</text>
-      <!-- Door from office -->
-      <rect x="260" y="238" width="24" height="4" rx="1" fill="#4CAF50"/>
+      <!-- ========== BUILDING 5: WORKSHOP (bottom centre) ========== -->
+      <g>
+        <rect x="200" y="560" width="380" height="140" rx="3" fill="rgba(220,80,60,0.15)" stroke="rgba(220,80,60,0.6)" stroke-width="2"/>
+        <text x="390" y="620" text-anchor="middle" fill="rgba(220,80,60,0.9)" font-size="14" font-weight="700" letter-spacing="2">WORKSHOP</text>
+        <text x="390" y="642" text-anchor="middle" fill="rgba(220,80,60,0.5)" font-size="10" letter-spacing="1">Set Building · Prop Fabrication</text>
+        <text x="390" y="658" text-anchor="middle" fill="rgba(220,80,60,0.5)" font-size="10" letter-spacing="1">Scenic Painting · Metalwork</text>
+        <!-- Loading bay -->
+        <rect x="200" y="700" width="80" height="30" rx="2" fill="rgba(220,80,60,0.08)" stroke="rgba(220,80,60,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="240" y="720" text-anchor="middle" fill="rgba(220,80,60,0.35)" font-size="8" letter-spacing="1">LOADING</text>
+      </g>
 
-      <!-- N04: MEETING ROOM B -->
-      <rect x="330" y="240" width="110" height="80" fill="#1a1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="385" y="272" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="#fff" font-weight="700">MEETING B</text>
-      <text x="385" y="286" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#C41E3A">280 sq ft</text>
-      <text x="385" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">6-person, whiteboard</text>
-      <rect x="338" y="248" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="352" y="258" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N04</text>
-      <!-- Door from office -->
-      <rect x="365" y="238" width="24" height="4" rx="1" fill="#4CAF50"/>
+      <!-- ========== FUTURE: ENTRANCE PLAZA (bottom-right, towards Lot 2) ========== -->
+      <g>
+        <rect x="620" y="580" width="200" height="120" rx="8" fill="none" stroke="rgba(196,30,58,0.4)" stroke-width="2" stroke-dasharray="8,6"/>
+        <text x="720" y="630" text-anchor="middle" fill="rgba(196,30,58,0.6)" font-size="12" font-weight="700" letter-spacing="2">ENTRANCE</text>
+        <text x="720" y="650" text-anchor="middle" fill="rgba(196,30,58,0.6)" font-size="12" font-weight="700" letter-spacing="2">PLAZA</text>
+        <text x="720" y="672" text-anchor="middle" fill="rgba(196,30,58,0.3)" font-size="9" font-style="italic" letter-spacing="1">Ticket Windows · Guest Entry</text>
+        <text x="720" y="688" text-anchor="middle" fill="rgba(196,30,58,0.3)" font-size="9" font-style="italic" letter-spacing="1">Future Phase</text>
+      </g>
 
-      <!-- N05: CREATIVE STUDIO -->
-      <rect x="440" y="120" width="180" height="200" fill="#1e1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="530" y="195" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" fill="#fff" font-weight="700">CREATIVE</text>
-      <text x="530" y="210" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" fill="#fff" font-weight="700">STUDIO</text>
-      <text x="530" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">1,000 sq ft</text>
-      <text x="530" y="244" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Scale model table, moodboard walls</text>
-      <text x="530" y="256" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">3D printer, 4K design stations x4</text>
-      <rect x="448" y="128" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="462" y="138" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N05</text>
-      <!-- Door from office to creative -->
-      <rect x="438" y="170" width="4" height="24" rx="1" fill="#4CAF50"/>
-      <!-- Scale model table -->
-      <rect x="480" y="150" width="60" height="30" rx="2" fill="#2a2a2a" stroke="#333" stroke-width="0.5"/>
-      <text x="510" y="168" text-anchor="middle" font-family="Inter, sans-serif" font-size="5" fill="#444">MODEL TABLE</text>
+      <!-- Arrow from entrance plaza towards Lot 2 -->
+      <g>
+        <line x1="620" y1="710" x2="450" y2="760" stroke="rgba(196,30,58,0.3)" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <text x="500" y="755" text-anchor="middle" fill="rgba(196,30,58,0.35)" font-size="10" letter-spacing="2">→ TO LOT 2 — SCARE PARK</text>
+      </g>
 
-      <!-- Courtyard access from Creative -->
-      <rect x="530" y="318" width="24" height="4" rx="1" fill="#555"/>
+      <!-- Connection paths between buildings -->
+      <g opacity="0.15">
+        <!-- Courtyard paths -->
+        <line x1="290" y1="420" x2="310" y2="420" stroke="#fff" stroke-width="8"/>
+        <line x1="570" y1="400" x2="620" y2="400" stroke="#fff" stroke-width="8"/>
+        <line x1="240" y1="260" x2="240" y2="340" stroke="#fff" stroke-width="8"/>
+        <line x1="390" y1="490" x2="390" y2="560" stroke="#fff" stroke-width="8"/>
+      </g>
 
-      <!-- ════════════════════════════════════════ -->
-      <!-- COURTYARD (compact, corner of L) -->
-      <!-- ════════════════════════════════════════ -->
-      <rect x="440" y="320" width="180" height="180" rx="6" fill="#0d0d0d" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="6,4"/>
-      <text x="530" y="395" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#C41E3A" font-weight="700" letter-spacing="2">COURTYARD</text>
-      <text x="530" y="412" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#666">~1,800 sq ft</text>
-      <text x="530" y="428" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#555">Firepit, benches, festoon</text>
-      <text x="530" y="442" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#555">lights, serving hatch</text>
-      <!-- Firepit -->
-      <ellipse cx="530" cy="460" rx="14" ry="6" fill="#1a0a0a" stroke="#333" stroke-width="0.5"/>
-      <ellipse cx="530" cy="458" rx="8" ry="3" fill="#C41E3A" opacity="0.2"/>
-      <!-- Benches -->
-      <rect x="490" y="470" width="24" height="5" rx="1" fill="#2a2a2a"/>
-      <rect x="546" y="470" width="24" height="5" rx="1" fill="#2a2a2a"/>
+      <!-- Parking area indicator -->
+      <g>
+        <rect x="620" y="120" width="200" height="120" rx="4" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="720" y="175" text-anchor="middle" fill="rgba(255,255,255,0.12)" font-size="10" letter-spacing="2">STAFF PARKING</text>
+        <text x="720" y="195" text-anchor="middle" fill="rgba(255,255,255,0.08)" font-size="8" letter-spacing="1">Access from Grove Road</text>
+      </g>
 
-      <!-- ════════════════════════════════════════ -->
-      <!-- WELFARE BLOCK (below reception) -->
-      <!-- ════════════════════════════════════════ -->
-      <rect x="60" y="320" width="160" height="90" fill="#1a1a1d" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="140" y="358" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#fff" font-weight="700">KITCHEN & BREAK ROOM</text>
-      <text x="140" y="374" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#C41E3A">500 sq ft</text>
-      <text x="140" y="388" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Full kitchen, dining, sofas, TV</text>
-      <text x="140" y="400" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Serving hatch to courtyard</text>
-      <rect x="68" y="328" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="82" y="338" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N06</text>
-      <!-- Door from reception corridor -->
-      <rect x="180" y="318" width="24" height="4" rx="1" fill="#4CAF50"/>
-      <!-- Serving hatch to courtyard -->
-      <rect x="218" y="360" width="4" height="20" rx="1" fill="#555"/>
-      <text x="230" y="374" font-family="Inter, sans-serif" font-size="6" fill="#555">HATCH</text>
-
-      <!-- Courtyard access from kitchen -->
-      <rect x="218" y="340" width="4" height="18" rx="1" fill="#555"/>
-
-      <!-- WCs & SHOWERS -->
-      <rect x="60" y="410" width="80" height="90" fill="#1a1d1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="100" y="448" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#fff" font-weight="700">WCs &</text>
-      <text x="100" y="460" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#fff" font-weight="700">SHOWERS</text>
-      <text x="100" y="475" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#C41E3A">280 sq ft</text>
-      <text x="100" y="488" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#666">2x WC, 1x accessible</text>
-      <text x="100" y="496" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#666">2x showers, lockers</text>
-      <rect x="68" y="418" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="82" y="428" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N07</text>
-
-      <!-- SERVER / COMMS -->
-      <rect x="140" y="410" width="80" height="90" fill="#1d1a1d" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="180" y="445" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#fff" font-weight="700">SERVER &</text>
-      <text x="180" y="457" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#fff" font-weight="700">COMMS</text>
-      <text x="180" y="472" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#C41E3A">180 sq ft</text>
-      <text x="180" y="485" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#666">NFC controller, CCTV</text>
-      <text x="180" y="493" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#666">NVR, network, UPS</text>
-      <rect x="148" y="418" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="162" y="428" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">N08</text>
-
-      <!-- Fire exit from kitchen area -->
-      <rect x="56" y="355" width="8" height="20" rx="2" fill="#F9A825"/>
-      <text x="48" y="369" text-anchor="end" font-family="Inter, sans-serif" font-size="6" fill="#F9A825">FE</text>
-
-      <!-- ════════════════════════════════════════ -->
-      <!-- CORRIDOR (connecting North & East wings) -->
-      <!-- ════════════════════════════════════════ -->
-      <rect x="220" y="320" width="220" height="30" fill="#1a1a1a" stroke="#444" stroke-width="0.5" stroke-dasharray="3,3"/>
-      <text x="330" y="340" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#555" letter-spacing="2">CORRIDOR</text>
-
-      <!-- ════════════════════════════════════════ -->
-      <!-- EAST WING — Vertical (workshops & production) -->
-      <!-- ════════════════════════════════════════ -->
-
-      <!-- Outer wall -->
-      <rect x="620" y="120" width="520" height="680" rx="4" fill="#181818" stroke="#555" stroke-width="3"/>
-
-      <!-- E01: REHEARSAL HALL -->
-      <rect x="620" y="120" width="260" height="220" fill="#1d1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="750" y="215" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="14" fill="#fff" font-weight="700">REHEARSAL HALL</text>
-      <text x="750" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">1,400 sq ft</text>
-      <text x="750" y="250" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Double-height ceiling (5m clear)</text>
-      <text x="750" y="264" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Lighting rig, mirror wall, sprung floor</text>
-      <text x="750" y="278" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Fold-out seating 80+, projector</text>
-      <rect x="628" y="128" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="642" y="138" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E01</text>
-      <!-- Steel truss indicators -->
-      <line x1="640" y1="140" x2="860" y2="140" stroke="#333" stroke-width="1" stroke-dasharray="8,4"/>
-      <line x1="640" y1="160" x2="860" y2="160" stroke="#2a2a2a" stroke-width="0.5"/>
-      <!-- Door to corridor -->
-      <rect x="618" y="210" width="4" height="28" rx="1" fill="#4CAF50"/>
-
-      <!-- E02: COSTUME & MAKEUP STUDIO (expanded) -->
-      <rect x="880" y="120" width="260" height="140" fill="#1d1a1d" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="1010" y="172" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#fff" font-weight="700">COSTUME & MAKEUP</text>
-      <text x="1010" y="188" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#fff" font-weight="700">STUDIO</text>
-      <text x="1010" y="206" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">1,100 sq ft</text>
-      <text x="1010" y="222" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">10x lit mirror stations, extraction</text>
-      <text x="1010" y="234" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Sewing, steamer, dye bath, deep sink</text>
-      <rect x="888" y="128" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="902" y="138" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E02</text>
-      <!-- Mirror station indicators -->
-      <rect x="900" y="150" width="6" height="6" rx="1" fill="#333"/><rect x="915" y="150" width="6" height="6" rx="1" fill="#333"/>
-      <rect x="930" y="150" width="6" height="6" rx="1" fill="#333"/><rect x="945" y="150" width="6" height="6" rx="1" fill="#333"/>
-      <rect x="960" y="150" width="6" height="6" rx="1" fill="#333"/><rect x="1040" y="150" width="6" height="6" rx="1" fill="#333"/>
-      <rect x="1055" y="150" width="6" height="6" rx="1" fill="#333"/><rect x="1070" y="150" width="6" height="6" rx="1" fill="#333"/>
-      <rect x="1085" y="150" width="6" height="6" rx="1" fill="#333"/><rect x="1100" y="150" width="6" height="6" rx="1" fill="#333"/>
-
-      <!-- E03: COSTUME STORAGE -->
-      <rect x="880" y="260" width="260" height="80" fill="#1a1a1d" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="1010" y="295" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#fff" font-weight="700">COSTUME STORAGE</text>
-      <text x="1010" y="312" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#C41E3A">550 sq ft</text>
-      <text x="1010" y="326" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Rolling garment racks, prosthetic moulds, labelled shelving</text>
-      <rect x="888" y="268" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="902" y="278" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E03</text>
-      <!-- Door between costume studio and storage -->
-      <rect x="940" y="258" width="28" height="4" rx="1" fill="#4CAF50"/>
-
-      <!-- E04: TECH WORKSHOP -->
-      <rect x="620" y="340" width="260" height="160" fill="#1a1d1d" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="750" y="405" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" fill="#fff" font-weight="700">TECH WORKSHOP</text>
-      <text x="750" y="423" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">1,000 sq ft</text>
-      <text x="750" y="440" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">AV repair benches, soldering stations</text>
-      <text x="750" y="453" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Speaker testing, lighting rigs, DMX</text>
-      <text x="750" y="466" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">programming, animatronic maintenance</text>
-      <rect x="628" y="348" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="642" y="358" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E04</text>
-      <!-- Work benches -->
-      <rect x="640" y="380" width="40" height="12" rx="1" fill="#2a2a2a" stroke="#333" stroke-width="0.3"/>
-      <rect x="640" y="460" width="40" height="12" rx="1" fill="#2a2a2a" stroke="#333" stroke-width="0.3"/>
-
-      <!-- E05: TECH STORE -->
-      <rect x="880" y="340" width="260" height="160" fill="#1a1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="1010" y="405" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#fff" font-weight="700">TECH STORE</text>
-      <text x="1010" y="423" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A" letter-spacing="1">800 sq ft</text>
-      <text x="1010" y="440" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">AV racks, speaker inventory, lighting</text>
-      <text x="1010" y="453" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">fixtures, DMX controllers, cabling</text>
-      <text x="1010" y="466" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Animatronic spares, NFC-locked</text>
-      <rect x="888" y="348" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="902" y="358" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E05</text>
-      <!-- Door between tech workshop and store -->
-      <rect x="878" y="400" width="4" height="28" rx="1" fill="#4CAF50"/>
-      <!-- Racking indicators -->
-      <rect x="900" y="370" width="220" height="4" rx="1" fill="#2a2a2a"/>
-      <rect x="900" y="420" width="220" height="4" rx="1" fill="#2a2a2a"/>
-      <rect x="900" y="470" width="220" height="4" rx="1" fill="#2a2a2a"/>
-
-      <!-- E06: SET BUILD WORKSHOP (massive) -->
-      <rect x="620" y="500" width="380" height="300" fill="#1d1d1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="810" y="610" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="18" fill="#fff" font-weight="700">SET BUILD</text>
-      <text x="810" y="632" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="18" fill="#fff" font-weight="700">WORKSHOP</text>
-      <text x="810" y="656" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#C41E3A" letter-spacing="1">3,200 sq ft</text>
-      <text x="810" y="674" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Double-height (5.5m clear). Overhead gantry crane.</text>
-      <text x="810" y="688" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Space for 2 full-size maze rooms under construction.</text>
-      <text x="810" y="702" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">Workbenches, power tools, spray booth, dust extraction.</text>
-      <text x="810" y="716" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#666">3-phase power throughout. Compressed air lines.</text>
-      <rect x="628" y="508" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="642" y="518" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E06</text>
-
-      <!-- Maze room outlines in workshop -->
-      <rect x="650" y="540" width="140" height="110" rx="3" fill="none" stroke="#C41E3A" stroke-width="1" stroke-dasharray="6,4"/>
-      <text x="720" y="595" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#C41E3A" font-weight="600" letter-spacing="1">MAZE ROOM 1</text>
-      <text x="720" y="610" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">~4m x 5m build zone</text>
-
-      <rect x="810" y="540" width="140" height="110" rx="3" fill="none" stroke="#C41E3A" stroke-width="1" stroke-dasharray="6,4"/>
-      <text x="880" y="595" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="#C41E3A" font-weight="600" letter-spacing="1">MAZE ROOM 2</text>
-      <text x="880" y="610" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">~4m x 5m build zone</text>
-
-      <!-- Workbenches along walls -->
-      <rect x="640" y="670" width="80" height="10" rx="1" fill="#2a2a2a" stroke="#333" stroke-width="0.3"/>
-      <text x="680" y="696" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#444">WORKBENCH</text>
-      <rect x="640" y="720" width="80" height="10" rx="1" fill="#2a2a2a" stroke="#333" stroke-width="0.3"/>
-      <text x="680" y="746" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#444">POWER TOOLS</text>
-
-      <!-- Spray booth -->
-      <rect x="820" y="680" width="60" height="80" rx="2" fill="#222" stroke="#444" stroke-width="0.5"/>
-      <text x="850" y="720" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#555">SPRAY</text>
-      <text x="850" y="730" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#555">BOOTH</text>
-
-      <!-- WORKSHOP ROLLER DOOR -->
-      <rect x="730" y="796" width="100" height="8" rx="2" fill="#1565C0"/>
-      <text x="780" y="818" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="8" fill="#1565C0" font-weight="700" letter-spacing="1">ROLLER DOOR (5m WIDE)</text>
-      <text x="780" y="830" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Direct van/lorry access for loading sets</text>
-
-      <!-- Overhead crane indicator -->
-      <line x1="650" y1="530" x2="970" y2="530" stroke="#444" stroke-width="1" stroke-dasharray="10,5"/>
-      <text x="810" y="527" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#444" letter-spacing="1">OVERHEAD GANTRY CRANE RAIL</text>
-
-      <!-- E07: SECURE PROP STORAGE -->
-      <rect x="1000" y="500" width="140" height="300" fill="#1a1a1a" stroke="#555" stroke-width="1.5" rx="2"/>
-      <text x="1070" y="620" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#fff" font-weight="700">SECURE</text>
-      <text x="1070" y="636" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#fff" font-weight="700">PROP</text>
-      <text x="1070" y="652" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="11" fill="#fff" font-weight="700">STORAGE</text>
-      <text x="1070" y="672" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#C41E3A">1,000 sq ft</text>
-      <text x="1070" y="688" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Climate controlled</text>
-      <text x="1070" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Industrial racking</text>
-      <text x="1070" y="712" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">Caged high-value area</text>
-      <text x="1070" y="724" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#666">NFC access only</text>
-      <rect x="1008" y="508" width="28" height="14" rx="3" fill="#C41E3A"/>
-      <text x="1022" y="518" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="7" fill="#fff" font-weight="700">E07</text>
-      <!-- Door from workshop to storage -->
-      <rect x="998" y="620" width="4" height="28" rx="1" fill="#4CAF50"/>
-      <!-- Racking -->
-      <rect x="1020" y="540" width="100" height="3" rx="1" fill="#2a2a2a"/>
-      <rect x="1020" y="570" width="100" height="3" rx="1" fill="#2a2a2a"/>
-      <rect x="1020" y="740" width="100" height="3" rx="1" fill="#2a2a2a"/>
-      <rect x="1020" y="770" width="100" height="3" rx="1" fill="#2a2a2a"/>
-
-      <!-- Fire exits -->
-      <rect x="1136" y="200" width="8" height="24" rx="2" fill="#F9A825"/>
-      <text x="1155" y="216" font-family="Inter, sans-serif" font-size="6" fill="#F9A825">FE</text>
-      <rect x="1136" y="450" width="8" height="24" rx="2" fill="#F9A825"/>
-      <text x="1155" y="466" font-family="Inter, sans-serif" font-size="6" fill="#F9A825">FE</text>
-      <rect x="1136" y="700" width="8" height="24" rx="2" fill="#F9A825"/>
-      <text x="1155" y="716" font-family="Inter, sans-serif" font-size="6" fill="#F9A825">FE</text>
-
-      <!-- ════════════════════════════════════════ -->
-      <!-- FLOW ROUTES -->
-      <!-- ════════════════════════════════════════ -->
-
-      <!-- Staff arrival flow: car park → reception → office -->
-      <path d="M290,118 L290,140 L218,200" fill="none" stroke="#C41E3A" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowR)"/>
-
-      <!-- Office to rehearsal flow -->
-      <path d="M440,230 L440,340 L618,340 L618,225" fill="none" stroke="#C41E3A" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowR)"/>
-
-      <!-- Materials flow: roller door → workshop → storage -->
-      <path d="M780,800 L780,750 L998,750 L998,640" fill="none" stroke="#1565C0" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowB)"/>
-
-      <!-- Workshop to tech flow -->
-      <path d="M810,500 L810,498 L750,498 L750,500" fill="none" stroke="#1565C0" stroke-width="1" stroke-dasharray="3,3"/>
-
-      <!-- External road (below) -->
-      <rect x="620" y="840" width="520" height="40" rx="4" fill="#111" stroke="#333" stroke-width="1"/>
-      <text x="880" y="864" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#555" letter-spacing="2">SERVICE ROAD — VAN / LORRY ACCESS</text>
-
-      <!-- ════════════════════════════════════════ -->
-      <!-- COMPASS & SCALE -->
-      <!-- ════════════════════════════════════════ -->
-      <text x="50" y="850" font-family="Space Grotesk, sans-serif" font-size="12" fill="#444" font-weight="700">N</text>
-      <line x1="50" y1="855" x2="50" y2="878" stroke="#444" stroke-width="1.5" marker-end="url(#arrowG)"/>
-
-      <line x1="60" y1="870" x2="220" y2="870" stroke="#555" stroke-width="1"/>
-      <line x1="60" y1="866" x2="60" y2="874" stroke="#555" stroke-width="1"/>
-      <line x1="220" y1="866" x2="220" y2="874" stroke="#555" stroke-width="1"/>
-      <text x="140" y="885" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#555" letter-spacing="1">~12 metres (approx)</text>
-
+      <!-- Scale reference -->
+      <g transform="translate(60,760)">
+        <line x1="0" y1="0" x2="100" y2="0" stroke="#444" stroke-width="1.5"/>
+        <line x1="0" y1="-4" x2="0" y2="4" stroke="#444" stroke-width="1"/>
+        <line x1="100" y1="-4" x2="100" y2="4" stroke="#444" stroke-width="1"/>
+        <text x="50" y="14" text-anchor="middle" fill="#444" font-size="9">Approx. scale — indicative only</text>
+      </g>
     </svg>
-  </div>
 
-  <div class="note-box">
-    <h4>Layout Logic</h4>
-    <p><strong>Reception faces north</strong> — directly opposite the staff car park and entry gate. Staff tap their NFC badge at the gate, walk straight to reception. Visitors and contractors arrive the same way.</p>
-    <p><strong>North Wing is the "clean" zone</strong> — offices, meetings, creative studio, kitchen, welfare. No industrial processes, no noise, no dust. Comfortable working environment for desk-based staff.</p>
-    <p><strong>East Wing is the "production" zone</strong> — rehearsal, costume, tech, workshop, storage. Noisy, dusty, physical work happens here. The rehearsal hall acts as a buffer between the two zones.</p>
-    <p><strong>Workshop has its own roller door</strong> — 5m wide, facing the service road. Vans and small lorries can reverse directly in. Finished set pieces go straight out without passing through any other room.</p>
-    <p><strong>Courtyard is compact but functional</strong> — reduced from V1 to give the production wing more space. Still has firepit, benches, festoon lights, and the kitchen serving hatch for cast meals.</p>
-    <p><strong>Flow separation</strong> — staff arrive from the north (car park), materials arrive from the south (service road). The two flows never cross. Set pieces move: workshop → storage → loading out via roller door. People move: reception → corridor → wherever they need to be.</p>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════════════════════ -->
-<!-- ROOM DETAILS -->
-<!-- ════════════════════════════════════════ -->
-
-<div class="section">
-  <div class="section-header">
-    <h2>02 — Room Details (Revised)</h2>
-    <p>14 distinct spaces across 12,400 sq ft. Major changes from V1: workshop tripled, dedicated tech workshop + store, expanded costume with separate storage, reception repositioned.</p>
-  </div>
-
-  <div class="room-grid">
-    <div class="room-card">
-      <div class="room-num">North Wing — N01</div>
-      <h3>Reception & Entrance Hall</h3>
-      <div class="room-sqft">500 sq ft &bull; Faces staff car park</div>
-      <p>Now positioned at the front of the North Wing, directly opposite the staff car park and NFC barrier gate. Staff and visitors walk straight in from the car park — no awkward routing around the building. Security desk with CCTV bank, NFC badge reader, visitor sign-in iPad. Display wall showcasing current season artwork and press coverage. Seating area for contractors and casting visitors.</p>
-      <div class="room-features"><strong>Key features:</strong> NFC tap entry, direct car park sightline, CCTV monitors, display cases, intercom.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">North Wing — N02</div>
-      <h3>Open Plan Office</h3>
-      <div class="room-sqft">1,200 sq ft &bull; 15 workstations</div>
-      <p>Unchanged from V1. Marketing, finance, HR, ops admin. Clusters of standing/seated desks with acoustic dividers. Two pod booths for calls. Direct door into Creative Studio. Large pin-board wall for campaign planning. Full Cat6 + Wi-Fi 6 coverage. Air conditioning.</p>
-      <div class="room-features"><strong>Key features:</strong> Height-adjustable desks, 2x acoustic pods, 75" dashboard display, networked printers.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">North Wing — N03 / N04</div>
-      <h3>Meeting Rooms A & B</h3>
-      <div class="room-sqft">320 + 280 sq ft &bull; 8-person + 6-person</div>
-      <p>Two meeting rooms accessed from the office. Room A (8-person boardroom) for client presentations and investor meetings — 65" AV display, Jabra speaker, sound-insulated. Room B (6-person) for daily huddles, 1-to-1s, and safeguarding conversations. Whiteboard wall, softer seating, doubles as wellbeing room.</p>
-      <div class="room-features"><strong>Key features:</strong> AV display, privacy glass, acoustic insulation, whiteboard wall.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">North Wing — N05</div>
-      <h3>Creative Studio</h3>
-      <div class="room-sqft">1,000 sq ft &bull; Design & development hub</div>
-      <p>Where the mazes are born. Slightly larger than V1. Full-height magnetic moodboard walls, central scale model table (2.4m x 1.2m), four 4K design workstations for 3D modelling and concept art. Materials library wall. 3D printer for rapid prototyping. Large-format printer for full-size scenic artwork. Direct door to courtyard for fresh air.</p>
-      <div class="room-features"><strong>Key features:</strong> Scale model table, Bambu X1 3D printer, large-format printer, courtyard access.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">North Wing — N06</div>
-      <h3>Kitchen & Break Room</h3>
-      <div class="room-sqft">500 sq ft &bull; Staff welfare</div>
-      <p>Full commercial kitchen, dining for 10, sofa area with TV. During the season, the serving hatch opens into the courtyard for cast burger/hotdog service. Direct courtyard access through double doors. This is the social heart of the building — where people eat, decompress, and chat between departments.</p>
-      <div class="room-features"><strong>Key features:</strong> Serving hatch, commercial coffee machine, dishwasher, direct courtyard access.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">North Wing — N07 / N08</div>
-      <h3>WCs, Showers & Server Room</h3>
-      <div class="room-sqft">280 + 180 sq ft &bull; Welfare & plant</div>
-      <p>Accessible WCs, two shower cubicles (essential for actors post-shift), personal lockers, first aid point with AED. Separate locked server/comms room houses the NFC controller (Paxton Net2), CCTV NVR, network switches, UPS, and fibre patch panel. Ventilated and climate-controlled.</p>
-      <div class="room-features"><strong>Key features:</strong> Showers x2, accessible WC, lockers x15, AED, server rack (ventilated, locked).</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E01</div>
-      <h3>Rehearsal Hall</h3>
-      <div class="room-sqft">1,400 sq ft &bull; Double-height (5m ceiling)</div>
-      <p>Expanded to 1,400 sq ft. Acts as the buffer between the office zone and the production zone. Double-height ceiling with exposed steel trusses and full lighting rig (8x LED pars, 2x moving heads, DMX controller) for rehearsing scares in realistic light. Mirror wall, PA system, sprung floor. Converts to 80+ seat briefing room during season with fold-out seating and motorised drop screen.</p>
-      <div class="room-features"><strong>Key features:</strong> 5m ceiling, lighting rig, mirror wall, sprung floor, 80+ fold-out seating, projector.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E02</div>
-      <h3>Costume & Makeup Studio</h3>
-      <div class="room-sqft">1,100 sq ft &bull; Expanded from V1 (was 650)</div>
-      <p>Now 1,100 sq ft — nearly double V1. Ten lit makeup stations with Hollywood mirrors (warm/cool toggle). Industrial extraction system for latex, silicone, adhesives. Industrial sewing machine, garment steamer, dye bath. Deep wash sink. Lockable SFX cabinet. Direct access to the dedicated costume storage room below.</p>
-      <div class="room-features"><strong>Key features:</strong> 10x lit mirrors, industrial extraction, sewing machine, steamer, deep sink, direct storage access.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E03</div>
-      <h3>Costume Storage</h3>
-      <div class="room-sqft">550 sq ft &bull; New — dedicated space</div>
-      <p>New room, didn't exist in V1. Rolling garment racks (double-height where possible), labelled shelving for prosthetic moulds, wig heads, shoes, and accessories. Humidity control to protect latex pieces and delicate fabrics. Direct door from the costume studio above means the team can grab what they need without leaving their department.</p>
-      <div class="room-features"><strong>Key features:</strong> Rolling garment racks, humidity control, prosthetics mould shelving, labelled system.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E04</div>
-      <h3>Tech Workshop</h3>
-      <div class="room-sqft">1,000 sq ft &bull; New — dedicated space</div>
-      <p>Completely new room. This is where the AV, lighting, SFX, and animatronics team works. Repair benches with soldering stations, oscilloscopes, and multimeters. Speaker testing area (sound-dampened corner). DMX programming desk for building and testing light shows before installation. Animatronic maintenance bench. Direct access to the tech store next door.</p>
-      <div class="room-features"><strong>Key features:</strong> ESD-safe workbenches, soldering, DMX programming desk, speaker test corner, direct store access.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E05</div>
-      <h3>Tech Store</h3>
-      <div class="room-sqft">800 sq ft &bull; New — dedicated space</div>
-      <p>Separate lockable store for all AV and tech equipment. Industrial racking for speakers, lighting fixtures, DMX controllers, haze machines, projectors, cabling drums. Caged area for high-value items (animatronics, expensive moving heads). NFC-locked — tech team and ops manager only. Asset-tagged inventory system linked to the NFC database.</p>
-      <div class="room-features"><strong>Key features:</strong> Industrial racking, caged high-value zone, NFC access only, asset tracking, climate control.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E06</div>
-      <h3>Set Build Workshop</h3>
-      <div class="room-sqft">3,200 sq ft &bull; Double-height (5.5m clear)</div>
-      <p>The centrepiece. Tripled from V1. Floor space for two full-size maze rooms (each ~4m x 5m) under construction simultaneously with full working clearance around all sides. Double-height ceiling (5.5m) with overhead gantry crane for moving heavy scenic elements and wall panels. Power tool stations along the walls: table saw, bandsaw, pillar drill, router table. Spray booth (ventilated enclosure) for painting. Dust extraction ducted to external filter. 3-phase power throughout and compressed air lines. Own 5m-wide roller shutter door to the service road — vans reverse straight in.</p>
-      <div class="room-features"><strong>Key features:</strong> 5.5m ceiling, gantry crane, 5m roller door, spray booth, dust extraction, 3-phase power, compressed air, space for 2 full maze rooms.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">East Wing — E07</div>
-      <h3>Secure Prop Storage</h3>
-      <div class="room-sqft">1,000 sq ft &bull; Expanded from V1 (was 800)</div>
-      <p>Climate-controlled storage for off-season props, finished scenic pieces, and high-value items. Three-tier industrial racking rated 500kg per shelf. Caged high-value area for animatronics and electronics. NFC-locked — ops manager and above. Internal door to the workshop means finished pieces move straight into storage. Asset-tagged inventory system.</p>
-      <div class="room-features"><strong>Key features:</strong> Climate control, 3-tier racking, caged zone, NFC-only access, direct workshop door.</div>
-    </div>
-
-    <div class="room-card">
-      <div class="room-num">Outdoor</div>
-      <h3>Courtyard</h3>
-      <div class="room-sqft">~1,800 sq ft outdoor &bull; Reduced from V1</div>
-      <p>Compact but functional. Sits in the inner corner of the L between the North and East wings. Natural stone paving, central gas firepit, four timber/steel benches, festoon string lights, hardy shrub planters. Kitchen serving hatch opens onto the courtyard for cast meal service. Sheltered on two sides by the building. Bike rack and smoking shelter at the far end.</p>
-      <div class="room-features"><strong>Key features:</strong> Gas firepit, serving hatch access, festoon lights, sheltered on 2 sides, bike rack.</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(100,140,220,0.3);border-color:rgba(100,140,220,0.6)"></div>Tech / Storage</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(180,100,220,0.3);border-color:rgba(180,100,220,0.6)"></div>Costume</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(220,180,60,0.3);border-color:rgba(220,180,60,0.6)"></div>Rehearsal / Studio</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(60,200,140,0.3);border-color:rgba(60,200,140,0.6)"></div>Offices</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(220,80,60,0.3);border-color:rgba(220,80,60,0.6)"></div>Workshop</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:transparent;border-color:rgba(196,30,58,0.5);border-style:dashed"></div>Future Phase</div>
     </div>
   </div>
 </div>
 
-<div class="divider"></div>
-
-<!-- ════════════════════════════════════════ -->
-<!-- REVISED COST BREAKDOWN -->
-<!-- ════════════════════════════════════════ -->
-
-<div class="section">
+<!-- BUILDING DETAILS -->
+<div class="section" style="padding-top:0">
   <div class="section-header">
-    <h2>03 — Revised Budget (V2)</h2>
-    <p>Larger build footprint (12,400 sq ft vs 7,800). HQ compound cost increases to ~£2.8m. Budget raised to £6.25m to cover IT equipment and restore contingency.</p>
+    <h2>Building Breakdown</h2>
+    <p>Proposed use for each existing building — retrofit scope and internal allocation</p>
   </div>
 
-  <div class="cost-table-wrap">
-    <table class="cost-table">
-      <thead>
-        <tr><th>Item</th><th>Description</th><th>Est. Cost</th><th>% of Budget</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="cat-label" colspan="4">Land Acquisition</td></tr>
-        <tr>
-          <td>Site purchase</td>
-          <td>15-25 acres, rural Bassetlaw. Includes legal, survey, stamp duty.</td>
-          <td>£900,000</td><td>15.0%</td>
-        </tr>
-        <tr class="subtotal-row"><td colspan="2">Land Subtotal</td><td>£900,000</td><td>15.0%</td></tr>
+  <div class="building-grid">
 
-        <tr><td class="cat-label" colspan="4">Site Infrastructure</td></tr>
-        <tr><td>Access roads & car parks</td><td>Main road, service road, guest (200 spaces) + staff (40 spaces) car parks, EV charging.</td><td>£450,000</td><td>7.5%</td></tr>
-        <tr><td>Utilities & drainage</td><td>Water, sewage, 3-phase electric, gas, fibre, drainage, groundwork, foundations.</td><td>£500,000</td><td>8.3%</td></tr>
-        <tr><td>Perimeter & security</td><td>Fencing, CCTV poles, NFC barrier gate, external lighting.</td><td>£160,000</td><td>2.7%</td></tr>
-        <tr class="subtotal-row"><td colspan="2">Site Infrastructure Subtotal</td><td>£1,110,000</td><td>18.5%</td></tr>
+    <!-- TECH / STORAGE -->
+    <div class="building-card" style="border-top: 3px solid rgba(100,140,220,0.6);">
+      <div class="building-card-header">
+        <h3>Tech / Storage</h3>
+        <span class="tag" style="background:rgba(100,140,220,0.15);color:rgba(100,140,220,0.9);">Large Barn — NW</span>
+      </div>
+      <div class="building-card-body">
+        <p>The large barn in the north-west corner with existing solar panels on the roof. Open-plan industrial space suited to rack storage, equipment maintenance, and seasonal prop rotation.</p>
+        <ul class="room-list">
+          <li><span class="room-name">Lighting Rig Storage</span><span class="room-note">Moving heads, LED panels, cabling</span></li>
+          <li><span class="room-name">Sound Equipment</span><span class="room-note">Speakers, subs, mixing desks, mics</span></li>
+          <li><span class="room-name">AV / Projection</span><span class="room-note">Projectors, screens, media servers</span></li>
+          <li><span class="room-name">Prop Store</span><span class="room-note">Off-season storage, rotation stock</span></li>
+          <li><span class="room-name">Maintenance Bay</span><span class="room-note">Equipment testing and repair</span></li>
+        </ul>
+        <div class="stat-row">
+          <div class="stat"><div class="label">Building Type</div><div class="value" style="font-size:14px;">Agricultural Barn</div></div>
+          <div class="stat"><div class="label">Retrofit Scope</div><div class="value" style="font-size:14px;">Light</div></div>
+        </div>
+      </div>
+    </div>
 
-        <tr><td class="cat-label" colspan="4">Guest-Facing Infrastructure</td></tr>
-        <tr><td>Ticketing & entrance</td><td>Entrance building, box office, NFC turnstiles, covered queue area.</td><td>£280,000</td><td>4.7%</td></tr>
-        <tr><td>Pathways, queuing & signage</td><td>Tarmac paths, queue infrastructure, wayfinding, main entrance sign.</td><td>£280,000</td><td>4.7%</td></tr>
-        <tr><td>External lighting</td><td>Atmospheric pathway lighting, queue lights, car park lighting.</td><td>£130,000</td><td>2.2%</td></tr>
-        <tr><td>F&B unit & guest welfare</td><td>Food kiosk/container, upgraded portable WCs, first aid, baby change.</td><td>£150,000</td><td>2.5%</td></tr>
-        <tr class="subtotal-row"><td colspan="2">Guest Infrastructure Subtotal</td><td>£840,000</td><td>14.0%</td></tr>
+    <!-- COSTUME -->
+    <div class="building-card" style="border-top: 3px solid rgba(180,100,220,0.6);">
+      <div class="building-card-header">
+        <h3>Costume</h3>
+        <span class="tag" style="background:rgba(180,100,220,0.15);color:rgba(180,100,220,0.9);">Mid Building — W</span>
+      </div>
+      <div class="building-card-body">
+        <p>Wardrobe, costume fabrication, and SFX makeup preparation. Requires good lighting, running water for makeup stations, and climate control to protect costume stock.</p>
+        <ul class="room-list">
+          <li><span class="room-name">Wardrobe Store</span><span class="room-note">Racked costumes, seasonal rotation</span></li>
+          <li><span class="room-name">Costume Workshop</span><span class="room-note">Sewing, alterations, fabrication</span></li>
+          <li><span class="room-name">SFX Makeup Lab</span><span class="room-note">Prosthetics, moulds, application</span></li>
+          <li><span class="room-name">Laundry / Maintenance</span><span class="room-note">Washing, repair, cleaning</span></li>
+        </ul>
+        <div class="stat-row">
+          <div class="stat"><div class="label">Building Type</div><div class="value" style="font-size:14px;">Outbuilding</div></div>
+          <div class="stat"><div class="label">Retrofit Scope</div><div class="value" style="font-size:14px;">Medium</div></div>
+        </div>
+      </div>
+    </div>
 
-        <tr><td class="cat-label" colspan="4">HQ Compound Build (12,400 sq ft)</td></tr>
-        <tr><td>Steel frame & foundations</td><td>Portal frame, L-shape. North wing 3.2m eaves, east wing part 5.5m (workshop + rehearsal). Concrete slab.</td><td>£680,000</td><td>11.3%</td></tr>
-        <tr><td>Cladding, roofing & exterior</td><td>Anthracite composite standing seam, insulated panels, hidden gutters, roller door (5m), courtyard paving.</td><td>£340,000</td><td>5.7%</td></tr>
-        <tr><td>Fit-out — offices & welfare</td><td>Reception, office, meetings, creative studio, kitchen, WCs, showers, server room. Partitions, flooring, M&E, air con.</td><td>£380,000</td><td>6.3%</td></tr>
-        <tr><td>Fit-out — rehearsal hall</td><td>Sprung floor, mirror wall, lighting rig, PA, fold-out seating, projector, sound insulation.</td><td>£130,000</td><td>2.2%</td></tr>
-        <tr><td>Fit-out — costume dept</td><td>Makeup studio (10 stations, extraction, plumbing) + costume storage (racks, humidity control).</td><td>£200,000</td><td>3.3%</td></tr>
-        <tr><td>Fit-out — tech dept</td><td>Tech workshop (ESD benches, soldering, DMX desk, sound damping) + tech store (racking, caged area, NFC lock).</td><td>£180,000</td><td>3.0%</td></tr>
-        <tr><td>Fit-out — set build workshop</td><td>Gantry crane, 3-phase power, compressed air, dust extraction, spray booth, power tools, workbenches, heavy-duty flooring.</td><td>£320,000</td><td>5.3%</td></tr>
-        <tr><td>Fit-out — secure storage</td><td>Climate control, industrial racking, caged area, NFC lock.</td><td>£70,000</td><td>1.2%</td></tr>
-        <tr><td>IT, AV & NFC infrastructure</td><td>Server rack, switches, Wi-Fi 6, CCTV NVR, Paxton Net2, AV in meeting rooms, intercom, NFC gate.</td><td>£85,000</td><td>1.4%</td></tr>
-        <tr><td>IT equipment & devices</td><td>Laptops x15 (MacBook Pro for creative, standard for admin), MFP copier/printer, VoIP handsets, spare monitors, initial software licences (Adobe CC, AutoCAD, SketchUp).</td><td>£45,000</td><td>0.7%</td></tr>
-        <tr><td>Furniture & equipment</td><td>Desks, chairs, acoustic pods, 3D printer, large-format printer, kitchen appliances, break room furniture.</td><td>£90,000</td><td>1.4%</td></tr>
-        <tr><td>Courtyard</td><td>Paving, gas firepit, benches, festoon lights, planters, smoking shelter, bike rack.</td><td>£45,000</td><td>0.7%</td></tr>
-        <tr class="subtotal-row"><td colspan="2">HQ Compound Subtotal</td><td>£2,565,000</td><td>41.0%</td></tr>
+    <!-- REHEARSAL SPACE / STUDIO -->
+    <div class="building-card" style="border-top: 3px solid rgba(220,180,60,0.6);">
+      <div class="building-card-header">
+        <h3>Rehearsal Space / Studio</h3>
+        <span class="tag" style="background:rgba(220,180,60,0.15);color:rgba(220,180,60,0.9);">Central Barn</span>
+      </div>
+      <div class="building-card-body">
+        <p>The main central barn converted into a flexible rehearsal and studio space. Used day-to-day for actor training, choreography, scene blocking, and creative development. On event nights, part of this space converts to actor prep and a green room.</p>
+        <ul class="room-list">
+          <li><span class="room-name">Main Studio Floor</span><span class="room-note">Open rehearsal space, scene run-throughs</span></li>
+          <li><span class="room-name">Choreography Area</span><span class="room-note">Mirrors, sprung floor (if feasible)</span></li>
+          <li><span class="room-name">Creative Development</span><span class="room-note">Storyboarding, concept work, read-throughs</span></li>
+        </ul>
+        <p style="margin-top:16px;padding:10px 12px;background:rgba(220,180,60,0.05);border-left:2px solid rgba(220,180,60,0.3);border-radius:0 4px 4px 0;font-size:12px;color:#aa9944;">
+          <strong>Event nights:</strong> Rear section converts to actor prep area (mirrors, final costume check, SFX touch-ups) and green room (rest area, refreshments, call board).
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="label">Building Type</div><div class="value" style="font-size:14px;">Central Barn</div></div>
+          <div class="stat"><div class="label">Retrofit Scope</div><div class="value" style="font-size:14px;">Medium</div></div>
+        </div>
+      </div>
+    </div>
 
-        <tr><td class="cat-label" colspan="4">Professional Fees & Contingency</td></tr>
-        <tr><td>Architect, engineer, QS</td><td>Full RIBA stages 1-5, structural calcs, quantity surveyor, CDM principal designer.</td><td>£280,000</td><td>4.7%</td></tr>
-        <tr><td>Planning & building control</td><td>Application fees, ecology, transport, noise assessments, building control.</td><td>£80,000</td><td>1.3%</td></tr>
-        <tr><td>Contingency (~8%)</td><td>Restored from 7.5% — healthy buffer for unforeseen ground conditions, price escalation, scope changes.</td><td>£475,000</td><td>7.6%</td></tr>
-        <tr class="subtotal-row"><td colspan="2">Fees & Contingency Subtotal</td><td>£835,000</td><td>13.4%</td></tr>
+    <!-- OFFICES -->
+    <div class="building-card" style="border-top: 3px solid rgba(60,200,140,0.6);">
+      <div class="building-card-header">
+        <h3>Offices</h3>
+        <span class="tag" style="background:rgba(60,200,140,0.15);color:rgba(60,200,140,0.9);">East Block — Grove Rd</span>
+      </div>
+      <div class="building-card-body">
+        <p>The buildings along Grove Road, likely the former farmhouse and attached structures. Primary admin hub for Core Creative Group with front-of-house access for visitors and investors.</p>
+        <ul class="room-list">
+          <li><span class="room-name">Management Office</span><span class="room-note">Director, senior team</span></li>
+          <li><span class="room-name">Creative Office</span><span class="room-note">Design, narrative, experience team</span></li>
+          <li><span class="room-name">Admin / Finance</span><span class="room-note">Bookkeeping, HR, operations</span></li>
+          <li><span class="room-name">Meeting Room</span><span class="room-note">Investor presentations, partner meetings</span></li>
+          <li><span class="room-name">Staff Break Room</span><span class="room-note">Kitchen, rest area, lockers</span></li>
+          <li><span class="room-name">IT / Comms Room</span><span class="room-note">Servers, CCTV hub, ticketing, show control</span></li>
+        </ul>
+        <div class="stat-row">
+          <div class="stat"><div class="label">Building Type</div><div class="value" style="font-size:14px;">Farmhouse / Annexe</div></div>
+          <div class="stat"><div class="label">Retrofit Scope</div><div class="value" style="font-size:14px;">Moderate–High</div></div>
+        </div>
+      </div>
+    </div>
 
-        <tr class="total-row">
-          <td colspan="2" style="font-family: 'Space Grotesk', sans-serif; letter-spacing: 2px; text-transform: uppercase;">Total Core HQ Budget</td>
-          <td style="font-size: 16px;">£6,250,000</td><td>100%</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- WORKSHOP -->
+    <div class="building-card" style="border-top: 3px solid rgba(220,80,60,0.6);">
+      <div class="building-card-header">
+        <h3>Workshop</h3>
+        <span class="tag" style="background:rgba(220,80,60,0.15);color:rgba(220,80,60,0.9);">South Building</span>
+      </div>
+      <div class="building-card-body">
+        <p>The large building to the south of the courtyard. Primary fabrication space for set construction, prop making, scenic painting, and metalwork. Needs good vehicle access for loading materials and transporting finished sets to the park.</p>
+        <ul class="room-list">
+          <li><span class="room-name">Set Construction</span><span class="room-note">Timber, steel, scenic flats</span></li>
+          <li><span class="room-name">Prop Fabrication</span><span class="room-note">Foam carving, moulds, casting</span></li>
+          <li><span class="room-name">Scenic Painting</span><span class="room-note">Large-format painting, ageing, texturing</span></li>
+          <li><span class="room-name">Metalwork Bay</span><span class="room-note">Welding, grinding, structural steel</span></li>
+          <li><span class="room-name">Loading Bay</span><span class="room-note">Vehicle access, material delivery</span></li>
+        </ul>
+        <div class="stat-row">
+          <div class="stat"><div class="label">Building Type</div><div class="value" style="font-size:14px;">Industrial / Barn</div></div>
+          <div class="stat"><div class="label">Retrofit Scope</div><div class="value" style="font-size:14px;">Medium</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="note-box">
-    <h4>V1 → V2 Changes Summary</h4>
-    <p><strong>Workshop:</strong> 650 → 3,200 sq ft. Now fits 2 full maze rooms + working clearance. Own roller door, gantry crane, spray booth, compressed air.</p>
-    <p><strong>Tech department:</strong> Didn't exist in V1. Now has a 1,000 sq ft workshop + 800 sq ft dedicated store. Separate from the set build workshop.</p>
-    <p><strong>Costume department:</strong> 650 → 1,100 sq ft studio + 550 sq ft dedicated storage. 10 makeup stations (was 8). Separate humidity-controlled storage.</p>
-    <p><strong>Reception:</strong> Repositioned to face the staff car park. Staff walk straight in from their cars. No more routing around the building.</p>
-    <p><strong>Rehearsal hall:</strong> 1,200 → 1,400 sq ft. Slight expansion.</p>
-    <p><strong>Courtyard:</strong> 4,200 → 1,800 sq ft. Reduced to give production wing the space it needs. Still functional — firepit, benches, serving hatch.</p>
-    <p><strong>Total footprint:</strong> 7,800 → 12,400 sq ft. Budget increased to £6.25m (from £6m) to cover IT equipment and restore contingency to ~8%.</p>
-    <p><strong>IT equipment:</strong> New £45k line covers 15 laptops, MFP copier, initial software licences. Recurring IT costs (M365, Adobe CC, hosting, broadband) sit in the Scare Core annual P&L (~£15k/year).</p>
-    <p><strong>Build cost per sq ft:</strong> ~£215/sq ft (slightly lower than V1 because the workshop is high-volume low-spec space, bringing the average down).</p>
+  <!-- ENTRANCE PLAZA NOTE -->
+  <div class="future-note">
+    <h3>Future Phase — Entrance Plaza</h3>
+    <p>The guest-facing entrance plaza, ticket windows, and park entry point will be developed as a future phase, connecting Core HQ (Lot 1) to the scare park worlds (Lot 2). This will sit to the south or south-east of the building cluster, providing a natural transition from the operational area to the guest experience. The plaza design will need to account for queue management, bag check, accessibility, and visual theming that sets the tone before guests enter the park.</p>
   </div>
+
+  <!-- BACK LINK -->
+  <a href="/maps" class="back-link">← Back to Plans &amp; Maps</a>
 </div>
 
 </body>
