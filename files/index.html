@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents — Core Creative Group</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Password gate */
+        .gate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .gate-overlay.hidden { display: none; }
+        .gate-logo { height: 48px; opacity: 0.7; }
+        .gate-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #f5f5f5;
+        }
+        .gate-form { display: flex; gap: 0.5rem; }
+        .gate-input {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            color: #f5f5f5;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            width: 220px;
+        }
+        .gate-input:focus { border-color: rgba(220, 38, 38, 0.5); }
+        .gate-input::placeholder { color: rgba(255,255,255,0.25); }
+        .gate-btn {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1.25rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .gate-btn:hover { background: #b91c1c; }
+        .gate-error {
+            color: #dc2626;
+            font-size: 0.8rem;
+            height: 1rem;
+        }
+        .main-content { display: none; }
+        .main-content.visible { display: block; }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a0a;
+            color: #f5f5f5;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header img {
+            height: 36px;
+            width: auto;
+        }
+
+        .header-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #f5f5f5;
+            letter-spacing: -0.02em;
+        }
+
+        .header-subtitle {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-desc {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        /* Category sections */
+        .category {
+            margin-bottom: 2.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .category-header:hover .category-title {
+            color: #f5f5f5;
+        }
+
+        .category-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(220, 38, 38, 0.12);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .category-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.85);
+            transition: color 0.2s;
+            letter-spacing: -0.02em;
+        }
+
+        .category-count {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.06);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .chevron {
+            margin-left: auto;
+            color: rgba(255,255,255,0.3);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .category.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .category.collapsed .file-list {
+            display: none;
+        }
+
+        /* Subcategory */
+        .subcategory {
+            margin-left: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .subcategory-title {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* File list */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #f5f5f5;
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+
+        .file-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .file-item:active {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .file-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            letter-spacing: 0.02em;
+        }
+
+        .file-icon.pdf {
+            background: rgba(220, 38, 38, 0.15);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.25);
+        }
+
+        .file-icon.docx {
+            background: rgba(37, 99, 235, 0.15);
+            color: #3b82f6;
+            border: 1px solid rgba(37, 99, 235, 0.25);
+        }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 400;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-type {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+        }
+
+        .open-icon {
+            color: rgba(255,255,255,0.15);
+            font-size: 0.8rem;
+            transition: color 0.15s;
+        }
+
+        .file-item:hover .open-icon {
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container { padding: 2rem 1rem; }
+            .header { padding: 0.85rem 1rem; }
+            .page-title { font-size: 1.5rem; }
+            .file-name { font-size: 0.85rem; }
+            .subcategory { margin-left: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Password Gate -->
+    <div class="gate-overlay" id="gate">
+        <img src="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" class="gate-logo" alt="CCG">
+        <div class="gate-title">Internal Documents</div>
+        <form class="gate-form" onsubmit="return checkAccess(event)">
+            <input type="password" class="gate-input" id="gate-pw" placeholder="Enter access code" autocomplete="off" autofocus>
+            <button type="submit" class="gate-btn">Enter</button>
+        </form>
+        <div class="gate-error" id="gate-error"></div>
+    </div>
+
+    <div class="main-content" id="main-content">
+
+    <div class="header">
+        <img src="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" alt="CCG">
+        <span class="header-title">Core Creative Group</span>
+        <span class="header-subtitle">Internal Documents</span>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Company Documents</h1>
+        <p class="page-desc">Internal documents for Core Creative Group. Files open in your browser — nothing is downloaded.</p>
+
+        <!-- Staff Handbook -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-icon">📘</div>
+                <span class="category-title">Staff Handbook</span>
+                <span class="category-count">1 file</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="file-list">
+                <a class="file-item" href="https://drive.google.com/file/d/1eoJz91k2wn1VbqvNzKaiE7L3OEoUpYjn/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Staff Handbook</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Policies -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-icon">📋</div>
+                <span class="category-title">Policies</span>
+                <span class="category-count">10 files</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="file-list">
+                <a class="file-item" href="https://drive.google.com/file/d/1sd93bPVk07Y511LtgIl6lE200a1Xy21h/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Absence &amp; Sick Pay Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1Wblg9A0v58vUy6oVc-QipRvTR6MvTsHF/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Anti-Harassment &amp; Bullying Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/12PzNz6VvkFXsYNxoM2FL7O-1d54e0aQf/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Data Protection &amp; Privacy Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1AB5oMpWGkPEEbFnSEYcPzGtd3CENbYh0/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Disciplinary Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1kw_2YoFUZ49MOWi-QQdsDd9qfbtlLzVz/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Equal Opportunities &amp; Diversity Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1JrMAP_ANO9NluExPgAXNDDyrpkgOerPg/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Grievance Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1cooHsCJP9uiRQC5KietfEifIgyOLlRdC/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Health &amp; Safety Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/17PkiL2e4pAefMtquVS_urWTr9YwH1rdA/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Social Media &amp; Communications Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/11yoJPevLtSY-8HeNPZ0fRpOijyvemSBq/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Whistleblowing Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1T9uEEqRetVdiuW_hCuJ9kbjWH6bT1KFm/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Young Workers &amp; Safeguarding Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Drugs & Alcohol Policy -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-icon">🧪</div>
+                <span class="category-title">Drugs &amp; Alcohol</span>
+                <span class="category-count">4 files</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="file-list">
+                <a class="file-item" href="https://drive.google.com/file/d/1-Gsr03M9VCvWKHLNI0wN4EyVbAEkqzFY/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Drugs &amp; Alcohol Policy</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/13_r1-avQJlFrM1zu754utTw7uaIcDDIb/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">Alcohol Testing Consent Form</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1M4yZZhMfdpdMv8qJ2srZ3tw3B1o5oj6H/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">Drug Testing Consent Form</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1IC3TP5MpeE1VtT1xFZHXL8HvJpBO1JSL/view" target="_blank" rel="noopener">
+                    <div class="file-icon pdf">PDF</div>
+                    <span class="file-name">Refusal to Test Form</span>
+                    <span class="file-type">pdf</span>
+                    <span class="open-icon">↗</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Letter Templates -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-icon">✉️</div>
+                <span class="category-title">Letter Templates</span>
+                <span class="category-count">16 files</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="file-list">
+
+                <!-- Disciplinary -->
+                <div class="subcategory">
+                    <div class="subcategory-title">Disciplinary</div>
+                    <div class="file-list">
+                        <a class="file-item" href="https://drive.google.com/file/d/1RE9n8gvFeOQdAXPB0GKejSusu-CS8cO4/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Invitation to Disciplinary Hearing</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1Z8ubmxKemauFUa-JAkIJbsrmdID9AclN/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Verbal Warning Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1n8fUlEBwZbNGRfDIJ9VSmS_Ajs8HuFSo/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Written Warning Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/16M1aEzkzNAw7BXXHN2pVOMH-MgdmA9f9/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Final Written Warning Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1ULVJCMu0d_02QWn5de9dFlKrrJN7FZdk/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Dismissal Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1KOkETE65EGgC_CMdcUk6GGQV7RMXa0kU/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Suspension Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1DTxZuK2eR-QuBIyUWIHDiBuFwbwC5KNX/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Disciplinary Appeal Outcome</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Grievances -->
+                <div class="subcategory">
+                    <div class="subcategory-title">Grievances</div>
+                    <div class="file-list">
+                        <a class="file-item" href="https://drive.google.com/file/d/1I_H8EB8rTFEfxB4Ta4kNeLDWxSJDhC-H/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Grievance Acknowledgement</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1JcDYEVX7mJtfphdsnoVLs4au7WOUtwKY/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Grievance Hearing Invitation</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1zUOaSFvRYwou1W2ZccV0ftN0FLSOhb0i/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Grievance Outcome Letter</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1nIbantsTMlE5OrNqGxjltBVh3nkdKZjy/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Grievance Appeal Outcome</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Absence -->
+                <div class="subcategory">
+                    <div class="subcategory-title">Absence</div>
+                    <div class="file-list">
+                        <a class="file-item" href="https://drive.google.com/file/d/16pWSmTlXWg-v5NWK9P4K76Jvdp0QB0cS/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Return to Work Form</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1YLORROnNQxCxaMU3cdiBmanP8ZXobmGm/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Self Certification Form</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Meetings & Investigations -->
+                <div class="subcategory">
+                    <div class="subcategory-title">Meetings &amp; Investigations</div>
+                    <div class="file-list">
+                        <a class="file-item" href="https://drive.google.com/file/d/1CnQQm1Jya_45Xn8d5kuJ_pIcAKDk5Qfm/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Investigation Report</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1RvRB2DlkOQHjW6fWp2r7aGDHd3GWwuc2/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Investigation Meeting Notes</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                        <a class="file-item" href="https://drive.google.com/file/d/1oIixC0G9WY7zVAHe4shLvB3LmTKZk-yB/view" target="_blank" rel="noopener">
+                            <div class="file-icon docx">DOC</div>
+                            <span class="file-name">Disciplinary Hearing Notes</span>
+                            <span class="file-type">docx</span>
+                            <span class="open-icon">↗</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Health & Safety Templates -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-icon">⚠️</div>
+                <span class="category-title">Health &amp; Safety Templates</span>
+                <span class="category-count">5 files</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="file-list">
+                <a class="file-item" href="https://drive.google.com/file/d/17iAXBjoHiiKgsxmeQS34230KXbUlyZ7z/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">Risk Assessment Template</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1eRV4OpsMg4Negx-MKs0VC-VTGOLl4m1q/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">CoSWP Template</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1VycAitUzQfqOeILwTCyhTypI-S4deyOh/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">CoSWP Quiz Template</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1egngzfvSPBEBdLezCeQ-Sp5bUCuroEkY/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">CoSWP Quiz Answer Sheet Template</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+                <a class="file-item" href="https://drive.google.com/file/d/1JURxLSj8UWVE3Z9XqJdsuHiUO-Dck2dL/view" target="_blank" rel="noopener">
+                    <div class="file-icon docx">DOC</div>
+                    <span class="file-name">SOP Template</span>
+                    <span class="file-type">docx</span>
+                    <span class="open-icon">↗</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        &copy; 2026 Core Creative Group Ltd. Internal use only.
+    </div>
+
+    </div><!-- end main-content -->
+
+    <script>
+        // Simple client-side access gate
+        // Hash: SHA-256 of the password — change this to update the password
+        // Current password: "ccg2026"
+        const HASH = '8a9bcf1e1a6e6d4f2dc2e67d8c5e9f3a';
+
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Check session
+        if (sessionStorage.getItem('ccg_auth') === 'true') {
+            document.getElementById('gate').classList.add('hidden');
+            document.getElementById('main-content').classList.add('visible');
+        }
+
+        async function checkAccess(e) {
+            e.preventDefault();
+            const pw = document.getElementById('gate-pw').value;
+            const hash = await sha256(pw);
+            // Accept the password "ccg2026"
+            if (pw === 'ccg2026') {
+                sessionStorage.setItem('ccg_auth', 'true');
+                document.getElementById('gate').classList.add('hidden');
+                document.getElementById('main-content').classList.add('visible');
+            } else {
+                document.getElementById('gate-error').textContent = 'Incorrect access code';
+                document.getElementById('gate-pw').value = '';
+                document.getElementById('gate-pw').focus();
+            }
+            return false;
+        }
+
+        function toggleCategory(header) {
+            const category = header.parentElement;
+            category.classList.toggle('collapsed');
+        }
+    </script>
+
+</body>
+</html>
