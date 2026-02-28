@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents — Core Creative Group</title>
+    <title>Manager Documents — Core Creative Group</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,7 +76,6 @@
             min-height: 100vh;
         }
 
-        /* Header */
         .header {
             position: sticky;
             top: 0;
@@ -110,7 +109,6 @@
             margin-left: auto;
         }
 
-        /* Main container */
         .container {
             max-width: 960px;
             margin: 0 auto;
@@ -122,17 +120,9 @@
             font-weight: 700;
             font-size: 2rem;
             letter-spacing: -0.03em;
-            margin-bottom: 0.5rem;
-        }
-
-        .page-desc {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.95rem;
             margin-bottom: 3rem;
-            max-width: 600px;
         }
 
-        /* Category sections */
         .category {
             margin-bottom: 2.5rem;
         }
@@ -195,7 +185,6 @@
             display: none;
         }
 
-        /* Subcategory */
         .subcategory {
             margin-left: 1rem;
             margin-bottom: 1.25rem;
@@ -211,7 +200,6 @@
             padding-left: 0.5rem;
         }
 
-        /* File list */
         .file-list {
             display: flex;
             flex-direction: column;
@@ -291,7 +279,6 @@
             color: rgba(255,255,255,0.4);
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 2rem;
@@ -301,7 +288,6 @@
             margin-top: 2rem;
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
             .container { padding: 2rem 1rem; }
             .header { padding: 0.85rem 1rem; }
@@ -316,7 +302,7 @@
     <!-- Password Gate -->
     <div class="gate-overlay" id="gate">
         <img src="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" class="gate-logo" alt="CCG">
-        <div class="gate-title">Internal Documents</div>
+        <div class="gate-title">Manager Documents</div>
         <form class="gate-form" onsubmit="return checkAccess(event)">
             <input type="password" class="gate-input" id="gate-pw" placeholder="Enter access code" autocomplete="off" autofocus>
             <button type="submit" class="gate-btn">Enter</button>
@@ -329,118 +315,21 @@
     <div class="header">
         <img src="https://corecreativegroup.co.uk/assets/logos/ccg-icon-white.png" alt="CCG">
         <span class="header-title">Core Creative Group</span>
-        <span class="header-subtitle">Internal Documents</span>
+        <span class="header-subtitle">Manager Documents</span>
     </div>
 
     <div class="container">
-        <h1 class="page-title">Company Documents</h1>
-        <p class="page-desc">Internal documents for Core Creative Group.</p>
+        <h1 class="page-title">Manager Documents</h1>
 
-        <!-- Staff Handbook -->
-        <div class="category">
-            <div class="category-header" onclick="toggleCategory(this)">
-                <div class="category-icon">📘</div>
-                <span class="category-title">Staff Handbook</span>
-                <span class="category-count">1 file</span>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="file-list">
-                <a class="file-item" href="https://drive.google.com/file/d/1eoJz91k2wn1VbqvNzKaiE7L3OEoUpYjn/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Staff Handbook</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Policies -->
-        <div class="category">
-            <div class="category-header" onclick="toggleCategory(this)">
-                <div class="category-icon">📋</div>
-                <span class="category-title">Policies</span>
-                <span class="category-count">10 files</span>
-                <span class="chevron">▼</span>
-            </div>
-            <div class="file-list">
-                <a class="file-item" href="https://drive.google.com/file/d/1sd93bPVk07Y511LtgIl6lE200a1Xy21h/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Absence &amp; Sick Pay Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1Wblg9A0v58vUy6oVc-QipRvTR6MvTsHF/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Anti-Harassment &amp; Bullying Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/12PzNz6VvkFXsYNxoM2FL7O-1d54e0aQf/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Data Protection &amp; Privacy Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1AB5oMpWGkPEEbFnSEYcPzGtd3CENbYh0/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Disciplinary Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1kw_2YoFUZ49MOWi-QQdsDd9qfbtlLzVz/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Equal Opportunities &amp; Diversity Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1JrMAP_ANO9NluExPgAXNDDyrpkgOerPg/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Grievance Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1cooHsCJP9uiRQC5KietfEifIgyOLlRdC/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Health &amp; Safety Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/17PkiL2e4pAefMtquVS_urWTr9YwH1rdA/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Social Media &amp; Communications Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/11yoJPevLtSY-8HeNPZ0fRpOijyvemSBq/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Whistleblowing Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-                <a class="file-item" href="https://drive.google.com/file/d/1T9uEEqRetVdiuW_hCuJ9kbjWH6bT1KFm/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Young Workers &amp; Safeguarding Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Drugs & Alcohol Policy -->
+        <!-- Drugs & Alcohol Forms -->
         <div class="category">
             <div class="category-header" onclick="toggleCategory(this)">
                 <div class="category-icon">🧪</div>
-                <span class="category-title">Drugs &amp; Alcohol</span>
-                <span class="category-count">4 files</span>
+                <span class="category-title">Drugs &amp; Alcohol Forms</span>
+                <span class="category-count">3 files</span>
                 <span class="chevron">▼</span>
             </div>
             <div class="file-list">
-                <a class="file-item" href="https://drive.google.com/file/d/1-Gsr03M9VCvWKHLNI0wN4EyVbAEkqzFY/view" target="_blank" rel="noopener">
-                    <div class="file-icon pdf">PDF</div>
-                    <span class="file-name">Drugs &amp; Alcohol Policy</span>
-                    <span class="file-type">pdf</span>
-                    <span class="open-icon">↗</span>
-                </a>
                 <a class="file-item" href="https://drive.google.com/file/d/13_r1-avQJlFrM1zu754utTw7uaIcDDIb/view" target="_blank" rel="noopener">
                     <div class="file-icon docx">DOC</div>
                     <span class="file-name">Alcohol Testing Consent Form</span>
@@ -650,18 +539,8 @@
     </div><!-- end main-content -->
 
     <script>
-        // Simple client-side access gate
-        // Hash: SHA-256 of the password — change this to update the password
-        // Current password: "ccg2026"
-        const HASH = '8a9bcf1e1a6e6d4f2dc2e67d8c5e9f3a';
-
-        async function sha256(str) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
         // Check session
-        if (sessionStorage.getItem('ccg_auth') === 'true') {
+        if (sessionStorage.getItem('ccg_mgr_auth') === 'true') {
             document.getElementById('gate').classList.add('hidden');
             document.getElementById('main-content').classList.add('visible');
         }
@@ -669,10 +548,9 @@
         async function checkAccess(e) {
             e.preventDefault();
             const pw = document.getElementById('gate-pw').value;
-            const hash = await sha256(pw);
-            // Accept the password "ccg2026"
+            // Current password: "ccg2026"
             if (pw === 'ccg2026') {
-                sessionStorage.setItem('ccg_auth', 'true');
+                sessionStorage.setItem('ccg_mgr_auth', 'true');
                 document.getElementById('gate').classList.add('hidden');
                 document.getElementById('main-content').classList.add('visible');
             } else {
