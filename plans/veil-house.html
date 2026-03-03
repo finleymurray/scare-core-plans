@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=1400">
+<title>VEIL HOUSE — Immersive Theatre Barn Floor Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #D4B96A;
+    --gold-dark: #A68A3E;
+    --dark: #0A0A08;
+    --mansion: #1C1810;
+    --wood: #2C2418;
+    --lab-blue: #3C8CC8;
+    --lab-dark: #0A1520;
+    --lab-border: #1A3A55;
+    --lab-accent: #28B478;
+    --secret: #8B1A1A;
+    --green: #2E7D32;
+    --amber: #F57C00;
+    --purple: #6A1B9A;
+    --text-mid: #6B6B6B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark); color: #f5f5f5; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0A0A08 0%, #1C1810 40%, #0A0A08 100%);
+    padding: 80px 60px 60px;
+    border-bottom: 2px solid var(--gold-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+  .hero-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px; font-weight: 900; color: #fff;
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 400; font-style: italic;
+    color: rgba(255,255,255,0.4); margin-bottom: 40px;
+  }
+  .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; }
+  .hero-stat { border-left: 2px solid var(--gold-dark); padding-left: 16px; }
+  .hero-stat-val { font-size: 26px; font-weight: 800; color: #fff; }
+  .hero-stat-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 2px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: #0D0D0A; border-bottom: 1px solid #1C1810;
+    padding: 0 60px; position: sticky; top: 0; z-index: 100;
+    display: flex; gap: 0;
+  }
+  .nav a {
+    display: block; padding: 16px 22px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: #666; text-decoration: none;
+    white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s;
+  }
+  .nav a:hover, .nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 60px; }
+  .section.dark { background: var(--dark); color: #fff; }
+  .section.mansion { background: var(--mansion); color: #fff; }
+  .section.warm { background: #0D0B08; color: #fff; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px; font-weight: 900; color: #fff; margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 14px; color: rgba(255,255,255,0.45);
+    max-width: 720px; line-height: 1.75; margin-bottom: 48px;
+  }
+
+  /* ── PLAN CONTAINER ── */
+  .plan-container {
+    background: #111; border-radius: 12px;
+    border: 1px solid #222; overflow: hidden;
+  }
+  .plan-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 24px; background: #0a0a0a; border-bottom: 1px solid #1a1a1a;
+  }
+  .plan-toolbar .level-tabs { display: flex; gap: 6px; }
+  .level-tab {
+    padding: 6px 16px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; border: 1px solid #333; border-radius: 6px;
+    background: transparent; color: #666; cursor: pointer; transition: all 0.2s;
+  }
+  .level-tab.active, .level-tab:hover {
+    background: var(--gold-dark); border-color: var(--gold-dark); color: #fff;
+  }
+  .level-tab.lab-tab.active, .level-tab.lab-tab:hover {
+    background: #1A3A55; border-color: var(--lab-blue); color: var(--lab-blue);
+  }
+  .plan-scale { font-size: 11px; color: #444; font-weight: 500; }
+
+  .plan-view { display: none; }
+  .plan-view.active { display: block; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 18px;
+    padding: 16px 24px; background: #0a0a0a; border-top: 1px solid #1a1a1a;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 600; color: #888; letter-spacing: 0.3px;
+  }
+  .legend-swatch {
+    width: 14px; height: 14px; border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── ROOM CARDS ── */
+  .room-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;
+  }
+  .room-card {
+    background: #161310; border: 1px solid #2a2520;
+    border-radius: 10px; padding: 28px 24px; transition: border-color 0.2s;
+  }
+  .room-card:hover { border-color: var(--gold-dark); }
+  .room-card.lab { border-left: 3px solid var(--lab-blue); background: #0D1118; }
+  .room-card-floor {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold-dark); margin-bottom: 6px;
+  }
+  .room-card.lab .room-card-floor { color: var(--lab-blue); }
+  .room-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;
+  }
+  .room-card-dims { font-size: 11px; color: #555; margin-bottom: 12px; }
+  .room-card-desc { font-size: 12px; color: #999; line-height: 1.7; margin-bottom: 14px; }
+  .room-card-lab {
+    font-size: 11px; color: var(--lab-blue); font-weight: 600;
+    line-height: 1.6; padding-top: 12px; border-top: 1px solid #1a2a3a;
+  }
+  .room-card-lab::before {
+    content: 'CONNECTED LAB: '; font-size: 9px; letter-spacing: 1.5px;
+    display: block; margin-bottom: 4px; opacity: 0.7;
+  }
+
+  /* ── SPEC TABLE ── */
+  .spec-table {
+    width: 100%; border-collapse: collapse;
+    border: 1px solid #2a2520; border-radius: 8px; overflow: hidden;
+  }
+  .spec-table th {
+    text-align: left; padding: 12px 16px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gold);
+    border-bottom: 1px solid #2a2520; background: #12100D;
+  }
+  .spec-table td {
+    padding: 11px 16px; font-size: 12px;
+    border-bottom: 1px solid #1a1812; color: #ccc;
+  }
+  .spec-table td:first-child { font-weight: 600; color: #fff; }
+  .spec-table tr:hover td { background: rgba(201,168,76,0.03); }
+
+  /* ── ACT TIMELINE ── */
+  .act-timeline {
+    display: flex; gap: 0; margin-top: 40px;
+    border-radius: 10px; overflow: hidden; border: 1px solid #2a2520;
+  }
+  .act-block {
+    flex: 1; padding: 24px 16px; position: relative;
+    border-right: 1px solid #2a2520;
+  }
+  .act-block:last-child { border-right: none; }
+  .act-block.together { background: #1a1612; }
+  .act-block.split { background: #12100D; }
+  .act-block.interval { background: #0D1210; }
+  .act-dur {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold-dark); margin-bottom: 4px;
+  }
+  .act-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px;
+  }
+  .act-desc { font-size: 10px; color: #777; line-height: 1.6; }
+  .act-tag {
+    display: inline-block; padding: 2px 8px; font-size: 8px;
+    font-weight: 700; letter-spacing: 1px; border-radius: 3px;
+    text-transform: uppercase; margin-top: 8px;
+  }
+  .act-tag.together { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .act-tag.split { background: rgba(196,30,58,0.15); color: #C41E3A; }
+  .act-tag.interval { background: rgba(46,125,50,0.15); color: var(--green); }
+  .act-tag.lab-tag { background: rgba(60,140,200,0.15); color: var(--lab-blue); }
+
+  /* ── WING CARDS ── */
+  .wing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
+  .wing-card {
+    background: #161310; border: 1px solid #2a2520;
+    border-radius: 10px; padding: 28px 24px;
+  }
+  .wing-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 18px;
+    font-weight: 700; color: var(--gold); margin-bottom: 4px;
+  }
+  .wing-card .wing-char {
+    font-size: 11px; color: var(--amber); font-weight: 600; margin-bottom: 12px;
+  }
+  .wing-card .wing-rooms {
+    font-size: 12px; color: #999; line-height: 1.7;
+  }
+  .wing-card .wing-swap {
+    font-size: 11px; color: var(--lab-blue); font-weight: 600;
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid #2a2520;
+  }
+
+  /* ── ROOM DETAIL MODAL ── */
+  .room-detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+    padding: 40px;
+  }
+  .room-detail-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+  .room-detail-panel {
+    background: #111;
+    border: 1px solid #2a2520;
+    border-radius: 16px;
+    max-width: 1200px;
+    width: 100%;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .room-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid #2a2520;
+    background: #0D0B08;
+  }
+  .room-detail-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold);
+  }
+  .room-detail-header .room-meta {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+  }
+  .room-detail-close {
+    padding: 8px 20px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .room-detail-close:hover { background: var(--secret); border-color: var(--secret); color: #fff; }
+  .room-detail-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .room-detail-plan {
+    padding: 24px;
+    border-right: 1px solid #2a2520;
+    background: #0a0a08;
+  }
+  .room-detail-plan h3 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .room-detail-info {
+    padding: 24px;
+  }
+  .room-detail-info h3 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lab-blue);
+    margin-bottom: 16px;
+  }
+  .room-detail-info .detail-section {
+    margin-bottom: 20px;
+  }
+  .room-detail-info .detail-section h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ddd;
+    margin-bottom: 8px;
+  }
+  .room-detail-info .detail-section p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.7;
+  }
+  .room-detail-connection {
+    grid-column: span 2;
+    padding: 20px 32px;
+    background: var(--lab-dark);
+    border-top: 1px solid var(--lab-border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .room-detail-connection .conn-arrow {
+    font-size: 24px;
+    color: var(--lab-blue);
+  }
+  .room-detail-connection .conn-text {
+    font-size: 12px;
+    color: var(--lab-blue);
+    line-height: 1.6;
+  }
+  .room-detail-connection .conn-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lab-blue);
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .clickable-room { cursor: pointer; transition: opacity 0.2s; }
+  .clickable-room:hover { opacity: 0.8; }
+
+  /* ── ROOM DIRECTORY GRID ── */
+  .dir-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .dir-card {
+    background: #161310;
+    border: 1px solid #2a2520;
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dir-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+  .dir-card-preview { height: 200px; background: #0a0a08; border-bottom: 1px solid #2a2520; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .dir-card-preview svg { width: 100%; height: 100%; }
+  .dir-card-body { padding: 20px 24px; }
+  .dir-card-floor {
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold-dark); margin-bottom: 6px;
+  }
+  .dir-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px;
+  }
+  .dir-card-dims { font-size: 11px; color: #555; margin-bottom: 8px; }
+  .dir-card-desc { font-size: 11px; color: #888; line-height: 1.6; }
+  .dir-card-lab { font-size: 10px; color: var(--lab-blue); font-weight: 600; margin-top: 10px; }
+  .dir-card-cta { font-size: 10px; color: var(--gold); font-weight: 700; margin-top: 12px; letter-spacing: 1px; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: #060604; padding: 40px 60px;
+    border-top: 1px solid #1a1810;
+    display: flex; justify-content: space-between;
+  }
+  .doc-footer-left { font-size: 12px; color: #444; }
+  .doc-footer-right { font-size: 11px; color: #333; letter-spacing: 2px; text-transform: uppercase; }
+
+  @media (max-width: 900px) {
+    .hero, .section, .nav { padding-left: 24px; padding-right: 24px; }
+    .room-grid { grid-template-columns: 1fr; }
+    .wing-grid { grid-template-columns: 1fr; }
+    .act-timeline { flex-direction: column; }
+    .act-block { border-right: none; border-bottom: 1px solid #2a2520; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-label">Immersive Core &bull; The Haunting of Veil House</div>
+  <h1>The <span>Veil House</span> Barn</h1>
+  <p class="hero-sub">Architectural floor plan for a purpose-built immersive theatre barn housing a Victorian mansion interior with eight observation laboratories concealed behind the set walls.</p>
+  <div class="hero-meta">
+    <div class="hero-stat"><div class="hero-stat-val">2,090m&sup2;</div><div class="hero-stat-label">Barn Footprint</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">55m &times; 38m</div><div class="hero-stat-label">External Dims</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">12m Eaves</div><div class="hero-stat-label">Clear Height</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">2 Levels</div><div class="hero-stat-label">Ground + First</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">8 + 8</div><div class="hero-stat-label">Rooms + Labs</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">100 Guests</div><div class="hero-stat-label">Per Performance</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav">
+  <a href="#overview" class="active">Overview</a>
+  <a href="#floorplans">Floor Plans</a>
+  <a href="#wings">The Four Wings</a>
+  <a href="#crosssection">Cross Section</a>
+  <a href="#narrative">Show Structure</a>
+  <a href="#rooms">Room Directory</a>
+  <a href="#technical">Technical Spec</a>
+</nav>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<section class="section mansion" id="overview">
+  <div class="section-label">01 &mdash; Concept Overview</div>
+  <div class="section-title">A House That Watches Back</div>
+  <div class="section-desc">A 55m &times; 38m steel portal frame barn housing a two-storey Victorian mansion with four distinct character wings. Behind every performance room sits a concealed observation laboratory &mdash; clinical spaces where the truth of the house is revealed. Eight rooms, eight labs, zero dead space. Every square metre serves the story.</div>
+
+  <!-- BARN SHELL DIAGRAM -->
+  <div class="plan-container">
+    <div class="plan-toolbar">
+      <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:2px;">BARN SHELL &mdash; STEEL PORTAL FRAME ENVELOPE</span>
+      <span class="plan-scale">Scale 1:200 &bull; All dims in metres</span>
+    </div>
+    <svg viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1100" height="500" fill="#111"/>
+
+      <!-- Barn outline -->
+      <rect x="100" y="80" width="900" height="340" fill="#161310" stroke="var(--gold-dark)" stroke-width="2" rx="2"/>
+
+      <!-- Ground floor platform -->
+      <rect x="150" y="260" width="800" height="100" fill="#1C1810" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+      <text x="550" y="300" fill="var(--gold)" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">GROUND FLOOR (SLAB LEVEL)</text>
+      <text x="550" y="318" fill="#6B5D45" font-size="9" font-family="Inter" text-anchor="middle">Grand Ballroom &bull; Dining Room &bull; 4 Wing Rooms &bull; 4 Labs &bull; Corridors</text>
+
+      <!-- First floor mezzanine -->
+      <rect x="200" y="140" width="600" height="100" fill="#241E14" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+      <text x="500" y="180" fill="var(--gold)" font-size="12" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">FIRST FLOOR MEZZANINE (+5.0m)</text>
+      <text x="500" y="198" fill="#6B5D45" font-size="9" font-family="Inter" text-anchor="middle">4 Wing Rooms &bull; 4 Labs &bull; S&eacute;ance Chamber &bull; Backstage</text>
+
+      <!-- Tech gallery -->
+      <rect x="820" y="100" width="160" height="50" fill="#111" stroke="#444" stroke-width="1" rx="2"/>
+      <text x="900" y="125" fill="#888" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle">TECH GALLERY</text>
+      <text x="900" y="139" fill="#555" font-size="8" font-family="Inter" text-anchor="middle">Control &bull; Rigging access</text>
+
+      <!-- Roof line -->
+      <path d="M95,80 L550,25 L1005,80" fill="none" stroke="var(--gold-dark)" stroke-width="2"/>
+      <text x="550" y="18" fill="var(--gold-dark)" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">RIDGE: 14.5m</text>
+
+      <!-- Height markers -->
+      <g stroke="#444" stroke-width="0.5" fill="#666" font-size="8" font-family="Inter">
+        <line x1="70" y1="360" x2="70" y2="260"/>
+        <text x="50" y="315" text-anchor="middle" transform="rotate(-90,50,315)">0.0m SLAB</text>
+        <line x1="70" y1="260" x2="70" y2="140"/>
+        <text x="50" y="200" text-anchor="middle" transform="rotate(-90,50,200)">+5.0m MEZZ</text>
+        <line x1="70" y1="140" x2="70" y2="80"/>
+        <text x="50" y="110" text-anchor="middle" transform="rotate(-90,50,110)">+12.0m EAVES</text>
+      </g>
+
+      <!-- Entry -->
+      <rect x="100" y="290" width="50" height="30" fill="var(--gold-dark)" rx="3"/>
+      <text x="125" y="309" fill="#fff" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">ENTRY</text>
+      <path d="M100,305 L60,305" stroke="var(--gold)" stroke-width="1.5"/>
+
+      <!-- Width dimension -->
+      <line x1="100" y1="450" x2="1000" y2="450" stroke="#444" stroke-width="0.5"/>
+      <line x1="100" y1="446" x2="100" y2="454" stroke="#444" stroke-width="1"/>
+      <line x1="1000" y1="446" x2="1000" y2="454" stroke="#444" stroke-width="1"/>
+      <text x="550" y="468" fill="#666" font-size="10" font-family="Inter" text-anchor="middle">55m (external)</text>
+
+      <!-- Depth dimension -->
+      <line x1="1050" y1="80" x2="1050" y2="420" stroke="#444" stroke-width="0.5"/>
+      <line x1="1046" y1="80" x2="1054" y2="80" stroke="#444" stroke-width="1"/>
+      <line x1="1046" y1="420" x2="1054" y2="420" stroke="#444" stroke-width="1"/>
+      <text x="1070" y="250" fill="#666" font-size="10" font-family="Inter" text-anchor="middle" transform="rotate(90,1070,250)">38m (external)</text>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#1C1810;border-color:var(--gold-dark);"></div>Ground Floor (0.0m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#241E14;border-color:var(--gold-dark);"></div>First Floor (+5.0m)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#111;border-color:#444;"></div>Technical Gallery</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--gold-dark);"></div>Audience Entry</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FLOOR PLANS ═══════════════════ -->
+<section class="section dark" id="floorplans">
+  <div class="section-label">02 &mdash; Floor Plans</div>
+  <div class="section-title">Two-Level Mansion Interior</div>
+  <div class="section-desc">The mansion is built inside the barn shell. Four character wings spread across two levels, each containing two Victorian performance rooms with an observation laboratory concealed directly behind the set wall. Backstage performer corridors (dark grey) run between rooms and labs, allowing cast to move unseen.</div>
+
+  <div class="plan-container">
+    <div class="plan-toolbar">
+      <div class="level-tabs">
+        <button class="level-tab active" onclick="showLevel('ground')">Ground Floor (0.0m)</button>
+        <button class="level-tab" onclick="showLevel('first')">First Floor (+5.0m)</button>
+        <button class="level-tab lab-tab" onclick="showLevel('labs')">Labs Overlay</button>
+      </div>
+      <span class="plan-scale">Scale 1:150 &bull; North &uarr;</span>
+    </div>
+
+    <!-- ═══ GROUND FLOOR ═══ -->
+    <div class="plan-view active" id="level-ground">
+      <svg viewBox="0 0 1100 760" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1100" height="760" fill="#0D0B08"/>
+
+        <!-- Barn outline -->
+        <rect x="50" y="30" width="1000" height="700" fill="#161310" stroke="var(--gold-dark)" stroke-width="2.5" rx="3"/>
+        <text x="550" y="22" fill="var(--gold-dark)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">GROUND FLOOR &mdash; 55m &times; 38m STEEL PORTAL FRAME BARN &mdash; SLAB LEVEL</text>
+
+        <!-- ══ GRAND BALLROOM (centre-south) ══ -->
+        <rect x="300" y="430" width="400" height="220" fill="#1E1A12" stroke="var(--gold)" stroke-width="2" rx="2"/>
+        <text x="500" y="510" fill="var(--gold)" font-size="18" font-weight="800" font-family="Playfair Display" text-anchor="middle">GRAND BALLROOM</text>
+        <text x="500" y="532" fill="#7A6C50" font-size="9" font-family="Inter" text-anchor="middle">22m &times; 12m &bull; 100 guests (Opening Ball &amp; Reckoning)</text>
+        <text x="500" y="548" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Chandelier (rigged, dimmable) &bull; Dance floor &bull; Balcony above</text>
+        <text x="500" y="564" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Gas-effect wall sconces &bull; Full-height drapes (fly system)</text>
+        <text x="500" y="580" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Transforms: Victorian &rarr; Lab aesthetic collision in Beat 8</text>
+        <!-- Entry from outside -->
+        <rect x="460" y="645" width="80" height="12" fill="var(--gold-dark)" rx="2"/>
+        <text x="500" y="675" fill="var(--gold)" font-size="9" font-weight="700" font-family="Inter" text-anchor="middle">&uarr; AUDIENCE ENTRY (from foyer ramp)</text>
+
+        <!-- ══ DINING ROOM (centre-north) ══ -->
+        <rect x="350" y="50" width="300" height="160" fill="#1E1A12" stroke="var(--gold)" stroke-width="2" rx="2"/>
+        <text x="500" y="110" fill="var(--gold)" font-size="16" font-weight="800" font-family="Playfair Display" text-anchor="middle">DINING ROOM</text>
+        <text x="500" y="130" fill="#7A6C50" font-size="9" font-family="Inter" text-anchor="middle">16m &times; 9m &bull; 100 guests (Reconnection, Beat 5)</text>
+        <text x="500" y="146" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Long banquet table &bull; Candelabra &bull; Portraits that shift</text>
+        <text x="500" y="162" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">All four characters reunite &bull; Stories begin to conflict</text>
+
+        <!-- ══ WING A: SON'S STUDY (ground, north-west) ══ -->
+        <rect x="60" y="50" width="200" height="160" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="160" y="105" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">SON'S STUDY</text>
+        <text x="160" y="122" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">11m &times; 9m &bull; 25 guests</text>
+        <text x="160" y="138" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Writing desk, letters, war memorabilia</text>
+        <text x="160" y="154" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Taxidermy, gun cabinet, whisky set</text>
+        <text x="160" y="170" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Fireplace (gas effect)</text>
+        <!-- Performer -->
+        <circle cx="100" cy="80" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="100" y="83" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB A1: behind Son's Study ══ -->
+        <rect x="60" y="220" width="200" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="160" y="258" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB A1 &mdash; OBSERVATION</text>
+        <text x="160" y="275" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Son's Study &bull; 11m &times; 5.5m</text>
+        <text x="160" y="290" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Monitor wall &bull; CCTV corkboard &bull; Data terminals</text>
+        <!-- Connection indicator -->
+        <line x1="160" y1="210" x2="160" y2="220" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+        <text x="180" y="216" fill="var(--lab-blue)" font-size="6" font-weight="700" font-family="Inter">ONE-WAY GLASS</text>
+
+        <!-- ══ WING B: GOVERNESS'S PARLOUR (ground, south-west) ══ -->
+        <rect x="60" y="340" width="220" height="160" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="170" y="395" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">GOVERNESS'S</text>
+        <text x="170" y="413" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">PARLOUR</text>
+        <text x="170" y="430" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 9m &bull; 25 guests</text>
+        <text x="170" y="446" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Piano, sampler on wall, children's shoes</text>
+        <text x="170" y="462" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Rocking chair, candles, prayer books</text>
+        <circle cx="100" cy="370" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="100" y="373" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB B1: behind Governess's Parlour ══ -->
+        <rect x="60" y="510" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="170" y="548" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB B1 &mdash; OBSERVATION</text>
+        <text x="170" y="565" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Parlour &bull; 12m &times; 5.5m</text>
+        <text x="170" y="580" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Specimen jars &bull; Behavioural notes &bull; Subject photos</text>
+        <line x1="170" y1="500" x2="170" y2="510" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ WING C: HOUSEKEEPER'S KITCHEN (ground, north-east) ══ -->
+        <rect x="740" y="50" width="220" height="160" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="105" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">HOUSEKEEPER'S</text>
+        <text x="850" y="123" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">KITCHEN</text>
+        <text x="850" y="140" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 9m &bull; 25 guests</text>
+        <text x="850" y="156" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Working range, copper pots, herb bundles</text>
+        <text x="850" y="172" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Long servants' table, meat hooks, keys</text>
+        <circle cx="790" cy="80" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="790" y="83" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB C1: behind Housekeeper's Kitchen ══ -->
+        <rect x="740" y="220" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="258" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB C1 &mdash; OBSERVATION</text>
+        <text x="850" y="275" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Kitchen &bull; 12m &times; 5.5m</text>
+        <text x="850" y="290" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Threshold maps &bull; Stimulus logs &bull; Printed CCTV</text>
+        <line x1="850" y1="210" x2="850" y2="220" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ WING D: MEDIUM'S CHAMBER (ground, south-east) ══ -->
+        <rect x="740" y="340" width="220" height="160" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="395" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">MEDIUM'S</text>
+        <text x="850" y="413" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">CHAMBER</text>
+        <text x="850" y="430" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 9m &bull; 25 guests</text>
+        <text x="850" y="446" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Crystal ball, spirit trumpet, velvet drapes</text>
+        <text x="850" y="462" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Rigged table, cold spots (HVAC), dim gas lamps</text>
+        <circle cx="790" cy="370" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="790" y="373" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB D1: behind Medium's Chamber ══ -->
+        <rect x="740" y="510" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="548" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB D1 &mdash; OBSERVATION</text>
+        <text x="850" y="565" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Chamber &bull; 12m &times; 5.5m</text>
+        <text x="850" y="580" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">EMF spoof charts &bull; Cold-spot generators &bull; Prop log</text>
+        <line x1="850" y1="500" x2="850" y2="510" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ CENTRAL CORRIDORS ══ -->
+        <!-- North-south spine -->
+        <rect x="270" y="50" width="70" height="380" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="305" y="240" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,305,240)">BACKSTAGE CORRIDOR (WEST)</text>
+
+        <rect x="660" y="50" width="70" height="380" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="695" y="240" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,695,240)">BACKSTAGE CORRIDOR (EAST)</text>
+
+        <!-- East-west link corridor (behind dining room / between wings) -->
+        <rect x="270" y="220" width="390" height="40" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="465" y="244" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">CROSS CORRIDOR &bull; PERFORMER &amp; AUDIENCE ROUTE</text>
+
+        <!-- Staircase UP to first floor -->
+        <rect x="350" y="260" width="60" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5" rx="1"/>
+        <text x="380" y="305" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,380,305)">STAIR A &uarr;</text>
+
+        <rect x="590" y="260" width="60" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5" rx="1"/>
+        <text x="620" y="305" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,620,305)">STAIR B &uarr;</text>
+
+        <!-- Transition corridor to Ballroom -->
+        <rect x="350" y="370" width="300" height="50" fill="#18150E" stroke="var(--gold-dark)" stroke-width="1" rx="2"/>
+        <text x="500" y="400" fill="#7A6C50" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">GRAND CORRIDOR &bull; AUDIENCE ROUTE TO BALLROOM</text>
+
+        <!-- Fire exits -->
+        <g>
+          <rect x="50" y="130" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="36" y="150" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE1</text>
+          <rect x="50" y="420" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="36" y="440" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE2</text>
+          <rect x="1038" y="130" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="1060" y="150" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter">FE3</text>
+          <rect x="1038" y="420" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="1060" y="440" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter">FE4</text>
+          <rect x="460" y="718" width="80" height="12" fill="#2E7D32" rx="2"/>
+          <text x="500" y="745" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">FE5 (Ballroom)</text>
+        </g>
+
+        <!-- Dimension annotations -->
+        <g fill="#444" font-size="8" font-family="Inter">
+          <text x="160" y="42" text-anchor="middle">11m</text>
+          <text x="500" y="42" text-anchor="middle">16m</text>
+          <text x="850" y="42" text-anchor="middle">12m</text>
+          <text x="40" y="130" text-anchor="end" transform="rotate(-90,40,130)">9m</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ FIRST FLOOR ═══ -->
+    <div class="plan-view" id="level-first">
+      <svg viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1100" height="700" fill="#0D0B08"/>
+
+        <!-- Mezzanine outline (covers ~70% of barn footprint) -->
+        <rect x="50" y="30" width="1000" height="550" fill="#1A1610" stroke="var(--gold-dark)" stroke-width="2.5" rx="3"/>
+        <text x="550" y="22" fill="var(--gold-dark)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">FIRST FLOOR &mdash; STEEL MEZZANINE AT +5.0m &mdash; COVERS 70% OF BARN FOOTPRINT</text>
+
+        <!-- Void over Ballroom -->
+        <rect x="300" y="430" width="400" height="140" fill="#0A0806" stroke="#333" stroke-width="1" stroke-dasharray="8,4" rx="2"/>
+        <text x="500" y="490" fill="#444" font-size="12" font-weight="600" font-family="Inter" text-anchor="middle">VOID</text>
+        <text x="500" y="508" fill="#333" font-size="8" font-family="Inter" text-anchor="middle">Open to Grand Ballroom below &bull; Fly tower above</text>
+        <text x="500" y="522" fill="#333" font-size="8" font-family="Inter" text-anchor="middle">Rigging grid for chandelier &amp; drape drops</text>
+        <!-- Balcony rail -->
+        <line x1="300" y1="430" x2="700" y2="430" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+        <text x="500" y="425" fill="var(--amber)" font-size="7" font-family="Inter" text-anchor="middle" opacity="0.5">BALCONY BALUSTRADE (scenic, 1.1m)</text>
+
+        <!-- ══ S&Eacute;ANCE CHAMBER (centre) ══ -->
+        <rect x="350" y="50" width="300" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="2" rx="2"/>
+        <text x="500" y="110" fill="var(--gold)" font-size="16" font-weight="800" font-family="Playfair Display" text-anchor="middle">S&Eacute;ANCE CHAMBER</text>
+        <text x="500" y="130" fill="#7A6C50" font-size="9" font-family="Inter" text-anchor="middle">16m &times; 9.5m &bull; 50 guests per session (2 sessions)</text>
+        <text x="500" y="146" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Rigged circular table &bull; Suspended candelabra &bull; Dark drapes</text>
+        <text x="500" y="162" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Trapdoor (performer entry from below) &bull; Cold-air vents</text>
+        <text x="500" y="178" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Pepper's Ghost rig along north wall</text>
+
+        <!-- ══ WING A2: SON'S BEDROOM (first floor, north-west) ══ -->
+        <rect x="60" y="50" width="200" height="150" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="160" y="100" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">SON'S BEDROOM</text>
+        <text x="160" y="117" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">11m &times; 8.5m &bull; 25 guests</text>
+        <text x="160" y="133" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Four-poster bed, trunk, uniforms</text>
+        <text x="160" y="149" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Photographs, medals, unfinished letter</text>
+        <text x="160" y="165" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Wardrobe (contains hidden reveal)</text>
+        <circle cx="100" cy="75" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="100" y="78" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB A2: behind Son's Bedroom ══ -->
+        <rect x="60" y="210" width="200" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="160" y="248" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB A2 &mdash; OBSERVATION</text>
+        <text x="160" y="265" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Bedroom &bull; 11m &times; 5.5m</text>
+        <text x="160" y="280" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Sleep study monitors &bull; REM charts &bull; Printed photos</text>
+        <line x1="160" y1="200" x2="160" y2="210" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ WING B2: NURSERY (first floor, south-west) ══ -->
+        <rect x="60" y="330" width="220" height="150" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="170" y="385" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">NURSERY</text>
+        <text x="170" y="402" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 8.5m &bull; 25 guests</text>
+        <text x="170" y="418" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Two small beds, rocking horse, toy chest</text>
+        <text x="170" y="434" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Drawings on walls, music box (automated)</text>
+        <text x="170" y="450" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Wallpaper peeling to reveal writing</text>
+        <circle cx="100" cy="360" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="100" y="363" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB B2: behind Nursery ══ -->
+        <rect x="60" y="490" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="170" y="528" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB B2 &mdash; OBSERVATION</text>
+        <text x="170" y="545" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Nursery &bull; 12m &times; 5.5m</text>
+        <text x="170" y="560" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Child development files &bull; Stimulus response data</text>
+        <line x1="170" y1="480" x2="170" y2="490" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ WING C2: MASTER BEDROOM (first floor, north-east) ══ -->
+        <rect x="740" y="50" width="220" height="150" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="100" fill="var(--gold)" font-size="13" font-weight="800" font-family="Playfair Display" text-anchor="middle">MASTER BEDROOM</text>
+        <text x="850" y="117" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 8.5m &bull; 25 guests</text>
+        <text x="850" y="133" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Four-poster, vanity, wardrobe, letters</text>
+        <text x="850" y="149" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Locked jewellery box, medicine bottles</text>
+        <text x="850" y="165" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Mirror with Pepper's Ghost rig</text>
+        <circle cx="790" cy="75" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="790" y="78" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB C2: behind Master Bedroom ══ -->
+        <rect x="740" y="210" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="248" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB C2 &mdash; OBSERVATION</text>
+        <text x="850" y="265" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Bedroom &bull; 12m &times; 5.5m</text>
+        <text x="850" y="280" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Relationship mapping &bull; Behavioural triggers</text>
+        <line x1="850" y1="200" x2="850" y2="210" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ WING D2: LIBRARY (first floor, south-east) ══ -->
+        <rect x="740" y="330" width="220" height="150" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="385" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">LIBRARY</text>
+        <text x="850" y="402" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">12m &times; 8.5m &bull; 25 guests</text>
+        <text x="850" y="418" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Floor-to-ceiling shelving, globe, desk</text>
+        <text x="850" y="434" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Ladder on rail, armchairs, oil lamps</text>
+        <text x="850" y="450" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">Secret bookcase door (to backstage)</text>
+        <circle cx="790" cy="360" r="8" fill="none" stroke="var(--amber)" stroke-width="1" opacity="0.6"/>
+        <text x="790" y="363" fill="var(--amber)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle" opacity="0.6">2</text>
+
+        <!-- ══ LAB D2: behind Library ══ -->
+        <rect x="740" y="490" width="220" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="850" y="528" fill="var(--lab-blue)" font-size="11" font-weight="800" font-family="Inter" text-anchor="middle" letter-spacing="1">LAB D2 &mdash; OBSERVATION</text>
+        <text x="850" y="545" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">One-way glass to Library &bull; 12m &times; 5.5m</text>
+        <text x="850" y="560" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Knowledge mapping &bull; Redacted files &bull; Observation notes</text>
+        <line x1="850" y1="480" x2="850" y2="490" stroke="var(--lab-blue)" stroke-width="2" stroke-dasharray="4,3"/>
+
+        <!-- ══ CORRIDORS ══ -->
+        <rect x="270" y="50" width="70" height="380" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="305" y="240" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,305,240)">BACKSTAGE CORRIDOR (WEST)</text>
+
+        <rect x="660" y="50" width="70" height="380" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="695" y="240" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,695,240)">BACKSTAGE CORRIDOR (EAST)</text>
+
+        <rect x="270" y="220" width="390" height="40" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="465" y="244" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">CROSS CORRIDOR &bull; PERFORMER &amp; AUDIENCE ROUTE</text>
+
+        <!-- Stairs -->
+        <rect x="350" y="260" width="60" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5" rx="1"/>
+        <text x="380" y="305" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,380,305)">STAIR A &darr;</text>
+
+        <rect x="590" y="260" width="60" height="80" fill="#2C2418" stroke="var(--gold-dark)" stroke-width="1.5" rx="1"/>
+        <text x="620" y="305" fill="var(--gold-dark)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,620,305)">STAIR B &darr;</text>
+
+        <!-- Backstage area -->
+        <rect x="350" y="350" width="300" height="70" fill="#1a1a1a" stroke="#333" stroke-width="0.8" rx="2"/>
+        <text x="500" y="385" fill="#555" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">BACKSTAGE &bull; QUICK CHANGE &bull; PROPS &bull; CUE LIGHTS</text>
+        <text x="500" y="400" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Overlooks Ballroom void &bull; Performer access to all wings</text>
+
+        <!-- Safety rail around void -->
+        <line x1="300" y1="430" x2="300" y2="570" stroke="var(--amber)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+        <line x1="700" y1="430" x2="700" y2="570" stroke="var(--amber)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+        <line x1="300" y1="570" x2="700" y2="570" stroke="var(--amber)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+
+        <!-- Fire exits -->
+        <g>
+          <rect x="50" y="130" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="36" y="150" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE1</text>
+          <rect x="50" y="420" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="36" y="440" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter" text-anchor="end">FE2</text>
+          <rect x="1038" y="130" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="1060" y="150" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter">FE3</text>
+          <rect x="1038" y="420" width="12" height="30" fill="#2E7D32" rx="2"/>
+          <text x="1060" y="440" fill="#4CAF50" font-size="6" font-weight="700" font-family="Inter">FE4</text>
+        </g>
+
+        <text x="550" y="650" fill="#444" font-size="9" font-family="Inter" text-anchor="middle" font-style="italic">Steel mezzanine on UC columns at +5.0m. 150mm composite deck with timber overlay. Load rating: 4.0 kN/m&sup2; (crowd loading). Acoustic isolation between levels.</text>
+      </svg>
+    </div>
+
+    <!-- ═══ LABS OVERLAY ═══ -->
+    <div class="plan-view" id="level-labs">
+      <svg viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1100" height="700" fill="#060A10"/>
+
+        <text x="550" y="30" fill="var(--lab-blue)" font-size="11" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="3">LABORATORY OVERLAY &mdash; 8 OBSERVATION LABS ACROSS BOTH LEVELS</text>
+        <text x="550" y="48" fill="#1A3A55" font-size="9" font-family="Inter" text-anchor="middle">Every Victorian performance room has a dedicated lab concealed behind its rear wall via one-way glass</text>
+
+        <!-- Ground floor labs (left column) -->
+        <text x="270" y="80" fill="var(--lab-blue)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">GROUND FLOOR</text>
+
+        <!-- Lab A1 -->
+        <rect x="60" y="100" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="70" y="110" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="145" y="150" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">SON'S STUDY</text>
+        <text x="145" y="166" fill="#7A6C50" font-size="7" font-family="Inter" text-anchor="middle">Victorian Room</text>
+        <text x="145" y="195" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">11m &times; 9m</text>
+
+        <rect x="220" y="130" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="235" y="165" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+        <text x="235" y="125" fill="var(--lab-blue)" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">ONE-WAY</text>
+
+        <rect x="260" y="110" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="365" y="140" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB A1</text>
+        <text x="365" y="158" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Monitor wall &bull; CCTV corkboard</text>
+        <text x="365" y="174" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Data terminals &bull; Subject files</text>
+        <text x="365" y="195" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">11m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab B1 -->
+        <rect x="60" y="240" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="70" y="250" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="145" y="287" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">GOVERNESS'S</text>
+        <text x="145" y="302" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">PARLOUR</text>
+        <text x="145" y="335" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 9m</text>
+
+        <rect x="220" y="270" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="235" y="305" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+
+        <rect x="260" y="250" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="365" y="280" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB B1</text>
+        <text x="365" y="298" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Specimen jars &bull; Behavioural notes</text>
+        <text x="365" y="314" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Printed subject photos &bull; Graphs</text>
+        <text x="365" y="335" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab C1 -->
+        <rect x="520" y="100" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="530" y="110" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="605" y="150" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">HOUSEKEEPER'S</text>
+        <text x="605" y="166" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">KITCHEN</text>
+        <text x="605" y="195" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 9m</text>
+
+        <rect x="680" y="130" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="695" y="165" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+
+        <rect x="720" y="110" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="825" y="140" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB C1</text>
+        <text x="825" y="158" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Threshold maps &bull; Stimulus logs</text>
+        <text x="825" y="174" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Printed CCTV stills &bull; Equipment</text>
+        <text x="825" y="195" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab D1 -->
+        <rect x="520" y="240" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="530" y="250" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="605" y="290" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">MEDIUM'S</text>
+        <text x="605" y="306" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">CHAMBER</text>
+        <text x="605" y="335" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 9m</text>
+
+        <rect x="680" y="270" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="695" y="305" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+
+        <rect x="720" y="250" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="825" y="280" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB D1</text>
+        <text x="825" y="298" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">EMF spoof charts &bull; Cold-spot logs</text>
+        <text x="825" y="314" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Prop catalogue &bull; Observation notes</text>
+        <text x="825" y="335" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- First floor labs -->
+        <text x="270" y="395" fill="var(--lab-blue)" font-size="10" font-weight="700" font-family="Inter" text-anchor="middle" letter-spacing="2">FIRST FLOOR</text>
+
+        <!-- Lab A2 -->
+        <rect x="60" y="415" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="70" y="425" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="145" y="465" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">SON'S BEDROOM</text>
+        <text x="145" y="510" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">11m &times; 8.5m</text>
+        <rect x="220" y="445" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="235" y="480" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+        <rect x="260" y="425" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="365" y="455" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB A2</text>
+        <text x="365" y="473" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Sleep study monitors &bull; REM charts</text>
+        <text x="365" y="489" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Printed photos &bull; Night observation</text>
+        <text x="365" y="510" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">11m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab B2 -->
+        <rect x="60" y="555" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="70" y="565" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="145" y="605" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">NURSERY</text>
+        <text x="145" y="650" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 8.5m</text>
+        <rect x="220" y="585" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="235" y="620" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+        <rect x="260" y="565" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="365" y="595" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB B2</text>
+        <text x="365" y="613" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Child development files &bull; Stimulus data</text>
+        <text x="365" y="629" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Attachment theory notes &bull; Play analysis</text>
+        <text x="365" y="650" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab C2 -->
+        <rect x="520" y="415" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="530" y="425" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="605" y="465" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">MASTER BEDROOM</text>
+        <text x="605" y="510" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 8.5m</text>
+        <rect x="680" y="445" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="695" y="480" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+        <rect x="720" y="425" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="825" y="455" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB C2</text>
+        <text x="825" y="473" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Relationship mapping &bull; Triggers</text>
+        <text x="825" y="489" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Emotional response data &bull; CCTV</text>
+        <text x="825" y="510" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+
+        <!-- Lab D2 -->
+        <rect x="520" y="555" width="420" height="120" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="2" rx="4"/>
+        <rect x="530" y="565" width="150" height="100" fill="#0F1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+        <text x="605" y="605" fill="var(--gold)" font-size="10" font-weight="700" font-family="Playfair Display" text-anchor="middle">LIBRARY</text>
+        <text x="605" y="650" fill="var(--gold-dark)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 8.5m</text>
+        <rect x="680" y="585" width="30" height="60" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+        <text x="695" y="620" fill="var(--lab-blue)" font-size="18" font-family="Inter" text-anchor="middle">&rarr;</text>
+        <rect x="720" y="565" width="210" height="100" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+        <text x="825" y="595" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">LAB D2</text>
+        <text x="825" y="613" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Knowledge mapping &bull; Redacted files</text>
+        <text x="825" y="629" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Observation notes &bull; Cross-ref data</text>
+        <text x="825" y="650" fill="var(--lab-blue)" font-size="7" font-family="Inter" text-anchor="middle">12m &times; 5.5m &bull; ~12 guests</text>
+      </svg>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#1E1A12;border-color:var(--gold);"></div>Victorian Performance Room</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--lab-dark);border-color:var(--lab-blue);"></div>Observation Laboratory</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:none;border:2px solid var(--lab-blue);"></div>One-Way Glass Wall</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2C2418;border-color:var(--gold-dark);"></div>Staircase</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a1a1a;border-color:#333;"></div>Backstage Corridor</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2E7D32;"></div>Fire Exit</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:none;border:1.5px solid var(--amber);border-radius:50%;"></div>Performer Position</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOUR WINGS ═══════════════════ -->
+<section class="section mansion" id="wings">
+  <div class="section-label">03 &mdash; The Four Wings</div>
+  <div class="section-title">Cross-Pollination: Exploration I &amp; II</div>
+  <div class="section-desc">Each wing spans two rooms (one per floor) with a dedicated character pair. In Exploration I, guests explore their assigned wing. In Exploration II (after the character swap), each group is led to a completely different wing &mdash; fresh rooms they've never seen, but with a new character whose story directly contradicts what they were told before. No group revisits the same rooms.</div>
+
+  <div class="wing-grid">
+    <div class="wing-card">
+      <h3>Wing A &mdash; The Son's Domain</h3>
+      <div class="wing-char">Characters: The Son + The Butler</div>
+      <div class="wing-rooms">
+        <strong>Ground:</strong> Son's Study (writing desk, war memorabilia, fireplace)<br>
+        <strong>First:</strong> Son's Bedroom (four-poster, trunk, unfinished letter)<br>
+        <strong>Labs:</strong> Lab A1 + Lab A2 (monitor walls, CCTV corkboard, sleep study)
+      </div>
+      <div class="wing-swap">
+        <strong>Exploration I:</strong> Group A with The Son &rarr; <strong>Exploration II:</strong> Group D (from Medium's wing) arrives with The Assistant
+      </div>
+    </div>
+
+    <div class="wing-card">
+      <h3>Wing B &mdash; The Governess's Domain</h3>
+      <div class="wing-char">Characters: The Governess + The Maid</div>
+      <div class="wing-rooms">
+        <strong>Ground:</strong> Governess's Parlour (piano, sampler, prayer books)<br>
+        <strong>First:</strong> Nursery (small beds, rocking horse, music box)<br>
+        <strong>Labs:</strong> Lab B1 + Lab B2 (specimen jars, child development files)
+      </div>
+      <div class="wing-swap">
+        <strong>Exploration I:</strong> Group B with The Governess &rarr; <strong>Exploration II:</strong> Group A (from Son's wing) arrives with The Butler
+      </div>
+    </div>
+
+    <div class="wing-card">
+      <h3>Wing C &mdash; The Housekeeper's Domain</h3>
+      <div class="wing-char">Characters: The Housekeeper + The Gardener</div>
+      <div class="wing-rooms">
+        <strong>Ground:</strong> Housekeeper's Kitchen (range, copper pots, keys)<br>
+        <strong>First:</strong> Master Bedroom (vanity, locked jewellery box, medicine)<br>
+        <strong>Labs:</strong> Lab C1 + Lab C2 (threshold maps, relationship mapping)
+      </div>
+      <div class="wing-swap">
+        <strong>Exploration I:</strong> Group C with The Housekeeper &rarr; <strong>Exploration II:</strong> Group B (from Governess's wing) arrives with The Maid
+      </div>
+    </div>
+
+    <div class="wing-card">
+      <h3>Wing D &mdash; The Medium's Domain</h3>
+      <div class="wing-char">Characters: The Medium + The Assistant</div>
+      <div class="wing-rooms">
+        <strong>Ground:</strong> Medium's Chamber (crystal ball, spirit trumpet, cold spots)<br>
+        <strong>First:</strong> Library (shelving, globe, secret bookcase door)<br>
+        <strong>Labs:</strong> Lab D1 + Lab D2 (EMF spoof charts, knowledge mapping)
+      </div>
+      <div class="wing-swap">
+        <strong>Exploration I:</strong> Group D with The Medium &rarr; <strong>Exploration II:</strong> Group C (from Housekeeper's wing) arrives with The Gardener
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CROSS SECTION ═══════════════════ -->
+<section class="section dark" id="crosssection">
+  <div class="section-label">04 &mdash; Cross Section</div>
+  <div class="section-title">Section A-A: The Two Levels</div>
+  <div class="section-desc">Cross-section through the barn showing the ground floor slab, first-floor mezzanine at +5.0m, and the relationship between Victorian rooms (front) and observation labs (behind the set walls).</div>
+
+  <div class="plan-container">
+    <div class="plan-toolbar">
+      <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:2px;">SECTION A-A &mdash; LOOKING NORTH</span>
+      <span class="plan-scale">Scale 1:100 &bull; All dims in metres</span>
+    </div>
+    <svg viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1100" height="500" fill="#111"/>
+
+      <!-- Barn shell -->
+      <rect x="100" y="60" width="900" height="380" fill="#0D0B08" stroke="var(--gold-dark)" stroke-width="2" rx="2"/>
+      <!-- Roof -->
+      <path d="M95,60 L550,10 L1005,60" fill="none" stroke="var(--gold-dark)" stroke-width="2"/>
+      <text x="550" y="7" fill="var(--gold-dark)" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">RIDGE: 14.5m</text>
+
+      <!-- GROUND FLOOR -->
+      <line x1="100" y1="340" x2="1000" y2="340" stroke="var(--gold-dark)" stroke-width="2"/>
+      <text x="60" y="344" fill="var(--gold-dark)" font-size="8" font-weight="700" font-family="Inter" text-anchor="end">0.0m</text>
+
+      <!-- GF Victorian Room -->
+      <rect x="150" y="240" width="350" height="100" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+      <text x="325" y="285" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">VICTORIAN ROOM</text>
+      <text x="325" y="305" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">~9m deep &bull; 4.5m ceiling height &bull; Audience here</text>
+
+      <!-- GF Lab (behind room) -->
+      <rect x="530" y="240" width="250" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+      <text x="655" y="280" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">OBSERVATION LAB</text>
+      <text x="655" y="298" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">~5.5m deep &bull; One-way glass wall</text>
+      <text x="655" y="314" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Monitors &bull; CCTV &bull; Data terminals</text>
+
+      <!-- One-way glass wall indicator -->
+      <rect x="500" y="245" width="30" height="90" fill="none" stroke="var(--lab-blue)" stroke-width="3"/>
+      <text x="515" y="235" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">ONE-WAY GLASS</text>
+
+      <!-- GF Backstage corridor -->
+      <rect x="810" y="240" width="140" height="100" fill="#1a1a1a" stroke="#333" stroke-width="1" rx="2"/>
+      <text x="880" y="295" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">BACKSTAGE</text>
+
+      <!-- MEZZANINE -->
+      <line x1="150" y1="190" x2="950" y2="190" stroke="var(--gold-dark)" stroke-width="2"/>
+      <text x="60" y="194" fill="var(--gold-dark)" font-size="8" font-weight="700" font-family="Inter" text-anchor="end">+5.0m</text>
+
+      <!-- FF Victorian Room -->
+      <rect x="150" y="90" width="350" height="100" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+      <text x="325" y="135" fill="var(--gold)" font-size="14" font-weight="800" font-family="Playfair Display" text-anchor="middle">VICTORIAN ROOM</text>
+      <text x="325" y="155" fill="#7A6C50" font-size="8" font-family="Inter" text-anchor="middle">~8.5m deep &bull; 4.5m ceiling height &bull; Audience here</text>
+
+      <!-- FF Lab -->
+      <rect x="530" y="90" width="250" height="100" fill="var(--lab-dark)" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+      <text x="655" y="130" fill="var(--lab-blue)" font-size="12" font-weight="800" font-family="Inter" text-anchor="middle">OBSERVATION LAB</text>
+      <text x="655" y="148" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">~5.5m deep &bull; One-way glass wall</text>
+      <text x="655" y="164" fill="#2A6090" font-size="8" font-family="Inter" text-anchor="middle">Clinical instruments &bull; Subject files</text>
+
+      <!-- FF one-way glass -->
+      <rect x="500" y="95" width="30" height="90" fill="none" stroke="var(--lab-blue)" stroke-width="3"/>
+
+      <!-- FF Backstage -->
+      <rect x="810" y="90" width="140" height="100" fill="#1a1a1a" stroke="#333" stroke-width="1" rx="2"/>
+      <text x="880" y="145" fill="#555" font-size="8" font-weight="600" font-family="Inter" text-anchor="middle">BACKSTAGE</text>
+
+      <!-- Eaves -->
+      <text x="60" y="64" fill="var(--gold-dark)" font-size="8" font-weight="700" font-family="Inter" text-anchor="end">+12.0m</text>
+
+      <!-- Grand Ballroom void (double height) -->
+      <rect x="150" y="345" width="350" height="80" fill="#12100A" stroke="var(--gold-dark)" stroke-width="1" stroke-dasharray="6,4" rx="2"/>
+      <text x="325" y="385" fill="#7A6C50" font-size="9" font-weight="600" font-family="Inter" text-anchor="middle">GRAND BALLROOM (double-height void above)</text>
+
+      <!-- Width annotations -->
+      <g fill="#555" font-size="8" font-family="Inter">
+        <text x="325" y="470" text-anchor="middle">~9m (Victorian)</text>
+        <text x="515" y="470" text-anchor="middle">Wall</text>
+        <text x="655" y="470" text-anchor="middle">~5.5m (Lab)</text>
+        <text x="880" y="470" text-anchor="middle">~3m (B/S)</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════ SHOW STRUCTURE ═══════════════════ -->
+<section class="section warm" id="narrative">
+  <div class="section-label">05 &mdash; Show Structure</div>
+  <div class="section-title">The Eight Beats</div>
+  <div class="section-desc">How 100 guests move through the space across an evening. The cross-pollination model means every group visits two different wings across Explorations I and II, seeing four unique rooms in total. No one revisits the same space.</div>
+
+  <div class="act-timeline">
+    <div class="act-block together">
+      <div class="act-dur">Beat 1 &bull; 20 min</div>
+      <div class="act-name">Opening Ball</div>
+      <div class="act-desc">All 100 guests in Grand Ballroom. Four characters circulate. Drinks, performance, grouping.</div>
+      <div class="act-tag together">ALL 100</div>
+    </div>
+    <div class="act-block split">
+      <div class="act-dur">Beat 2 &bull; 25 min</div>
+      <div class="act-name">Exploration I</div>
+      <div class="act-desc">4 groups of 25 explore their assigned wing (2 rooms per wing) with their first character.</div>
+      <div class="act-tag split">4 &times; 25</div>
+    </div>
+    <div class="act-block together">
+      <div class="act-dur">Beat 3 &bull; 20 min</div>
+      <div class="act-name">The S&eacute;ance</div>
+      <div class="act-desc">2 groups of 50 in S&eacute;ance Chamber (first floor). Two sessions, back to back.</div>
+      <div class="act-tag together">2 &times; 50</div>
+    </div>
+    <div class="act-block interval">
+      <div class="act-dur">Beat 4 &bull; 20 min</div>
+      <div class="act-name">Interval</div>
+      <div class="act-desc">Bar service. The house transforms behind closed doors. Subtle shifts visible to attentive guests.</div>
+      <div class="act-tag interval">RESET</div>
+    </div>
+    <div class="act-block together">
+      <div class="act-dur">Beat 5 &bull; 15 min</div>
+      <div class="act-name">Reconnection</div>
+      <div class="act-desc">All 100 guests in Dining Room. Characters reunite. Stories start to conflict openly.</div>
+      <div class="act-tag together">ALL 100</div>
+    </div>
+    <div class="act-block split">
+      <div class="act-dur">Beat 6 &bull; 25 min</div>
+      <div class="act-name">Exploration II</div>
+      <div class="act-desc">Character swap + cross-pollination. Each group explores a DIFFERENT wing with their new character. Contradictions build.</div>
+      <div class="act-tag split">4 &times; 25 (NEW WINGS)</div>
+    </div>
+    <div class="act-block split">
+      <div class="act-dur">Beat 7 &bull; 15 min</div>
+      <div class="act-name">The Fracture</div>
+      <div class="act-desc">Groups of ~12 are pulled into their wing's labs via one-way glass. CCTV reveals the truth. Victorian fiction shatters.</div>
+      <div class="act-tag lab-tag">8 &times; ~12 (LABS)</div>
+    </div>
+    <div class="act-block together">
+      <div class="act-dur">Beat 8 &bull; 15 min</div>
+      <div class="act-name">The Reckoning</div>
+      <div class="act-desc">All 100 in Grand Ballroom. Victorian and lab aesthetics collide. Characters confront their dual identities.</div>
+      <div class="act-tag together">ALL 100</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ROOM DIRECTORY ═══════════════════ -->
+<section class="section mansion" id="rooms">
+  <div class="section-label">06 &mdash; Room Directory</div>
+  <div class="section-title">Click Any Room for Full Detail</div>
+  <div class="section-desc">Each card shows a miniature furniture plan. Click to expand into a full-size layout showing every piece of furniture, prop placement, performer positions, audience flow, one-way glass connection to the lab, and backstage access points.</div>
+
+  <div class="dir-grid">
+    <!-- Son's Study -->
+    <div class="dir-card" onclick="openRoom('sons-study')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Desk --><rect x="40" y="60" width="40" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Chair --><circle cx="60" cy="100" r="8" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Fireplace --><rect x="30" y="140" width="50" height="12" fill="#333" stroke="#555" stroke-width="0.8" rx="1"/>
+          <!-- Gun cabinet --><rect x="200" y="25" width="12" height="50" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Armchairs --><rect x="130" y="80" width="20" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+          <rect x="160" y="80" width="20" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+          <!-- One-way glass --><rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <!-- Lab monitors --><rect x="340" y="40" width="30" height="20" fill="#1A3A55" rx="1"/><rect x="340" y="70" width="30" height="20" fill="#1A3A55" rx="1"/><rect x="340" y="100" width="30" height="20" fill="#1A3A55" rx="1"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">Ground Floor &bull; Wing A</div>
+        <div class="dir-card-name">Son's Study</div>
+        <div class="dir-card-dims">11m &times; 9m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Writing desk with half-finished letter, gun cabinet, taxidermy, whisky set, fireplace. War memorabilia and photographs line the walls.</div>
+        <div class="dir-card-lab">Connected: Lab A1 (monitor wall, CCTV corkboard, data terminals)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Governess's Parlour -->
+    <div class="dir-card" onclick="openRoom('governess-parlour')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Piano --><rect x="35" y="30" width="45" height="20" fill="#1C1810" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Rocking chair --><ellipse cx="80" cy="100" rx="12" ry="10" fill="none" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Sampler on wall --><rect x="160" y="25" width="30" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Prayer books --><rect x="40" y="140" width="30" height="15" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Children's shoes --><rect x="130" y="155" width="15" height="8" fill="#5C4A30" rx="2"/><rect x="148" y="155" width="15" height="8" fill="#5C4A30" rx="2"/>
+          <!-- One-way glass --><rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <!-- Lab jars --><circle cx="320" cy="60" r="8" fill="#1A3A55" stroke="var(--lab-blue)" stroke-width="0.5"/><circle cx="340" cy="60" r="8" fill="#1A3A55" stroke="var(--lab-blue)" stroke-width="0.5"/><circle cx="360" cy="60" r="8" fill="#1A3A55" stroke="var(--lab-blue)" stroke-width="0.5"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">Ground Floor &bull; Wing B</div>
+        <div class="dir-card-name">Governess's Parlour</div>
+        <div class="dir-card-dims">12m &times; 9m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Upright piano, embroidered sampler on the wall, rocking chair, candles, prayer books. Children's shoes by the door. A room of devotion and grief.</div>
+        <div class="dir-card-lab">Connected: Lab B1 (specimen jars, behavioural notes, subject photos)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Housekeeper's Kitchen -->
+    <div class="dir-card" onclick="openRoom('housekeepers-kitchen')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Range --><rect x="30" y="25" width="60" height="25" fill="#333" stroke="#555" stroke-width="0.8" rx="1"/>
+          <!-- Long table --><rect x="60" y="90" width="140" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Copper pots --><circle cx="45" cy="70" r="6" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/><circle cx="60" cy="68" r="7" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+          <!-- Hooks --><line x1="200" y1="25" x2="200" y2="55" stroke="#555" stroke-width="0.8"/><line x1="215" y1="25" x2="215" y2="50" stroke="#555" stroke-width="0.8"/><line x1="230" y1="25" x2="230" y2="55" stroke="#555" stroke-width="0.8"/>
+          <!-- Keys on wall --><circle cx="240" cy="70" r="4" fill="none" stroke="#5C4A30" stroke-width="0.5"/><circle cx="250" cy="72" r="4" fill="none" stroke="#5C4A30" stroke-width="0.5"/>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">Ground Floor &bull; Wing C</div>
+        <div class="dir-card-name">Housekeeper's Kitchen</div>
+        <div class="dir-card-dims">12m &times; 9m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Working range with gas-effect flames, copper pots, herb bundles drying from the ceiling. Long servants' table, meat hooks, heavy ring of keys. Smells of bread and iron.</div>
+        <div class="dir-card-lab">Connected: Lab C1 (threshold maps, stimulus logs, printed CCTV)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Medium's Chamber -->
+    <div class="dir-card" onclick="openRoom('mediums-chamber')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Round table --><circle cx="130" cy="95" r="30" fill="none" stroke="#5C4A30" stroke-width="1"/>
+          <!-- Crystal ball --><circle cx="130" cy="95" r="8" fill="rgba(201,168,76,0.1)" stroke="var(--gold-dark)" stroke-width="0.8"/>
+          <!-- Chairs around table --><circle cx="100" cy="65" r="5" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <circle cx="160" cy="65" r="5" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <circle cx="100" cy="125" r="5" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <circle cx="160" cy="125" r="5" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <!-- Drapes --><line x1="25" y1="20" x2="25" y2="180" stroke="#6A1B9A" stroke-width="3" opacity="0.3"/>
+          <!-- Spirit trumpet --><polygon points="220,60 230,40 240,60" fill="none" stroke="#5C4A30" stroke-width="0.8"/>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="130" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">Ground Floor &bull; Wing D</div>
+        <div class="dir-card-name">Medium's Chamber</div>
+        <div class="dir-card-dims">12m &times; 9m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Heavy velvet drapes, round s&eacute;ance-style table with crystal ball, spirit trumpet in corner, dim gas lamps. HVAC-controlled cold spots. Rigged table for effects.</div>
+        <div class="dir-card-lab">Connected: Lab D1 (EMF spoof charts, cold-spot generators, prop log)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Son's Bedroom (FF) -->
+    <div class="dir-card" onclick="openRoom('sons-bedroom')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Four-poster bed --><rect x="40" y="40" width="60" height="80" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="2"/>
+          <line x1="40" y1="40" x2="40" y2="30" stroke="#5C4A30" stroke-width="1.5"/><line x1="100" y1="40" x2="100" y2="30" stroke="#5C4A30" stroke-width="1.5"/>
+          <line x1="40" y1="120" x2="40" y2="130" stroke="#5C4A30" stroke-width="1.5"/><line x1="100" y1="120" x2="100" y2="130" stroke="#5C4A30" stroke-width="1.5"/>
+          <!-- Trunk --><rect x="130" y="130" width="40" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Wardrobe --><rect x="200" y="30" width="30" height="60" fill="#2C2418" stroke="var(--secret)" stroke-width="1" rx="1"/>
+          <text x="215" y="65" fill="var(--secret)" font-size="5" font-weight="700" font-family="Inter" text-anchor="middle">!</text>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">First Floor &bull; Wing A</div>
+        <div class="dir-card-name">Son's Bedroom</div>
+        <div class="dir-card-dims">11m &times; 8.5m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Four-poster bed with heavy curtains, military trunk, uniforms hanging. Photographs, medals, and an unfinished letter on the nightstand. Wardrobe contains hidden reveal.</div>
+        <div class="dir-card-lab">Connected: Lab A2 (sleep study monitors, REM charts, night observation photos)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Nursery (FF) -->
+    <div class="dir-card" onclick="openRoom('nursery')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Two small beds --><rect x="35" y="40" width="40" height="55" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="2"/>
+          <rect x="85" y="40" width="40" height="55" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="2"/>
+          <!-- Rocking horse --><ellipse cx="170" cy="80" rx="15" ry="10" fill="none" stroke="#5C4A30" stroke-width="0.8"/>
+          <line x1="170" y1="90" x2="165" y2="105" stroke="#5C4A30" stroke-width="0.8"/>
+          <line x1="170" y1="90" x2="175" y2="105" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Toy chest --><rect x="200" y="120" width="35" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Music box --><rect x="40" y="120" width="15" height="12" fill="#5C4A30" stroke="var(--gold-dark)" stroke-width="0.5" rx="1"/>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">First Floor &bull; Wing B</div>
+        <div class="dir-card-name">Nursery</div>
+        <div class="dir-card-dims">12m &times; 8.5m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Two small beds side by side, rocking horse, toy chest with lid ajar. Drawings on the walls in crayon. Music box that plays by itself. Wallpaper peeling to reveal writing beneath.</div>
+        <div class="dir-card-lab">Connected: Lab B2 (child development files, stimulus response data, attachment notes)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Master Bedroom (FF) -->
+    <div class="dir-card" onclick="openRoom('master-bedroom')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Grand bed --><rect x="50" y="35" width="70" height="90" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="2"/>
+          <line x1="50" y1="35" x2="50" y2="25" stroke="#5C4A30" stroke-width="2"/><line x1="120" y1="35" x2="120" y2="25" stroke="#5C4A30" stroke-width="2"/>
+          <line x1="50" y1="125" x2="50" y2="135" stroke="#5C4A30" stroke-width="2"/><line x1="120" y1="125" x2="120" y2="135" stroke="#5C4A30" stroke-width="2"/>
+          <!-- Vanity --><rect x="170" y="40" width="40" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <ellipse cx="190" cy="35" rx="12" ry="8" fill="none" stroke="var(--secret)" stroke-width="0.8"/>
+          <!-- Medicine --><rect x="170" y="120" width="20" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="145" y="175" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">First Floor &bull; Wing C</div>
+        <div class="dir-card-name">Master Bedroom</div>
+        <div class="dir-card-dims">12m &times; 8.5m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Ornate four-poster bed, vanity mirror (rigged with Pepper's Ghost), locked jewellery box, medicine bottles on the nightstand. Love letters and pressed flowers.</div>
+        <div class="dir-card-lab">Connected: Lab C2 (relationship mapping, behavioural triggers, emotional response data)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Library (FF) -->
+    <div class="dir-card" onclick="openRoom('library')">
+      <div class="dir-card-preview">
+        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="200" fill="#0a0a08"/>
+          <rect x="20" y="15" width="250" height="170" fill="#1E1A12" stroke="var(--gold)" stroke-width="1.5" rx="2"/>
+          <rect x="280" y="15" width="100" height="170" fill="#0A1520" stroke="var(--lab-blue)" stroke-width="1.5" rx="2"/>
+          <!-- Bookshelves (3 walls) --><rect x="25" y="20" width="8" height="160" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <rect x="25" y="20" width="240" height="8" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <rect x="25" y="172" width="240" height="8" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+          <!-- Globe --><circle cx="80" cy="70" r="12" fill="none" stroke="#5C4A30" stroke-width="0.8"/>
+          <!-- Desk --><rect x="120" y="90" width="50" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+          <!-- Armchairs --><rect x="60" y="130" width="20" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="4"/>
+          <rect x="90" y="130" width="20" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="4"/>
+          <!-- Ladder --><line x1="220" y1="30" x2="220" y2="165" stroke="#5C4A30" stroke-width="1"/>
+          <!-- Secret door --><rect x="200" y="100" width="12" height="30" fill="var(--secret)" stroke="#6B2020" stroke-width="0.8" rx="1" opacity="0.6"/>
+          <rect x="270" y="40" width="10" height="120" fill="none" stroke="var(--lab-blue)" stroke-width="2"/>
+          <text x="130" y="185" fill="var(--gold)" font-size="8" font-weight="700" font-family="Inter" text-anchor="middle">VICTORIAN</text>
+          <text x="330" y="155" fill="var(--lab-blue)" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle">LAB</text>
+        </svg>
+      </div>
+      <div class="dir-card-body">
+        <div class="dir-card-floor">First Floor &bull; Wing D</div>
+        <div class="dir-card-name">Library</div>
+        <div class="dir-card-dims">12m &times; 8.5m &bull; 25 guests &bull; 2 performers</div>
+        <div class="dir-card-desc">Floor-to-ceiling bookshelves on three walls, globe on stand, writing desk, leather armchairs. Ladder on brass rail. Secret bookcase door leads to backstage.</div>
+        <div class="dir-card-lab">Connected: Lab D2 (knowledge mapping, redacted files, cross-reference data)</div>
+        <div class="dir-card-cta">CLICK TO EXPAND &rarr;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM DETAIL OVERLAY (populated by JS) -->
+<div class="room-detail-overlay" id="roomOverlay" onclick="if(event.target===this)closeRoom()">
+  <div class="room-detail-panel" id="roomPanel"></div>
+</div>
+
+<!-- ═══════════════════ TECHNICAL SPEC ═══════════════════ -->
+<section class="section dark" id="technical">
+  <div class="section-label">07 &mdash; Technical Specification</div>
+  <div class="section-title">Barn &amp; Space Budget</div>
+  <div class="section-desc">Complete space allocation within the 55m &times; 38m steel portal frame envelope. Every square metre accounted for across both levels.</div>
+
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>Space</th>
+        <th>Floor</th>
+        <th>Dimensions</th>
+        <th>Area</th>
+        <th>Capacity</th>
+        <th>Function</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Grand Ballroom</td><td>Ground</td><td>22m &times; 12m</td><td>264 m&sup2;</td><td>100</td><td>Opening Ball, Reckoning (Beats 1 &amp; 8)</td></tr>
+      <tr><td>Dining Room</td><td>Ground</td><td>16m &times; 9m</td><td>144 m&sup2;</td><td>100</td><td>Reconnection (Beat 5)</td></tr>
+      <tr><td>Son's Study</td><td>Ground</td><td>11m &times; 9m</td><td>99 m&sup2;</td><td>25</td><td>Wing A &mdash; Exploration</td></tr>
+      <tr><td>Lab A1</td><td>Ground</td><td>11m &times; 5.5m</td><td>60 m&sup2;</td><td>~12</td><td>Observation &mdash; Son's Study</td></tr>
+      <tr><td>Governess's Parlour</td><td>Ground</td><td>12m &times; 9m</td><td>108 m&sup2;</td><td>25</td><td>Wing B &mdash; Exploration</td></tr>
+      <tr><td>Lab B1</td><td>Ground</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Parlour</td></tr>
+      <tr><td>Housekeeper's Kitchen</td><td>Ground</td><td>12m &times; 9m</td><td>108 m&sup2;</td><td>25</td><td>Wing C &mdash; Exploration</td></tr>
+      <tr><td>Lab C1</td><td>Ground</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Kitchen</td></tr>
+      <tr><td>Medium's Chamber</td><td>Ground</td><td>12m &times; 9m</td><td>108 m&sup2;</td><td>25</td><td>Wing D &mdash; Exploration</td></tr>
+      <tr><td>Lab D1</td><td>Ground</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Chamber</td></tr>
+      <tr style="background:rgba(201,168,76,0.05);"><td colspan="3" style="font-weight:700;color:var(--gold);">Ground Floor Subtotal (incl. corridors)</td><td style="font-weight:700;">~1,450 m&sup2;</td><td></td><td></td></tr>
+
+      <tr><td>S&eacute;ance Chamber</td><td>First</td><td>16m &times; 9.5m</td><td>152 m&sup2;</td><td>50</td><td>S&eacute;ance (Beat 3, two sessions)</td></tr>
+      <tr><td>Son's Bedroom</td><td>First</td><td>11m &times; 8.5m</td><td>93 m&sup2;</td><td>25</td><td>Wing A &mdash; Exploration</td></tr>
+      <tr><td>Lab A2</td><td>First</td><td>11m &times; 5.5m</td><td>60 m&sup2;</td><td>~12</td><td>Observation &mdash; Bedroom</td></tr>
+      <tr><td>Nursery</td><td>First</td><td>12m &times; 8.5m</td><td>102 m&sup2;</td><td>25</td><td>Wing B &mdash; Exploration</td></tr>
+      <tr><td>Lab B2</td><td>First</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Nursery</td></tr>
+      <tr><td>Master Bedroom</td><td>First</td><td>12m &times; 8.5m</td><td>102 m&sup2;</td><td>25</td><td>Wing C &mdash; Exploration</td></tr>
+      <tr><td>Lab C2</td><td>First</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Bedroom</td></tr>
+      <tr><td>Library</td><td>First</td><td>12m &times; 8.5m</td><td>102 m&sup2;</td><td>25</td><td>Wing D &mdash; Exploration</td></tr>
+      <tr><td>Lab D2</td><td>First</td><td>12m &times; 5.5m</td><td>66 m&sup2;</td><td>~12</td><td>Observation &mdash; Library</td></tr>
+      <tr style="background:rgba(201,168,76,0.05);"><td colspan="3" style="font-weight:700;color:var(--gold);">First Floor Subtotal (incl. corridors, backstage)</td><td style="font-weight:700;">~1,100 m&sup2;</td><td></td><td></td></tr>
+
+      <tr style="background:rgba(201,168,76,0.08);"><td colspan="3" style="font-weight:800;color:var(--gold);font-size:13px;">TOTAL USABLE AREA (both levels)</td><td style="font-weight:800;color:var(--gold);font-size:13px;">~2,550 m&sup2;</td><td></td><td style="color:var(--gold);">within 2,090 m&sup2; barn footprint</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:48px;">
+    <div class="section-label">Barn Specification</div>
+    <table class="spec-table" style="max-width:600px;">
+      <tbody>
+        <tr><td>Structure</td><td>Steel portal frame, 6-bay, 9.2m centres</td></tr>
+        <tr><td>External Dims</td><td>55m long &times; 38m wide</td></tr>
+        <tr><td>Eave Height</td><td>12.0m clear</td></tr>
+        <tr><td>Ridge Height</td><td>~14.5m</td></tr>
+        <tr><td>Cladding</td><td>Insulated composite panels (dark grey external)</td></tr>
+        <tr><td>Ground Floor</td><td>300mm reinforced concrete slab (power floated)</td></tr>
+        <tr><td>Mezzanine</td><td>Steel frame at +5.0m, 150mm composite deck, 4.0 kN/m&sup2;</td></tr>
+        <tr><td>Fire Exits</td><td>5 emergency exits (2 per side + 1 Ballroom rear)</td></tr>
+        <tr><td>Acoustic</td><td>Full isolation between rooms and between levels</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="doc-footer">
+  <div class="doc-footer-left">&copy; 2026 Core Creative Group &bull; Immersive Core Division &bull; Confidential</div>
+  <div class="doc-footer-right">The Haunting of Veil House &bull; Architectural Floor Plan v2.0</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// ROOM DATA — Full furniture layouts for each room
+// ══════════════════════════════════════════════════
+const roomData = {
+  'sons-study': {
+    name: "Son's Study",
+    floor: "Ground Floor — Wing A",
+    dims: "11m × 9m (99 m²)",
+    capacity: "25 guests, 2 performers",
+    labName: "Lab A1",
+    labDims: "11m × 5.5m (60 m²)",
+    labDesc: "Monitor wall showing live feeds from 4 cameras. Corkboard with printed CCTV stills. Data terminals logging guest movement patterns. Subject files in manila folders.",
+    furniture: [
+      "Large oak writing desk (centre-left) with half-finished letter, ink well, blotter",
+      "Leather captain's chair behind desk",
+      "Glass-fronted gun cabinet (rear wall) — locked, 3 rifles visible",
+      "Taxidermy: stag head above fireplace, fox in glass case",
+      "Fireplace (gas effect, south wall) with brass fender and coal scuttle",
+      "Whisky decanter set on silver tray (side table)",
+      "Two wingback armchairs flanking fireplace",
+      "Oil paintings: hunting scenes, family portrait (father stern)",
+      "Persian rug (faded, 3m × 4m)",
+      "Floor lamp (oil-effect LED, dimmable)",
+      "War memorabilia: framed maps, medals in shadow box"
+    ],
+    performers: "The Son at desk initially, moves to fireplace. The Butler enters from backstage door (concealed behind bookshelf panel, east wall).",
+    hiddenReveal: "Gun cabinet key is in the desk drawer — but the letter reveals the Son was forbidden from this room.",
+    audienceFlow: "Enter from corridor (south door), free-roam within room, guided to cluster near desk for key story moments, exit via south door or corridor to Son's Bedroom upstairs.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <!-- Room walls --><rect x="20" y="20" width="330" height="270" fill="#1E1A12" stroke="var(--gold)" stroke-width="2" rx="2"/>
+      <!-- Lab --><rect x="370" y="20" width="165" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <!-- One-way glass --><rect x="350" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="360" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,360,160)">ONE-WAY GLASS</text>
+      <!-- FURNITURE -->
+      <!-- Desk --><rect x="80" y="100" width="70" height="40" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="115" y="125" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">DESK</text>
+      <!-- Chair --><rect x="95" y="150" width="25" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="12"/>
+      <text x="107" y="166" fill="#6B5D45" font-size="5" font-family="Inter" text-anchor="middle">CHAIR</text>
+      <!-- Fireplace --><rect x="30" y="210" width="80" height="18" fill="#333" stroke="#555" stroke-width="1.5" rx="2"/>
+      <text x="70" y="222" fill="#888" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">FIREPLACE</text>
+      <rect x="35" y="228" width="70" height="6" fill="#F57C00" opacity="0.2" rx="1"/>
+      <!-- Fender --><rect x="25" y="228" width="90" height="4" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+      <!-- Wingback 1 --><rect x="30" y="170" width="22" height="28" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="4"/>
+      <text x="41" y="188" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">ARM</text>
+      <!-- Wingback 2 --><rect x="120" y="170" width="22" height="28" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="4"/>
+      <text x="131" y="188" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">ARM</text>
+      <!-- Gun cabinet --><rect x="310" y="30" width="18" height="80" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="1"/>
+      <text x="319" y="75" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,319,75)">GUN CABINET</text>
+      <!-- Taxidermy --><text x="70" y="202" fill="#5C4A30" font-size="5" font-family="Inter" text-anchor="middle">🦌 STAG HEAD</text>
+      <!-- Whisky tray --><rect x="200" y="40" width="30" height="20" fill="#2C2418" stroke="#C9A84C" stroke-width="0.5" rx="1"/>
+      <text x="215" y="54" fill="#C9A84C" font-size="4" font-family="Inter" text-anchor="middle">WHISKY</text>
+      <!-- Rug --><rect x="55" y="120" width="120" height="100" fill="none" stroke="#8B1A1A" stroke-width="0.5" stroke-dasharray="3,2" rx="2" opacity="0.4"/>
+      <text x="115" y="230" fill="#8B1A1A" font-size="4" font-family="Inter" text-anchor="middle" opacity="0.4">PERSIAN RUG</text>
+      <!-- Floor lamp --><circle cx="280" cy="120" r="6" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/>
+      <text x="280" y="136" fill="#C9A84C" font-size="4" font-family="Inter" text-anchor="middle" opacity="0.5">LAMP</text>
+      <!-- War memorabilia --><rect x="180" y="24" width="40" height="3" fill="#5C4A30" opacity="0.3"/><rect x="225" y="24" width="30" height="3" fill="#5C4A30" opacity="0.3"/>
+      <!-- Backstage door --><rect x="330" y="140" width="20" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="340" y="180" fill="#555" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="140" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="165" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">↑ ENTRY FROM CORRIDOR</text>
+      <!-- Performer positions --><circle cx="115" cy="90" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="115" y="93" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">S</text>
+      <circle cx="330" cy="155" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="330" y="158" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">B</text>
+      <!-- Lab equipment --><rect x="480" y="40" width="40" height="25" fill="#1A3A55" rx="2"/>
+      <text x="500" y="56" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">MONITOR</text>
+      <rect x="480" y="75" width="40" height="25" fill="#1A3A55" rx="2"/>
+      <text x="500" y="91" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">MONITOR</text>
+      <rect x="480" y="110" width="40" height="25" fill="#1A3A55" rx="2"/>
+      <text x="500" y="126" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">MONITOR</text>
+      <rect x="390" y="180" width="60" height="40" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="200" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CCTV</text>
+      <text x="420" y="210" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CORKBOARD</text>
+      <rect x="390" y="40" width="60" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="60" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">DATA TERMINAL</text>
+      <!-- Labels -->
+      <text x="170" y="45" fill="var(--gold)" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">SON'S STUDY</text>
+      <text x="452" y="155" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB A1</text>
+      <!-- Scale --><text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50 · Grid 1m</text>
+      <!-- Audience flow arrows --><path d="M165,270 L165,240" stroke="#C9A84C" stroke-width="1" marker-end="url(#arrowG)" opacity="0.4"/>
+      <path d="M165,240 L80,180" stroke="#C9A84C" stroke-width="1" marker-end="url(#arrowG)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M165,240 L250,180" stroke="#C9A84C" stroke-width="1" marker-end="url(#arrowG)" opacity="0.3" stroke-dasharray="4,3"/>
+      <defs><marker id="arrowG" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+    </svg>`
+  },
+
+  'governess-parlour': {
+    name: "Governess's Parlour",
+    floor: "Ground Floor — Wing B",
+    dims: "12m × 9m (108 m²)",
+    capacity: "25 guests, 2 performers",
+    labName: "Lab B1",
+    labDims: "12m × 5.5m (66 m²)",
+    labDesc: "Specimen jars along shelves containing personal effects. Behavioural observation notes pinned to boards. Printed subject photographs with numbered labels. Graphs of emotional responses.",
+    furniture: [
+      "Upright piano (north wall) — playable, pre-programmed to play fragments alone",
+      "Embroidered sampler framed on wall: 'God Sees All'",
+      "Rocking chair (centre) that rocks by itself (motor hidden beneath)",
+      "Six candles in brass holders (LED, flickering, controlled)",
+      "Prayer books stacked on side table",
+      "Children's shoes by the door — two pairs, worn",
+      "Oval braided rug (muted colours)",
+      "Small writing desk with inkwell and unfinished letter",
+      "Cross on wall, slightly askew",
+      "Embroidery hoop with half-finished piece on chair arm",
+      "Dried flowers in vase (lavender, symbolic)"
+    ],
+    performers: "The Governess seated in rocking chair, rises. The Maid enters from backstage panel (hidden behind tapestry, west wall).",
+    hiddenReveal: "The children's shoes have different names sewn inside than the Governess claims — she's been lying about whose children they were.",
+    audienceFlow: "Enter from corridor (east door), naturally drawn to piano and rocking chair, guided to cluster near centre for storytelling, exit east door to corridor.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <!-- Piano --><rect x="80" y="30" width="80" height="25" fill="#1C1810" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="120" y="47" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">PIANO</text>
+      <!-- Piano stool --><rect x="105" y="60" width="25" height="12" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="2"/>
+      <!-- Rocking chair --><ellipse cx="170" cy="140" rx="18" ry="16" fill="none" stroke="#5C4A30" stroke-width="1.5"/>
+      <line x1="155" y1="156" x2="150" y2="170" stroke="#5C4A30" stroke-width="1"/>
+      <line x1="185" y1="156" x2="190" y2="170" stroke="#5C4A30" stroke-width="1"/>
+      <text x="170" y="144" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">ROCKING</text>
+      <!-- Sampler on wall --><rect x="280" y="30" width="40" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="1"/>
+      <text x="300" y="50" fill="#8B7355" font-size="4" font-family="Inter" text-anchor="middle">SAMPLER</text>
+      <!-- Candles --><circle cx="100" cy="130" r="3" fill="#C9A84C" opacity="0.5"/><circle cx="130" cy="100" r="3" fill="#C9A84C" opacity="0.5"/>
+      <circle cx="210" cy="130" r="3" fill="#C9A84C" opacity="0.5"/><circle cx="240" cy="100" r="3" fill="#C9A84C" opacity="0.5"/>
+      <circle cx="60" cy="180" r="3" fill="#C9A84C" opacity="0.5"/><circle cx="300" cy="180" r="3" fill="#C9A84C" opacity="0.5"/>
+      <!-- Prayer books --><rect x="250" y="140" width="25" height="15" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+      <text x="262" y="151" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">PRAYERS</text>
+      <!-- Shoes --><rect x="50" y="265" width="12" height="6" fill="#5C4A30" rx="2"/><rect x="65" y="265" width="12" height="6" fill="#5C4A30" rx="2"/>
+      <rect x="82" y="265" width="10" height="5" fill="#5C4A30" rx="2"/><rect x="95" y="265" width="10" height="5" fill="#5C4A30" rx="2"/>
+      <text x="73" y="280" fill="#5C4A30" font-size="4" font-family="Inter" text-anchor="middle">CHILDREN'S SHOES</text>
+      <!-- Rug --><ellipse cx="170" cy="160" rx="80" ry="50" fill="none" stroke="#5C4A30" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.3"/>
+      <!-- Writing desk --><rect x="40" y="100" width="35" height="22" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <text x="57" y="115" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">DESK</text>
+      <!-- Cross --><line x1="170" y1="25" x2="170" y2="35" stroke="#5C4A30" stroke-width="1.5"/><line x1="165" y1="28" x2="175" y2="28" stroke="#5C4A30" stroke-width="1.5"/>
+      <!-- Dried flowers --><circle cx="260" cy="200" r="8" fill="none" stroke="#6A1B9A" stroke-width="0.5" opacity="0.4"/>
+      <text x="260" y="218" fill="#6A1B9A" font-size="4" font-family="Inter" text-anchor="middle" opacity="0.4">FLOWERS</text>
+      <!-- Backstage --><rect x="25" y="120" width="15" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="18" y="155" fill="#555" font-size="5" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="300" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="325" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">↑ ENTRY</text>
+      <!-- Performers --><circle cx="170" cy="130" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="170" y="133" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">G</text>
+      <circle cx="30" cy="135" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="30" y="138" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">M</text>
+      <!-- Lab --><rect x="400" y="40" width="50" height="60" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="425" y="65" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">SPECIMEN</text>
+      <text x="425" y="75" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">SHELVES</text>
+      <rect x="400" y="120" width="50" height="40" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="425" y="142" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">OBS. NOTES</text>
+      <rect x="470" y="40" width="50" height="80" fill="#1A3A55" rx="2"/>
+      <text x="495" y="75" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">MONITOR</text>
+      <text x="495" y="85" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">WALL</text>
+      <text x="180" y="45" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">GOVERNESS'S PARLOUR</text>
+      <text x="457" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB B1</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+  }
+};
+
+// ── HOUSEKEEPER'S KITCHEN ──
+roomData['housekeepers-kitchen'] = {
+    name: "Housekeeper's Kitchen", floor: "Ground Floor — Wing C",
+    dims: "12m × 9m (108 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab C1", labDims: "12m × 5.5m (66 m²)",
+    labDesc: "Threshold maps plotting where subjects linger. Stimulus logs recording reactions to planted objects. Printed CCTV stills of guests' facial expressions. Environmental control terminals for temperature and scent.",
+    furniture: ["Working range (north wall, gas-effect flames, copper hood)", "Long servants' table (centre, 4m, with bench seating)", "Copper pots and pans hanging from ceiling rack", "Herb bundles drying from beam hooks", "Meat hooks on rear wall (empty, ominous)", "Heavy ring of keys on wall hook by door", "Flour-dusted workbench (west wall)", "Bread proving baskets, rolling pins", "Stone flag floor effect (stamped concrete)", "Wall-mounted plate rack with mismatched china", "Cast-iron kettle on range"],
+    performers: "The Housekeeper at range initially. The Gardener enters via yard door (north-east corner, practical door).",
+    hiddenReveal: "One key on the ring doesn't match any door in the house — it's modern, clinical.",
+    audienceFlow: "Enter from east corridor, drawn to warmth and scent of the range, gather around servants' table for key scenes, exit east.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwK" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <!-- Room walls --><rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <!-- Lab --><rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="370" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,370,160)">ONE-WAY GLASS</text>
+      <!-- RANGE (north wall, full width cooker) -->
+      <rect x="60" y="28" width="140" height="30" fill="#333" stroke="#666" stroke-width="1.5" rx="2"/>
+      <rect x="70" y="32" width="22" height="22" fill="#444" stroke="#555" stroke-width="0.8" rx="1"/>
+      <rect x="100" y="32" width="22" height="22" fill="#444" stroke="#555" stroke-width="0.8" rx="1"/>
+      <rect x="130" y="32" width="22" height="22" fill="#444" stroke="#555" stroke-width="0.8" rx="1"/>
+      <rect x="160" y="32" width="22" height="22" fill="#444" stroke="#555" stroke-width="0.8" rx="1"/>
+      <rect x="60" y="22" width="140" height="8" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5"/>
+      <text x="130" y="70" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">RANGE &amp; COPPER HOOD</text>
+      <rect x="68" y="35" width="4" height="4" fill="#F57C00" opacity="0.3" rx="1"/>
+      <rect x="108" y="35" width="4" height="4" fill="#F57C00" opacity="0.3" rx="1"/>
+      <!-- Kettle on range --><circle cx="175" cy="43" r="6" fill="#333" stroke="#5C4A30" stroke-width="0.8"/>
+      <text x="175" y="46" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">KETTLE</text>
+      <!-- SERVANTS' TABLE (centre, long) -->
+      <rect x="70" y="120" width="180" height="45" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="160" y="147" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">SERVANTS' TABLE (4m)</text>
+      <!-- Bench seating -->
+      <rect x="75" y="110" width="170" height="8" fill="#231E14" stroke="#5C4A30" stroke-width="0.5" rx="1"/>
+      <rect x="75" y="167" width="170" height="8" fill="#231E14" stroke="#5C4A30" stroke-width="0.5" rx="1"/>
+      <text x="160" y="116" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">BENCH</text>
+      <text x="160" y="173" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">BENCH</text>
+      <!-- Copper pots (hanging, shown as circles above table) -->
+      <circle cx="100" cy="95" r="4" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="115" cy="93" r="3" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="200" cy="95" r="4" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="215" cy="93" r="3" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.4"/>
+      <text x="160" y="93" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.4">· · CEILING RACK · ·</text>
+      <!-- Herb bundles (beam hooks) -->
+      <line x1="50" y1="82" x2="50" y2="92" stroke="#2E7D32" stroke-width="1" opacity="0.4"/>
+      <line x1="60" y1="82" x2="60" y2="90" stroke="#2E7D32" stroke-width="1" opacity="0.4"/>
+      <line x1="280" y1="82" x2="280" y2="92" stroke="#2E7D32" stroke-width="1" opacity="0.4"/>
+      <line x1="290" y1="82" x2="290" y2="90" stroke="#2E7D32" stroke-width="1" opacity="0.4"/>
+      <text x="55" y="99" fill="#2E7D32" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.5">HERBS</text>
+      <!-- Meat hooks (rear/west wall) -->
+      <line x1="28" y1="140" x2="28" y2="160" stroke="#666" stroke-width="1.5"/>
+      <line x1="28" y1="160" x2="32" y2="162" stroke="#666" stroke-width="1"/>
+      <line x1="38" y1="140" x2="38" y2="160" stroke="#666" stroke-width="1.5"/>
+      <line x1="38" y1="160" x2="42" y2="162" stroke="#666" stroke-width="1"/>
+      <line x1="28" y1="170" x2="28" y2="190" stroke="#666" stroke-width="1.5"/>
+      <line x1="28" y1="190" x2="32" y2="192" stroke="#666" stroke-width="1"/>
+      <text x="33" y="205" fill="#666" font-size="4" font-weight="600" font-family="Inter" text-anchor="middle">MEAT</text>
+      <text x="33" y="211" fill="#666" font-size="4" font-weight="600" font-family="Inter" text-anchor="middle">HOOKS</text>
+      <!-- Keys on wall hook -->
+      <circle cx="30" cy="246" r="6" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.6"/>
+      <text x="30" y="260" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.6">KEYS</text>
+      <!-- Flour workbench (west wall lower) -->
+      <rect x="25" y="215" width="18" height="50" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="1"/>
+      <text x="34" y="243" fill="#8B7355" font-size="4" font-weight="500" font-family="Inter" text-anchor="middle" transform="rotate(-90,34,243)">WORKBENCH</text>
+      <!-- Plate rack (south wall) -->
+      <rect x="70" y="265" width="80" height="12" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8"/>
+      <circle cx="80" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <circle cx="92" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <circle cx="104" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <circle cx="116" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <circle cx="128" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <circle cx="140" cy="271" r="4" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <text x="110" y="287" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">PLATE RACK</text>
+      <!-- Bread proving area near workbench -->
+      <rect x="55" y="200" width="30" height="18" fill="#231E14" stroke="#5C4A30" stroke-width="0.5" rx="1"/>
+      <text x="70" y="212" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">PROVING</text>
+      <!-- Stone flags indication -->
+      <rect x="60" y="180" width="250" height="80" fill="none" stroke="#444" stroke-width="0.3" stroke-dasharray="8,4" opacity="0.2"/>
+      <!-- Backstage door (NE corner) -->
+      <rect x="300" y="25" width="30" height="15" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+      <text x="315" y="50" fill="#555" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">YARD DOOR</text>
+      <!-- Backstage access --><rect x="340" y="140" width="18" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="349" y="180" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="310" y="275" width="45" height="12" fill="#A68A3E" rx="2"/>
+      <text x="332" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">← ENTRY FROM CORRIDOR</text>
+      <!-- Performers --><circle cx="130" cy="50" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="130" y="53" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">H</text>
+      <circle cx="315" cy="35" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="315" y="38" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">G</text>
+      <!-- Audience flow -->
+      <path d="M310,270 L260,200" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwK)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M260,200 L160,150" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwK)" opacity="0.3" stroke-dasharray="4,3"/>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="130" height="35" fill="#1A3A55" rx="2"/>
+      <text x="455" y="62" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">THRESHOLD MAP DISPLAY</text>
+      <rect x="390" y="90" width="60" height="40" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="112" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">STIMULUS</text>
+      <text x="420" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">LOG</text>
+      <rect x="460" y="90" width="60" height="40" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="490" y="112" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CCTV</text>
+      <text x="490" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">STILLS</text>
+      <rect x="390" y="150" width="130" height="30" fill="#0D1A28" stroke="#28B478" stroke-width="1" rx="2"/>
+      <text x="455" y="168" fill="#28B478" font-size="5" font-family="Inter" text-anchor="middle">TEMP &amp; SCENT CONTROLS</text>
+      <!-- Labels -->
+      <text x="180" y="45" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">HOUSEKEEPER'S KITCHEN</text>
+      <text x="455" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB C1</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50 · Grid 1m</text>
+    </svg>`
+};
+
+// ── MEDIUM'S CHAMBER ──
+roomData['mediums-chamber'] = {
+    name: "Medium's Chamber", floor: "Ground Floor — Wing D",
+    dims: "12m × 9m (108 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab D1", labDims: "12m × 5.5m (66 m²)",
+    labDesc: "EMF spoof equipment exposed. Cold-spot generator controls (HVAC terminals). Prop catalogue with every 'supernatural' effect documented. Observation notes on guest credulity ratings.",
+    furniture: ["Heavy velvet drapes (all walls, deep purple/black)", "Round séance table (centre, 2m diameter, rigged)", "Crystal ball on brass stand (table centre)", "Spirit trumpet in corner (brass, polished)", "6 chairs around table (mismatched, Victorian)", "Dim gas lamps (LED, 4 units, controllable)", "HVAC vents concealed in floor for cold spots", "Ouija board on side table (prop, not interactive)", "Candelabra (3-arm, hanging, rigged to swing)", "Black curtain partition (hides performer entry)"],
+    performers: "The Medium already seated at table when guests arrive. The Assistant emerges from behind curtain partition.",
+    hiddenReveal: "The crystal ball has a small engraved serial number — it's manufactured, clinical equipment disguised as Victorian.",
+    audienceFlow: "Enter from east corridor, directed to seats around table, intimate close quarters throughout, exit east.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwM" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="370" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,370,160)">ONE-WAY GLASS</text>
+      <!-- Velvet drape borders -->
+      <rect x="24" y="24" width="332" height="262" fill="none" stroke="#6A1B9A" stroke-width="3" stroke-dasharray="12,4" opacity="0.25" rx="1"/>
+      <text x="50" y="18" fill="#6A1B9A" font-size="3.5" font-family="Inter" opacity="0.35">HEAVY VELVET DRAPES (ALL WALLS)</text>
+      <!-- SÉANCE TABLE (centre, round 2m) -->
+      <circle cx="170" cy="150" r="50" fill="#1C1810" stroke="#5C4A30" stroke-width="2"/>
+      <text x="170" y="145" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">SÉANCE TABLE</text>
+      <text x="170" y="155" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">(2m, rigged)</text>
+      <!-- Crystal ball (table centre) -->
+      <circle cx="170" cy="165" r="8" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.6"/>
+      <circle cx="170" cy="165" r="4" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="0.5"/>
+      <text x="170" y="180" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.6">CRYSTAL BALL</text>
+      <!-- 6 chairs around table -->
+      <rect x="157" y="88" width="26" height="14" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <rect x="220" y="113" width="14" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <rect x="220" y="162" width="14" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <rect x="157" y="200" width="26" height="14" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <rect x="107" y="162" width="14" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <rect x="107" y="113" width="14" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="3"/>
+      <!-- Gas lamps (4 corners) -->
+      <circle cx="60" cy="55" r="5" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="60" cy="55" r="2" fill="#F57C00" opacity="0.15"/>
+      <circle cx="300" cy="55" r="5" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="300" cy="55" r="2" fill="#F57C00" opacity="0.15"/>
+      <circle cx="60" cy="245" r="5" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="60" cy="245" r="2" fill="#F57C00" opacity="0.15"/>
+      <circle cx="300" cy="245" r="5" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="300" cy="245" r="2" fill="#F57C00" opacity="0.15"/>
+      <text x="60" y="67" fill="#F57C00" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">LAMP</text>
+      <!-- Spirit trumpet (NW corner) -->
+      <polygon points="40,40 48,40 44,70" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.4"/>
+      <text x="44" y="80" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.4">SPIRIT</text>
+      <text x="44" y="85" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.4">TRUMPET</text>
+      <!-- HVAC vents (floor, shown as grates) -->
+      <rect x="90" y="80" width="12" height="4" fill="none" stroke="#666" stroke-width="0.5" stroke-dasharray="1,1"/>
+      <rect x="240" y="80" width="12" height="4" fill="none" stroke="#666" stroke-width="0.5" stroke-dasharray="1,1"/>
+      <rect x="90" y="220" width="12" height="4" fill="none" stroke="#666" stroke-width="0.5" stroke-dasharray="1,1"/>
+      <rect x="240" y="220" width="12" height="4" fill="none" stroke="#666" stroke-width="0.5" stroke-dasharray="1,1"/>
+      <text x="170" y="235" fill="#666" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">HVAC COLD-SPOT VENTS (CONCEALED)</text>
+      <!-- Ouija board on side table (SE) -->
+      <rect x="270" y="240" width="40" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <rect x="275" y="244" width="30" height="17" fill="#1C1810" stroke="#5C4A30" stroke-width="0.3"/>
+      <text x="290" y="256" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">OUIJA</text>
+      <!-- Candelabra (hanging, above table) -->
+      <circle cx="170" cy="130" r="10" fill="none" stroke="#C9A84C" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.3"/>
+      <text x="170" y="120" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.4">CANDELABRA ↕</text>
+      <!-- Black curtain partition (west wall) -->
+      <rect x="25" y="120" width="8" height="70" fill="#111" stroke="#333" stroke-width="1.5"/>
+      <line x1="29" y1="125" x2="29" y2="185" stroke="#444" stroke-width="0.5" stroke-dasharray="3,2"/>
+      <text x="18" y="200" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">CURTAIN</text>
+      <!-- Backstage --><rect x="340" y="140" width="18" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="349" y="180" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="310" y="275" width="45" height="12" fill="#A68A3E" rx="2"/>
+      <text x="332" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">← ENTRY</text>
+      <!-- Performers --><circle cx="170" cy="100" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="170" y="103" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">M</text>
+      <circle cx="33" cy="155" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="33" y="158" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">A</text>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="60" height="50" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="62" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">EMF SPOOF</text>
+      <text x="420" y="72" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">EQUIPMENT</text>
+      <rect x="460" y="40" width="60" height="50" fill="#0D1A28" stroke="#28B478" stroke-width="1" rx="2"/>
+      <text x="490" y="62" fill="#28B478" font-size="5" font-family="Inter" text-anchor="middle">HVAC</text>
+      <text x="490" y="72" fill="#28B478" font-size="5" font-family="Inter" text-anchor="middle">CONTROLS</text>
+      <rect x="390" y="110" width="130" height="35" fill="#1A3A55" rx="2"/>
+      <text x="455" y="130" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">PROP CATALOGUE &amp; EFFECT DOCS</text>
+      <rect x="390" y="160" width="130" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="455" y="178" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CREDULITY OBSERVATION NOTES</text>
+      <!-- Labels -->
+      <text x="180" y="45" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">MEDIUM'S CHAMBER</text>
+      <text x="455" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB D1</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+};
+
+// ── SON'S BEDROOM ──
+roomData['sons-bedroom'] = {
+    name: "Son's Bedroom", floor: "First Floor — Wing A",
+    dims: "11m × 8.5m (93 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab A2", labDims: "11m × 5.5m (60 m²)",
+    labDesc: "Sleep study monitoring stations. REM cycle charts pinned to walls. Printed photographs of subjects sleeping. Night-vision camera feeds. Pillow with hidden sensor schematic on desk.",
+    furniture: ["Four-poster bed (centre-north, heavy drapes, 2m×1.5m)", "Military trunk at foot of bed (open, uniforms folded)", "Bedside table with unfinished letter and pen", "Medals in shadow box on wall", "Framed photographs (family, regiment)", "Wardrobe (east wall, contains hidden reveal)", "Wash stand with basin and jug", "Riding boots by wardrobe", "Small bookshelf with school prizes", "Oil lamp on bedside table (LED, flickering)"],
+    performers: "The Son sitting on bed edge. The Butler at wardrobe, turns when guests enter.",
+    hiddenReveal: "Inside the wardrobe: a modern clinical gown, hidden behind the uniforms. The reveal that this 'period' room is a construction.",
+    audienceFlow: "Enter via landing/stairs, drawn to the bed and trunk, wardrobe reveal is the climactic moment, exit to landing.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwB" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="330" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="370" y="20" width="165" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="350" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="360" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,360,160)">ONE-WAY GLASS</text>
+      <!-- FOUR-POSTER BED (centre-north) -->
+      <rect x="110" y="40" width="80" height="60" fill="#2C2418" stroke="#5C4A30" stroke-width="2" rx="2"/>
+      <rect x="110" y="40" width="80" height="4" fill="#5C4A30" rx="1"/>
+      <rect x="108" y="38" width="3" height="65" fill="#5C4A30" rx="1"/>
+      <rect x="189" y="38" width="3" height="65" fill="#5C4A30" rx="1"/>
+      <rect x="108" y="38" width="84" height="3" fill="#5C4A30" rx="1"/>
+      <text x="150" y="76" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">FOUR-POSTER BED</text>
+      <!-- Pillow -->
+      <rect x="120" y="48" width="25" height="10" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="3"/>
+      <rect x="155" y="48" width="25" height="10" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="3"/>
+      <!-- MILITARY TRUNK (foot of bed) -->
+      <rect x="120" y="108" width="60" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="150" y="124" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">MILITARY TRUNK</text>
+      <text x="150" y="132" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">(open, uniforms)</text>
+      <!-- Bedside table (left) -->
+      <rect x="70" y="45" width="28" height="22" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <text x="84" y="60" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">TABLE</text>
+      <!-- Letter on table --><rect x="74" y="49" width="12" height="8" fill="#1C1810" stroke="#5C4A30" stroke-width="0.3"/>
+      <!-- Oil lamp -->
+      <circle cx="90" cy="52" r="4" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="90" cy="52" r="1.5" fill="#F57C00" opacity="0.2"/>
+      <text x="90" y="42" fill="#F57C00" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">LAMP</text>
+      <!-- Medals on wall -->
+      <rect x="230" y="28" width="45" height="20" fill="#1C1810" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <circle cx="242" cy="38" r="3" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="254" cy="38" r="3" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="266" cy="38" r="3" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.5"/>
+      <text x="254" y="54" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">MEDALS &amp; PHOTOS</text>
+      <!-- WARDROBE (east wall — key reveal) -->
+      <rect x="310" y="80" width="22" height="80" fill="#2C2418" stroke="#8B1A1A" stroke-width="2" rx="2"/>
+      <text x="321" y="125" fill="#8B1A1A" font-size="5" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,321,125)">WARDROBE ★</text>
+      <!-- Riding boots -->
+      <rect x="310" y="168" width="8" height="12" fill="#2C2418" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <rect x="320" y="168" width="8" height="12" fill="#2C2418" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <text x="320" y="188" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">BOOTS</text>
+      <!-- Wash stand -->
+      <rect x="240" y="240" width="40" height="22" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <circle cx="260" cy="248" r="6" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <text x="260" y="270" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">WASH STAND</text>
+      <!-- Bookshelf -->
+      <rect x="30" y="140" width="18" height="60" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <text x="39" y="175" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle" transform="rotate(-90,39,175)">BOOKSHELF</text>
+      <!-- Backstage --><rect x="330" y="200" width="18" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="339" y="240" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="140" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="165" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">↑ ENTRY FROM LANDING</text>
+      <!-- Performers --><circle cx="160" cy="80" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="160" y="83" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">S</text>
+      <circle cx="321" cy="120" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="321" y="123" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">B</text>
+      <!-- Audience flow -->
+      <path d="M165,270 L165,200" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwB)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M165,200 L290,120" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwB)" opacity="0.3" stroke-dasharray="4,3"/>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="130" height="30" fill="#1A3A55" rx="2"/>
+      <text x="455" y="60" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">SLEEP STUDY MONITORS</text>
+      <rect x="390" y="85" width="60" height="50" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="107" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">REM</text>
+      <text x="420" y="117" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CHARTS</text>
+      <rect x="460" y="85" width="60" height="50" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="490" y="107" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">NIGHT</text>
+      <text x="490" y="117" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">VISION</text>
+      <rect x="390" y="150" width="130" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="455" y="168" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">SUBJECT SLEEP PHOTOGRAPHS</text>
+      <!-- Labels -->
+      <text x="170" y="35" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">SON'S BEDROOM</text>
+      <text x="452" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB A2</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+};
+
+// ── NURSERY ──
+roomData['nursery'] = {
+    name: "Nursery", floor: "First Floor — Wing B",
+    dims: "12m × 8.5m (102 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab B2", labDims: "12m × 5.5m (66 m²)",
+    labDesc: "Child development assessment files. Stimulus response data charts. Attachment theory observation notes. Play pattern analysis boards. Crayon drawings pinned up with clinical annotations.",
+    furniture: ["Two small iron beds side by side (west wall)", "Rocking horse (centre, painted, worn)", "Toy chest (lid ajar, toys spilling out)", "Music box on shelf (automated, plays by itself)", "Drawings in crayon on walls (some childlike, some disturbing)", "Wallpaper peeling to reveal writing underneath", "Small wooden desk with slate and chalk", "Dolls on the beds (mismatched, some damaged)", "Night light (gas-effect, low, amber)", "Rag rug between the beds", "Window (painted/projected, shows static garden)"],
+    performers: "The Governess standing by the beds. The Maid discovered crouching by the toy chest.",
+    hiddenReveal: "The writing under the wallpaper is data — numbers, dates, clinical shorthand. Not children's scrawl.",
+    audienceFlow: "Enter via landing corridor, room feels smaller and more claustrophobic than others, cluster between beds, exit to corridor.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwN" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="370" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,370,160)">ONE-WAY GLASS</text>
+      <!-- Peeling wallpaper indication -->
+      <rect x="24" y="24" width="332" height="262" fill="none" stroke="#5C4A30" stroke-width="0.5" stroke-dasharray="2,6" opacity="0.3"/>
+      <text x="280" y="18" fill="#8B1A1A" font-size="3.5" font-family="Inter" opacity="0.4">★ WALLPAPER PEELING → DATA UNDERNEATH</text>
+      <!-- BED 1 (west wall, upper) -->
+      <rect x="30" y="60" width="55" height="35" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <rect x="30" y="60" width="55" height="6" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <text x="57" y="83" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">BED 1</text>
+      <!-- Doll on bed 1 --><ellipse cx="70" cy="70" rx="5" ry="4" fill="#5C4A30" opacity="0.4"/>
+      <text x="70" y="58" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle">DOLL</text>
+      <!-- BED 2 (west wall, lower) -->
+      <rect x="30" y="110" width="55" height="35" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <rect x="30" y="110" width="55" height="6" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <text x="57" y="133" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">BED 2</text>
+      <!-- Doll on bed 2 --><ellipse cx="50" cy="120" rx="5" ry="4" fill="#5C4A30" opacity="0.4"/>
+      <!-- Rag rug between beds -->
+      <ellipse cx="57" cy="100" rx="30" ry="8" fill="none" stroke="#5C4A30" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.3"/>
+      <text x="57" y="103" fill="#5C4A30" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.3">RAG RUG</text>
+      <!-- ROCKING HORSE (centre) -->
+      <ellipse cx="180" cy="130" rx="20" ry="12" fill="none" stroke="#5C4A30" stroke-width="1.5"/>
+      <line x1="165" y1="142" x2="160" y2="155" stroke="#5C4A30" stroke-width="1.2"/>
+      <line x1="195" y1="142" x2="200" y2="155" stroke="#5C4A30" stroke-width="1.2"/>
+      <line x1="175" y1="118" x2="175" y2="108" stroke="#5C4A30" stroke-width="1"/>
+      <text x="180" y="134" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">HORSE</text>
+      <text x="180" y="165" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">(rocking, worn)</text>
+      <!-- TOY CHEST (south-east area) -->
+      <rect x="240" y="200" width="50" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <line x1="240" y1="200" x2="255" y2="185" stroke="#5C4A30" stroke-width="0.8"/>
+      <line x1="290" y1="200" x2="275" y2="185" stroke="#5C4A30" stroke-width="0.8"/>
+      <text x="265" y="219" fill="#8B7355" font-size="5" font-weight="600" font-family="Inter" text-anchor="middle">TOY CHEST</text>
+      <text x="265" y="240" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">(lid ajar)</text>
+      <!-- Toys spilling -->
+      <circle cx="250" cy="238" r="3" fill="#5C4A30" opacity="0.3"/><rect x="268" y="234" width="6" height="6" fill="#5C4A30" opacity="0.3" rx="1"/>
+      <!-- Music box on shelf (north wall) -->
+      <rect x="200" y="28" width="30" height="14" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <text x="215" y="39" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">MUSIC BOX</text>
+      <!-- Small desk with slate -->
+      <rect x="120" y="200" width="40" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <rect x="125" y="205" width="18" height="12" fill="#1C1810" stroke="#444" stroke-width="0.3"/>
+      <text x="140" y="233" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">DESK &amp; SLATE</text>
+      <!-- Crayon drawings on walls -->
+      <rect x="100" y="25" width="20" height="12" fill="none" stroke="#F57C00" stroke-width="0.3" opacity="0.3"/>
+      <rect x="130" y="28" width="15" height="10" fill="none" stroke="#2E7D32" stroke-width="0.3" opacity="0.3"/>
+      <text x="130" y="18" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">CRAYON DRAWINGS</text>
+      <!-- Night light -->
+      <circle cx="30" cy="160" r="5" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="30" cy="160" r="2" fill="#F57C00" opacity="0.15"/>
+      <text x="30" y="172" fill="#F57C00" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">NIGHT</text>
+      <!-- Window (north wall, projected) -->
+      <rect x="270" y="25" width="50" height="30" fill="#0D1A28" stroke="#444" stroke-width="1" rx="1"/>
+      <text x="295" y="44" fill="#444" font-size="4" font-family="Inter" text-anchor="middle">WINDOW</text>
+      <text x="295" y="62" fill="#444" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">(projected garden)</text>
+      <!-- Backstage --><rect x="340" y="140" width="18" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="349" y="180" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="300" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="325" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">← ENTRY FROM CORRIDOR</text>
+      <!-- Performers --><circle cx="57" cy="85" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="57" y="88" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">G</text>
+      <circle cx="265" cy="215" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="265" y="218" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">M</text>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="130" height="30" fill="#1A3A55" rx="2"/>
+      <text x="455" y="60" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">CHILD DEVELOPMENT FILES</text>
+      <rect x="390" y="85" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="105" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">STIMULUS</text>
+      <text x="420" y="115" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">DATA</text>
+      <rect x="460" y="85" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="490" y="105" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">PLAY</text>
+      <text x="490" y="115" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">ANALYSIS</text>
+      <rect x="390" y="145" width="130" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="455" y="163" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">ANNOTATED CRAYON DRAWINGS</text>
+      <!-- Labels -->
+      <text x="180" y="45" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">NURSERY</text>
+      <text x="455" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB B2</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+};
+
+// ── MASTER BEDROOM ──
+roomData['master-bedroom'] = {
+    name: "Master Bedroom", floor: "First Floor — Wing C",
+    dims: "12m × 8.5m (102 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab C2", labDims: "12m × 5.5m (66 m²)",
+    labDesc: "Relationship mapping boards with red string connections. Behavioural trigger catalogues. Emotional response data charts with colour-coded annotations. CCTV stills from intimate moments in the room.",
+    furniture: ["Ornate four-poster bed (centre, 2.2m×1.8m, silk canopy)", "Vanity table with mirror (north wall, Pepper's Ghost rigged)", "Locked jewellery box on vanity (practical, audience tries)", "Medicine bottles on nightstand (brown glass, labelled)", "Love letters tied with ribbon in dresser drawer", "Pressed flowers in small frames on wall", "Chaise longue (east wall, velvet, faded rose)", "Heavy curtains (floor-length, can be drawn for intimate scene)", "Wardrobe (west wall, period gowns visible)", "Wash basin on marble-top stand", "Perfume bottles (glass, decorative)"],
+    performers: "The Housekeeper at the vanity. The Gardener enters from corridor door.",
+    hiddenReveal: "The mirror shows someone standing behind you who isn't there (Pepper's Ghost). Medicine bottles have modern pharmaceutical labels under the Victorian ones — peel away.",
+    audienceFlow: "Enter from corridor, drawn to the bed and vanity, Pepper's Ghost moment at mirror, exit to corridor.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwMB" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="370" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,370,160)">ONE-WAY GLASS</text>
+      <!-- FOUR-POSTER BED (centre) -->
+      <rect x="110" y="100" width="100" height="75" fill="#2C2418" stroke="#5C4A30" stroke-width="2" rx="2"/>
+      <rect x="107" y="97" width="3" height="81" fill="#5C4A30" rx="1"/>
+      <rect x="210" y="97" width="3" height="81" fill="#5C4A30" rx="1"/>
+      <rect x="107" y="97" width="106" height="3" fill="#5C4A30" rx="1"/>
+      <rect x="107" y="175" width="106" height="3" fill="#5C4A30" rx="1"/>
+      <text x="160" y="142" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">FOUR-POSTER BED</text>
+      <text x="160" y="152" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">(silk canopy)</text>
+      <!-- Pillows -->
+      <rect x="118" y="107" width="28" height="12" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="3"/>
+      <rect x="155" y="107" width="28" height="12" fill="#231E14" stroke="#5C4A30" stroke-width="0.3" rx="3"/>
+      <!-- VANITY TABLE + PEPPER'S GHOST MIRROR (north wall) -->
+      <rect x="60" y="28" width="70" height="28" fill="#2C2418" stroke="#8B1A1A" stroke-width="2" rx="2"/>
+      <rect x="70" y="23" width="50" height="5" fill="none" stroke="#8B1A1A" stroke-width="1.5" rx="1"/>
+      <text x="95" y="46" fill="#8B1A1A" font-size="5" font-weight="700" font-family="Inter" text-anchor="middle">VANITY ★</text>
+      <text x="95" y="65" fill="#8B1A1A" font-size="3.5" font-family="Inter" text-anchor="middle">(Pepper's Ghost mirror)</text>
+      <!-- Jewellery box on vanity -->
+      <rect x="110" y="34" width="12" height="8" fill="#1C1810" stroke="#C9A84C" stroke-width="0.5" rx="1"/>
+      <text x="116" y="51" fill="#C9A84C" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.5">JEWELLERY</text>
+      <!-- Vanity chair -->
+      <rect x="80" y="60" width="20" height="12" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5" rx="3"/>
+      <!-- Medicine bottles (nightstand) -->
+      <rect x="220" y="105" width="28" height="18" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <rect x="224" y="108" width="4" height="8" fill="#5C4A30" opacity="0.4" rx="1"/>
+      <rect x="230" y="108" width="4" height="8" fill="#5C4A30" opacity="0.4" rx="1"/>
+      <rect x="236" y="108" width="4" height="8" fill="#5C4A30" opacity="0.4" rx="1"/>
+      <text x="234" y="130" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">MEDICINE</text>
+      <!-- Love letters (dresser) -->
+      <rect x="230" y="190" width="50" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="1"/>
+      <text x="255" y="208" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">DRESSER</text>
+      <text x="255" y="228" fill="#5C4A30" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">(love letters inside)</text>
+      <!-- Pressed flowers on wall -->
+      <rect x="170" y="26" width="16" height="12" fill="#1C1810" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <rect x="192" y="26" width="16" height="12" fill="#1C1810" stroke="#5C4A30" stroke-width="0.3" rx="1"/>
+      <text x="189" y="18" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">PRESSED FLOWERS</text>
+      <!-- CHAISE LONGUE (east wall) -->
+      <rect x="300" y="100" width="22" height="60" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="6"/>
+      <text x="311" y="135" fill="#8B7355" font-size="4" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,311,135)">CHAISE LONGUE</text>
+      <!-- Heavy curtains -->
+      <rect x="250" y="24" width="6" height="50" fill="#5C4A30" opacity="0.15"/>
+      <rect x="330" y="60" width="6" height="100" fill="#5C4A30" opacity="0.15"/>
+      <text x="336" y="55" fill="#5C4A30" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.3">CURTAIN</text>
+      <!-- WARDROBE (west wall) -->
+      <rect x="25" y="120" width="22" height="70" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="36" y="160" fill="#8B7355" font-size="4" font-weight="600" font-family="Inter" text-anchor="middle" transform="rotate(-90,36,160)">WARDROBE</text>
+      <!-- Wash basin -->
+      <rect x="50" y="230" width="30" height="20" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <circle cx="65" cy="238" r="5" fill="none" stroke="#5C4A30" stroke-width="0.3"/>
+      <text x="65" y="257" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">WASH BASIN</text>
+      <!-- Perfume bottles -->
+      <circle cx="75" cy="36" r="3" fill="none" stroke="#6A1B9A" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="82" cy="38" r="2" fill="none" stroke="#6A1B9A" stroke-width="0.5" opacity="0.3"/>
+      <!-- Backstage --><rect x="340" y="200" width="18" height="30" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <text x="349" y="240" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">B/S</text>
+      <!-- Entry --><rect x="140" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="165" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">↑ ENTRY FROM CORRIDOR</text>
+      <!-- Performers --><circle cx="95" cy="45" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="95" y="48" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">H</text>
+      <circle cx="165" cy="260" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="165" y="263" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">G</text>
+      <!-- Audience flow -->
+      <path d="M165,270 L165,200" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwMB)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M165,200 L95,80" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwMB)" opacity="0.3" stroke-dasharray="4,3"/>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="130" height="35" fill="#1A3A55" rx="2"/>
+      <text x="455" y="55" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">RELATIONSHIP MAPPING</text>
+      <text x="455" y="65" fill="#3C8CC8" font-size="4" font-family="Inter" text-anchor="middle">(red string board)</text>
+      <rect x="390" y="90" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="110" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">TRIGGER</text>
+      <text x="420" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CATALOGUE</text>
+      <rect x="460" y="90" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="490" y="110" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">EMOTION</text>
+      <text x="490" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">DATA</text>
+      <rect x="390" y="150" width="130" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="455" y="168" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">INTIMATE MOMENT CCTV STILLS</text>
+      <!-- Labels -->
+      <text x="180" y="90" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">MASTER BEDROOM</text>
+      <text x="455" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB C2</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+};
+
+// ── LIBRARY ──
+roomData['library'] = {
+    name: "Library", floor: "First Floor — Wing D",
+    dims: "12m × 8.5m (102 m²)", capacity: "25 guests, 2 performers",
+    labName: "Lab D2", labDims: "12m × 5.5m (66 m²)",
+    labDesc: "Knowledge mapping boards showing what subjects have been told vs. reality. Redacted files in open folders. Cross-reference data linking all four character narratives. Observation notes on information retention.",
+    furniture: ["Floor-to-ceiling bookshelves (north, west, south walls)", "Brass ladder on rail (south wall, scenic, functional)", "Globe on mahogany stand (north-east)", "Large writing desk (centre, leather top, ink well)", "Two leather club armchairs (flanking desk)", "Oil lamps (3 units, LED, warm amber)", "Reading table with open books and magnifying glass", "Small spiral staircase prop (decorative, doesn't go anywhere)", "Secret bookcase door (south-east corner, to backstage)", "Clock on mantelpiece (ticking, stops at key moment)", "Persian runner rug (full length of room)"],
+    performers: "The Medium at desk, reading. The Assistant on ladder, descends.",
+    hiddenReveal: "One shelf of books is entirely fake — hollow spines. Behind them: files with guests' names. (Actually pre-printed generic files, but the shock is real.)",
+    audienceFlow: "Enter from corridor, free-roam encouraged (touch books, examine globe), guided to desk for key reveal, exit via corridor or secret bookcase door.",
+    svgPlan: `<svg viewBox="0 0 550 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arwL" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#C9A84C" opacity="0.4"/></marker></defs>
+      <rect width="550" height="400" fill="#0D0B08"/>
+      <rect x="20" y="20" width="340" height="270" fill="#1E1A12" stroke="#C9A84C" stroke-width="2" rx="2"/>
+      <rect x="380" y="20" width="155" height="270" fill="#0A1520" stroke="#3C8CC8" stroke-width="2" rx="2"/>
+      <rect x="360" y="50" width="20" height="210" fill="none" stroke="#3C8CC8" stroke-width="3"/>
+      <text x="370" y="160" fill="#3C8CC8" font-size="7" font-weight="700" font-family="Inter" text-anchor="middle" transform="rotate(-90,370,160)">ONE-WAY GLASS</text>
+      <!-- BOOKSHELVES (north wall) -->
+      <rect x="40" y="24" width="280" height="14" fill="#2C2418" stroke="#5C4A30" stroke-width="1"/>
+      <line x1="60" y1="24" x2="60" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="80" y1="24" x2="80" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="100" y1="24" x2="100" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="120" y1="24" x2="120" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="140" y1="24" x2="140" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="160" y1="24" x2="160" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="180" y1="24" x2="180" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="200" y1="24" x2="200" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="220" y1="24" x2="220" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="240" y1="24" x2="240" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="260" y1="24" x2="260" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="280" y1="24" x2="280" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="300" y1="24" x2="300" y2="38" stroke="#5C4A30" stroke-width="0.3"/>
+      <text x="180" y="50" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">FLOOR-TO-CEILING BOOKSHELVES</text>
+      <!-- Fake shelf section (highlighted) -->
+      <rect x="140" y="24" width="40" height="14" fill="none" stroke="#8B1A1A" stroke-width="1.5"/>
+      <text x="160" y="18" fill="#8B1A1A" font-size="3.5" font-family="Inter" text-anchor="middle">★ HOLLOW SPINES</text>
+      <!-- BOOKSHELVES (west wall) -->
+      <rect x="24" y="50" width="14" height="200" fill="#2C2418" stroke="#5C4A30" stroke-width="1"/>
+      <line x1="24" y1="70" x2="38" y2="70" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="90" x2="38" y2="90" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="110" x2="38" y2="110" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="130" x2="38" y2="130" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="150" x2="38" y2="150" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="170" x2="38" y2="170" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="190" x2="38" y2="190" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="210" x2="38" y2="210" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="24" y1="230" x2="38" y2="230" stroke="#5C4A30" stroke-width="0.3"/>
+      <!-- BOOKSHELVES (south wall) -->
+      <rect x="40" y="266" width="200" height="14" fill="#2C2418" stroke="#5C4A30" stroke-width="1"/>
+      <line x1="60" y1="266" x2="60" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="80" y1="266" x2="80" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="100" y1="266" x2="100" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="120" y1="266" x2="120" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="140" y1="266" x2="140" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="160" y1="266" x2="160" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="180" y1="266" x2="180" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="200" y1="266" x2="200" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <line x1="220" y1="266" x2="220" y2="280" stroke="#5C4A30" stroke-width="0.3"/>
+      <!-- BRASS LADDER (south wall, on rail) -->
+      <line x1="100" y1="253" x2="100" y2="266" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="115" y1="253" x2="115" y2="266" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="100" y1="256" x2="115" y2="256" stroke="#C9A84C" stroke-width="0.8"/>
+      <line x1="100" y1="260" x2="115" y2="260" stroke="#C9A84C" stroke-width="0.8"/>
+      <rect x="40" y="264" width="200" height="2" fill="#C9A84C" opacity="0.3"/>
+      <text x="107" y="250" fill="#C9A84C" font-size="3.5" font-family="Inter" text-anchor="middle" opacity="0.5">LADDER ON RAIL</text>
+      <!-- GLOBE (north-east) -->
+      <circle cx="290" cy="70" r="14" fill="none" stroke="#5C4A30" stroke-width="1"/>
+      <ellipse cx="290" cy="70" rx="14" ry="5" fill="none" stroke="#5C4A30" stroke-width="0.5"/>
+      <line x1="290" y1="56" x2="290" y2="84" stroke="#5C4A30" stroke-width="0.5"/>
+      <rect x="282" y="84" width="16" height="4" fill="#2C2418" stroke="#5C4A30" stroke-width="0.5" rx="1"/>
+      <text x="290" y="96" fill="#6B5D45" font-size="4" font-family="Inter" text-anchor="middle">GLOBE</text>
+      <!-- WRITING DESK (centre) -->
+      <rect x="120" y="120" width="90" height="45" fill="#2C2418" stroke="#5C4A30" stroke-width="1.5" rx="2"/>
+      <text x="165" y="147" fill="#8B7355" font-size="6" font-weight="600" font-family="Inter" text-anchor="middle">WRITING DESK</text>
+      <!-- Ink well on desk --><circle cx="195" cy="133" r="3" fill="#1C1810" stroke="#5C4A30" stroke-width="0.5"/>
+      <!-- CLUB ARMCHAIRS (flanking desk) -->
+      <rect x="90" y="130" width="24" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="4"/>
+      <text x="102" y="147" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">ARM</text>
+      <rect x="216" y="130" width="24" height="26" fill="#2C2418" stroke="#5C4A30" stroke-width="1" rx="4"/>
+      <text x="228" y="147" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">ARM</text>
+      <!-- Oil lamps -->
+      <circle cx="60" cy="80" r="4" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="60" cy="80" r="1.5" fill="#F57C00" opacity="0.15"/>
+      <circle cx="300" cy="180" r="4" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="300" cy="180" r="1.5" fill="#F57C00" opacity="0.15"/>
+      <circle cx="170" cy="200" r="4" fill="none" stroke="#F57C00" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="170" cy="200" r="1.5" fill="#F57C00" opacity="0.15"/>
+      <!-- Reading table -->
+      <rect x="60" y="180" width="50" height="30" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <rect x="65" y="184" width="20" height="14" fill="#1C1810" stroke="#5C4A30" stroke-width="0.2"/>
+      <text x="85" y="200" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">BOOKS</text>
+      <text x="85" y="218" fill="#6B5D45" font-size="3.5" font-family="Inter" text-anchor="middle">READING TABLE</text>
+      <!-- Spiral staircase prop (decorative, NW) -->
+      <circle cx="60" cy="60" r="12" fill="none" stroke="#5C4A30" stroke-width="1" stroke-dasharray="3,2"/>
+      <circle cx="60" cy="60" r="6" fill="none" stroke="#5C4A30" stroke-width="0.5"/>
+      <text x="60" y="48" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">SPIRAL STAIR</text>
+      <text x="60" y="78" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.4">(decorative)</text>
+      <!-- SECRET BOOKCASE DOOR (SE corner) -->
+      <rect x="270" y="260" width="40" height="18" fill="#1a1a1a" stroke="#8B1A1A" stroke-width="1.5" rx="1"/>
+      <text x="290" y="272" fill="#8B1A1A" font-size="4" font-weight="600" font-family="Inter" text-anchor="middle">SECRET DOOR ★</text>
+      <!-- Clock on mantelpiece (east wall) -->
+      <rect x="310" y="180" width="18" height="25" fill="#2C2418" stroke="#5C4A30" stroke-width="0.8" rx="1"/>
+      <circle cx="319" cy="190" r="5" fill="none" stroke="#C9A84C" stroke-width="0.5"/>
+      <text x="319" y="212" fill="#6B5D45" font-size="3" font-family="Inter" text-anchor="middle">CLOCK</text>
+      <!-- Persian runner rug -->
+      <rect x="80" y="90" width="170" height="150" fill="none" stroke="#8B1A1A" stroke-width="0.5" stroke-dasharray="3,2" rx="2" opacity="0.2"/>
+      <text x="165" y="250" fill="#8B1A1A" font-size="3" font-family="Inter" text-anchor="middle" opacity="0.2">PERSIAN RUNNER</text>
+      <!-- Backstage (secret door) --><text x="290" y="290" fill="#555" font-size="4" font-family="Inter" text-anchor="middle">→ TO BACKSTAGE</text>
+      <!-- Entry --><rect x="250" y="275" width="5" height="12" fill="#A68A3E"/>
+      <rect x="140" y="275" width="50" height="12" fill="#A68A3E" rx="2"/>
+      <text x="165" y="300" fill="#C9A84C" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">↑ ENTRY FROM CORRIDOR</text>
+      <!-- Performers --><circle cx="165" cy="125" r="8" fill="none" stroke="#F57C00" stroke-width="1.5"/>
+      <text x="165" y="128" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">M</text>
+      <circle cx="100" cy="260" r="8" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="100" y="263" fill="#F57C00" font-size="6" font-weight="700" font-family="Inter" text-anchor="middle">A</text>
+      <!-- Audience flow -->
+      <path d="M165,270 L165,220" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwL)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M165,220 L290,80" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwL)" opacity="0.3" stroke-dasharray="4,3"/>
+      <path d="M165,220 L80,160" stroke="#C9A84C" stroke-width="1" marker-end="url(#arwL)" opacity="0.3" stroke-dasharray="4,3"/>
+      <!-- Lab equipment -->
+      <rect x="390" y="40" width="130" height="35" fill="#1A3A55" rx="2"/>
+      <text x="455" y="55" fill="#3C8CC8" font-size="5" font-family="Inter" text-anchor="middle">KNOWLEDGE MAPPING BOARD</text>
+      <text x="455" y="65" fill="#3C8CC8" font-size="4" font-family="Inter" text-anchor="middle">(told vs. reality)</text>
+      <rect x="390" y="90" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="420" y="110" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">REDACTED</text>
+      <text x="420" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">FILES</text>
+      <rect x="460" y="90" width="60" height="45" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="490" y="110" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">CROSS-REF</text>
+      <text x="490" y="120" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">DATA</text>
+      <rect x="390" y="150" width="130" height="30" fill="#0D1A28" stroke="#1A3A55" stroke-width="1" rx="2"/>
+      <text x="455" y="168" fill="#2A6090" font-size="5" font-family="Inter" text-anchor="middle">INFO RETENTION OBSERVATIONS</text>
+      <!-- Labels -->
+      <text x="180" y="45" fill="#C9A84C" font-size="9" font-weight="800" font-family="Playfair Display" text-anchor="middle">LIBRARY</text>
+      <text x="455" y="250" fill="#3C8CC8" font-size="8" font-weight="800" font-family="Inter" text-anchor="middle">LAB D2</text>
+      <text x="275" y="390" fill="#444" font-size="7" font-family="Inter" text-anchor="middle">Scale approx 1:50</text>
+    </svg>`
+};
+
+function openRoom(id) {
+  const r = roomData[id];
+  if (!r) return;
+
+  const furnitureHtml = r.furniture.map(f => `<div style="font-size:12px;color:#999;line-height:1.7;padding:3px 0;border-bottom:1px solid #1a1a1a;">• ${f}</div>`).join('');
+
+  document.getElementById('roomPanel').innerHTML = `
+    <div class="room-detail-header">
+      <div>
+        <h2>${r.name}</h2>
+        <div class="room-meta">${r.floor} · ${r.dims} · ${r.capacity}</div>
+      </div>
+      <button class="room-detail-close" onclick="closeRoom()">✕ Close</button>
+    </div>
+    <div class="room-detail-body">
+      <div class="room-detail-plan">
+        <h3>Furniture Plan — Victorian Room + Connected Lab</h3>
+        ${r.svgPlan}
+      </div>
+      <div class="room-detail-info">
+        <h3>Room Specification</h3>
+        <div class="detail-section">
+          <h4>Furniture &amp; Props</h4>
+          ${furnitureHtml}
+        </div>
+        <div class="detail-section">
+          <h4>Performer Positions</h4>
+          <p>${r.performers}</p>
+        </div>
+        <div class="detail-section">
+          <h4>Audience Flow</h4>
+          <p>${r.audienceFlow}</p>
+        </div>
+        <div class="detail-section">
+          <h4 style="color:#8B1A1A;">Hidden Reveal</h4>
+          <p style="color:#8B1A1A;">${r.hiddenReveal}</p>
+        </div>
+      </div>
+      <div class="room-detail-connection">
+        <div>
+          <div class="conn-label">Connected Laboratory</div>
+          <div class="conn-text"><strong>${r.labName}</strong> (${r.labDims}) — ${r.labDesc}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('roomOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRoom() {
+  document.getElementById('roomOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRoom(); });
+
+function showLevel(id) {
+  document.querySelectorAll('.plan-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('level-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Sticky nav highlighting
+const navLinks = document.querySelectorAll('.nav a');
+const sections = document.querySelectorAll('section[id]');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80;
+    if (scrollY >= sectionTop) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
