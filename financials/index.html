@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Core Creative Group — Consolidated Financial Model</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --red-primary: #dc2626;
+            --gold: #C9A84C;
+            --green: #22c55e;
+            --purple: #8b5cf6;
+            --ec-green: #166534;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border: #2a2a2a;
+            --amber: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary); color: var(--text-primary);
+            line-height: 1.6; -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 10, 10, 0.92); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem;
+        }
+        nav .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        nav .logo-group img { height: 34px; width: auto; }
+        nav .logo-group span { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+        nav .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; transition: color 0.2s; }
+        nav .nav-links a:hover { color: var(--purple); }
+        nav .nav-links a.active { color: var(--purple); }
+        .hamburger { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        /* PAGE HEADER */
+        .page-header {
+            padding: 120px 2rem 40px; text-align: center; position: relative; overflow: hidden;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .page-header img { max-width: 300px; width: 50%; margin-bottom: 1rem; }
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700; margin-bottom: 0.5rem;
+        }
+        .page-header p { font-size: 0.9rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        .page-header .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--text-muted); text-decoration: none; font-size: 0.8rem;
+            margin-bottom: 1.5rem; transition: color 0.2s;
+        }
+        .page-header .back-link:hover { color: var(--purple); }
+
+        /* SECTIONS */
+        section { padding: 60px 2rem; max-width: 1280px; margin: 0 auto; }
+        section .section-label {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--purple); margin-bottom: 1rem;
+        }
+        section h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700; margin-bottom: 1rem; line-height: 1.2;
+        }
+        section .section-intro {
+            font-size: 1.05rem; color: var(--text-secondary); max-width: 700px;
+            margin-bottom: 3rem; line-height: 1.7;
+        }
+
+        /* METRICS */
+        .metrics-bar {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem; margin: 2rem 0;
+        }
+        .metric-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem; text-align: center;
+        }
+        .metric-card .value {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700;
+        }
+        .metric-card .value.green { color: var(--green); }
+        .metric-card .value.red { color: var(--red-primary); }
+        .metric-card .value.amber { color: var(--amber); }
+        .metric-card .value.purple { color: var(--purple); }
+        .metric-card .value.gold { color: var(--gold); }
+        .metric-card .desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* CHARTS */
+        .chart-container {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 2rem; margin-bottom: 2rem;
+        }
+        .chart-container h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+        /* DATA TABLE */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1.5rem; }
+        .data-table th {
+            text-align: left; padding: 10px 12px; background: var(--bg-card);
+            border-bottom: 2px solid var(--purple); font-weight: 600; font-size: 0.72rem;
+            letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-secondary);
+        }
+        .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+        .data-table tr:hover td { background: var(--bg-card); }
+        .data-table .bold { font-weight: 600; }
+        .data-table .positive { color: var(--green); }
+        .data-table .negative { color: var(--red-primary); }
+        .data-table .amount { text-align: right; font-family: 'Space Grotesk', sans-serif; }
+        .data-table .total-row td { border-top: 2px solid var(--purple); font-weight: 700; }
+        .data-table .sub-row td { padding-left: 24px; color: var(--text-secondary); font-size: 0.78rem; }
+        .brand-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+        .brand-dot.sc { background: var(--red-primary); }
+        .brand-dot.ic { background: var(--gold); }
+        .brand-dot.ec { background: var(--ec-green); }
+        .brand-dot.ccg { background: var(--purple); }
+
+        /* SPLIT */
+        .split-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .split-col h3 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600;
+            margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--purple);
+        }
+
+        /* CAPEX PIE */
+        .capex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 2rem; border-top: 1px solid var(--border);
+            font-size: 0.75rem; color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .hamburger { display: block; }
+            nav .nav-links.active { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--bg-primary); padding: 1rem 2rem; border-bottom: 1px solid var(--border); }
+            .chart-row, .split-row, .capex-grid { grid-template-columns: 1fr; }
+            section { padding: 40px 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="logo-group">
+            <img src="assets/logos/ccg-icon-white.png" alt="CCG">
+            <span>Core Creative Group</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/">Home</a></li>
+            <li><a href="/scare-core" style="color: var(--red-primary);">Scare Core</a></li>
+            <li><a href="/immersive-core" style="color: #C9A84C;">Immersive Core</a></li>
+            <li><a href="/group-financials" class="active">Group Financials</a></li>
+            <li><a href="/maps">Plans &amp; Maps</a></li>
+        </ul>
+        <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">&#9776;</button>
+    </div>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+    <img src="assets/logos/core-creative-group.png" alt="Core Creative Group">
+    <a href="/" class="back-link">&larr; Back to Core Creative Group</a>
+    <h1>Consolidated Financial Model</h1>
+    <p>10-year group projection across all three operating brands. £39M total investment. Base case scenario.</p>
+</div>
+
+<!-- HEADLINE METRICS -->
+<section id="headline">
+    <div class="section-label">Group Summary</div>
+    <h2>£39M In. What Comes Back?</h2>
+    <p class="section-intro">Three brands, one campus, one consolidated P&amp;L. Scare Core drives scare season revenue. Immersive Core runs year-round premium theatre. Escape Core and events fill off-season capacity. Here's how it all adds up over 10 years.</p>
+
+    <div class="metrics-bar">
+        <div class="metric-card">
+            <div class="value purple">£39M</div>
+            <div class="desc">Total CAPEX</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£6.28M</div>
+            <div class="desc">Year 10 Revenue</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£1.93M</div>
+            <div class="desc">Year 10 EBITDA</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">30.7%</div>
+            <div class="desc">Year 10 EBITDA Margin</div>
+        </div>
+        <div class="metric-card">
+            <div class="value amber">Year 4</div>
+            <div class="desc">EBITDA Breakeven</div>
+        </div>
+        <div class="metric-card">
+            <div class="value amber">Year 6</div>
+            <div class="desc">Cumulative Positive</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£7.44M</div>
+            <div class="desc">10-Year Cumulative EBITDA</div>
+        </div>
+        <div class="metric-card">
+            <div class="value green">£15.4M</div>
+            <div class="desc">Enterprise Value (8&times; Y10 EBITDA)</div>
+        </div>
+    </div>
+</section>
+
+<!-- CAPEX BREAKDOWN -->
+<section id="capex">
+    <div class="section-label">Capital Expenditure</div>
+    <h2>Where the £39M Goes</h2>
+
+    <div class="capex-grid">
+        <div class="chart-container">
+            <h3>CAPEX by Entity</h3>
+            <canvas id="capexChart"></canvas>
+        </div>
+        <div>
+            <table class="data-table">
+                <thead><tr><th>Entity</th><th style="text-align:right;">CAPEX</th><th style="text-align:right;">% of Total</th></tr></thead>
+                <tbody>
+                    <tr><td><span class="brand-dot ccg"></span>Core Creative Group</td><td class="amount">£14,000,000</td><td class="amount">35.9%</td></tr>
+                    <tr class="sub-row"><td>Land &amp; freehold purchase</td><td class="amount">£6,550,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Site infrastructure &amp; utilities</td><td class="amount">£3,450,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Professional fees &amp; planning</td><td class="amount">£2,000,000</td><td></td></tr>
+                    <tr class="sub-row"><td>HQ retrofit &amp; shared facilities</td><td class="amount">£2,000,000</td><td></td></tr>
+                    <tr><td><span class="brand-dot sc"></span>Scare Core Ltd</td><td class="amount">£13,500,000</td><td class="amount">34.6%</td></tr>
+                    <tr class="sub-row"><td>6 maze barn structures</td><td class="amount">£3,100,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Maze fit-out, props &amp; theming</td><td class="amount">£4,000,000</td><td></td></tr>
+                    <tr class="sub-row"><td>The Yard, courtyards, AV &amp; tech</td><td class="amount">£4,800,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Pre-opening &amp; contingency</td><td class="amount">£1,600,000</td><td></td></tr>
+                    <tr><td><span class="brand-dot ic"></span>Immersive Core Ltd</td><td class="amount">£8,000,000</td><td class="amount">20.5%</td></tr>
+                    <tr class="sub-row"><td>Barn shell &amp; Tech Suite</td><td class="amount">£2,150,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Scenic &amp; fit-out (rooms, labs)</td><td class="amount">£2,600,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Technology &amp; production</td><td class="amount">£1,400,000</td><td></td></tr>
+                    <tr class="sub-row"><td>Content, pre-opening &amp; contingency</td><td class="amount">£1,850,000</td><td></td></tr>
+                    <tr><td><span class="brand-dot ec"></span>Escape Core Ltd</td><td class="amount">£1,500,000</td><td class="amount">3.8%</td></tr>
+                    <tr><td>Working Capital Reserve</td><td class="amount">£2,000,000</td><td class="amount">5.1%</td></tr>
+                    <tr class="total-row"><td><strong>Total</strong></td><td class="amount"><strong>£39,000,000</strong></td><td class="amount"><strong>100%</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- CONSOLIDATED P&L -->
+<section id="consolidated">
+    <div class="section-label">Consolidated P&amp;L</div>
+    <h2>10-Year Group Revenue &amp; EBITDA</h2>
+    <p class="section-intro">Revenue from all three brands combined. Scare Core includes scare season and off-season escape room revenue. Immersive Core runs independently year-round. Parent company overhead allocated centrally.</p>
+
+    <div class="chart-container">
+        <h3>Group Revenue by Brand (10-Year)</h3>
+        <canvas id="revenueStackChart" height="100"></canvas>
+    </div>
+
+    <div class="chart-row">
+        <div class="chart-container">
+            <h3>Group EBITDA by Brand</h3>
+            <canvas id="ebitdaChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Cumulative Group EBITDA</h3>
+            <canvas id="cumChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Full Consolidated Summary (£k)</h3>
+        <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr><th></th><th>Y1</th><th>Y2</th><th>Y3</th><th>Y4</th><th>Y5</th><th>Y6</th><th>Y7</th><th>Y8</th><th>Y9</th><th>Y10</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="bold"><span class="brand-dot sc"></span>Scare Core Revenue</td>
+                    <td>£645</td><td>£1,151</td><td>£1,811</td><td>£2,335</td><td>£2,904</td><td>£3,283</td><td>£3,497</td><td>£3,688</td><td>£3,883</td><td>£4,071</td></tr>
+                <tr><td class="bold"><span class="brand-dot ic"></span>Immersive Core Revenue</td>
+                    <td>£504</td><td>£912</td><td>£1,160</td><td>£1,400</td><td>£1,590</td><td>£1,750</td><td>£1,890</td><td>£2,010</td><td>£2,110</td><td>£2,210</td></tr>
+                <tr class="total-row"><td class="bold">Group Revenue</td>
+                    <td>£1,149</td><td>£2,063</td><td>£2,971</td><td>£3,735</td><td>£4,494</td><td>£5,033</td><td>£5,387</td><td>£5,698</td><td>£5,993</td><td>£6,281</td></tr>
+                <tr><td>&nbsp;</td><td colspan="10"></td></tr>
+                <tr><td class="bold"><span class="brand-dot sc"></span>Scare Core EBITDA</td>
+                    <td class="negative">(£709)</td><td class="negative">(£544)</td><td class="negative">(£141)</td><td class="positive">£206</td><td class="positive">£599</td><td class="positive">£868</td><td class="positive">£994</td><td class="positive">£1,117</td><td class="positive">£1,240</td><td class="positive">£1,360</td></tr>
+                <tr><td class="bold"><span class="brand-dot ic"></span>Immersive Core EBITDA</td>
+                    <td class="negative">(£196)</td><td class="positive">£62</td><td class="positive">£248</td><td class="positive">£406</td><td class="positive">£549</td><td class="positive">£648</td><td class="positive">£737</td><td class="positive">£804</td><td class="positive">£865</td><td class="positive">£928</td></tr>
+                <tr><td class="bold"><span class="brand-dot ccg"></span>Parent Overhead</td>
+                    <td class="negative">(£150)</td><td class="negative">(£180)</td><td class="negative">(£200)</td><td class="negative">(£220)</td><td class="negative">(£250)</td><td class="negative">(£280)</td><td class="negative">(£300)</td><td class="negative">(£320)</td><td class="negative">(£340)</td><td class="negative">(£360)</td></tr>
+                <tr class="total-row"><td class="bold">Group EBITDA</td>
+                    <td class="negative">(£1,055)</td><td class="negative">(£662)</td><td class="negative">(£93)</td><td class="positive">£392</td><td class="positive">£898</td><td class="positive">£1,236</td><td class="positive">£1,431</td><td class="positive">£1,601</td><td class="positive">£1,765</td><td class="positive">£1,928</td></tr>
+                <tr><td class="bold">Group EBITDA Margin</td>
+                    <td class="negative">-91.8%</td><td class="negative">-32.1%</td><td class="negative">-3.1%</td><td class="positive">10.5%</td><td class="positive">20.0%</td><td class="positive">24.6%</td><td class="positive">26.6%</td><td class="positive">28.1%</td><td class="positive">29.5%</td><td class="positive">30.7%</td></tr>
+                <tr><td class="bold">Cumulative EBITDA</td>
+                    <td class="negative">(£1,055)</td><td class="negative">(£1,717)</td><td class="negative">(£1,810)</td><td class="negative">(£1,418)</td><td class="negative">(£520)</td><td class="positive">£716</td><td class="positive">£2,147</td><td class="positive">£3,748</td><td class="positive">£5,513</td><td class="positive">£7,441</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</section>
+
+<!-- REVENUE MIX -->
+<section id="mix">
+    <div class="section-label">Revenue Mix</div>
+    <h2>Brand Contribution Over Time</h2>
+
+    <div class="chart-row">
+        <div class="chart-container">
+            <h3>Revenue Share by Brand (Year 1 vs Year 10)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div style="text-align: center;">
+                    <canvas id="mixY1"></canvas>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 8px;">Year 1 — £1.15M total</p>
+                </div>
+                <div style="text-align: center;">
+                    <canvas id="mixY10"></canvas>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 8px;">Year 10 — £6.28M total</p>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3>EBITDA Margin Progression</h3>
+            <canvas id="marginChart"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ROI & VALUATION -->
+<section id="roi">
+    <div class="section-label">Return on Investment</div>
+    <h2>What's the Business Worth?</h2>
+    <p class="section-intro">Entertainment businesses are valued on a combination of EBITDA multiples and net asset value. Core Creative Group owns the freehold land (non-depreciating), all buildings, and the IP. Here's how it stacks up.</p>
+
+    <div class="split-row">
+        <div class="chart-container">
+            <h3>Enterprise Valuation (Year 10)</h3>
+            <table class="data-table">
+                <tbody>
+                    <tr><td>Year 10 Group EBITDA</td><td class="amount bold">£1,928,000</td></tr>
+                    <tr><td>EBITDA Multiple (8&times;)</td><td class="amount">8.0&times;</td></tr>
+                    <tr class="total-row"><td><strong>Enterprise Value</strong></td><td class="amount"><strong>£15,424,000</strong></td></tr>
+                    <tr><td>&nbsp;</td><td></td></tr>
+                    <tr><td>Freehold Land (301 acres, no depreciation)</td><td class="amount">£6,550,000</td></tr>
+                    <tr><td>Buildings &amp; Infrastructure (depreciated)</td><td class="amount">£12,000,000</td></tr>
+                    <tr><td>IP, Brand Rights &amp; Goodwill</td><td class="amount">£2,000,000</td></tr>
+                    <tr class="total-row"><td><strong>Net Asset Value (Est.)</strong></td><td class="amount"><strong>£20,550,000</strong></td></tr>
+                    <tr><td>&nbsp;</td><td></td></tr>
+                    <tr><td>Higher of EV or NAV</td><td class="amount bold" style="color: var(--green);">£20,550,000</td></tr>
+                    <tr><td>10-Year Cumulative EBITDA</td><td class="amount bold" style="color: var(--green);">£7,441,000</td></tr>
+                    <tr class="total-row"><td><strong>Total Value Created (NAV + Cum. EBITDA)</strong></td><td class="amount" style="color: var(--green);"><strong>£27,991,000</strong></td></tr>
+                    <tr><td>Against Total Investment</td><td class="amount">£39,000,000</td></tr>
+                    <tr><td><strong>Recovery Ratio</strong></td><td class="amount bold">71.8%</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="chart-container">
+                <h3>Liquidation Floor (Worst Case)</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><td>Land (freehold, no depreciation)</td><td class="amount">£6,550,000</td></tr>
+                        <tr><td>Buildings at 50% of cost</td><td class="amount">£7,750,000</td></tr>
+                        <tr><td>Equipment &amp; technology at 20%</td><td class="amount">£1,200,000</td></tr>
+                        <tr class="total-row"><td><strong>Liquidation Floor</strong></td><td class="amount"><strong>£15,500,000</strong></td></tr>
+                        <tr><td>Recovery on £39M</td><td class="amount bold">39.7%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container" style="margin-top: 2rem;">
+                <h3>Years 11&ndash;15 Projection</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">If growth continues at 3&ndash;5% annually beyond Year 10:</p>
+                <table class="data-table">
+                    <thead><tr><th></th><th>Y11</th><th>Y12</th><th>Y13</th><th>Y14</th><th>Y15</th></tr></thead>
+                    <tbody>
+                        <tr><td class="bold">Group Revenue</td><td>£6.5M</td><td>£6.8M</td><td>£7.1M</td><td>£7.4M</td><td>£7.7M</td></tr>
+                        <tr><td class="bold">Group EBITDA</td><td>£2.1M</td><td>£2.2M</td><td>£2.4M</td><td>£2.5M</td><td>£2.7M</td></tr>
+                        <tr><td class="bold">Cumulative EBITDA</td><td>£9.5M</td><td>£11.7M</td><td>£14.1M</td><td>£16.6M</td><td>£19.3M</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem;">At this trajectory, cumulative EBITDA surpasses the original £39M investment between <strong style="color: var(--amber);">Year 18 and Year 20</strong>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SCENARIO ANALYSIS -->
+<section id="scenarios">
+    <div class="section-label">Scenario Analysis</div>
+    <h2>Best Case, Base Case, Downside</h2>
+
+    <div class="chart-container">
+        <h3>10-Year Scenarios</h3>
+        <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead><tr><th>Metric</th><th style="color: var(--red-primary);">Downside (70%)</th><th style="color: var(--purple);">Base Case</th><th style="color: var(--green);">Upside (130%)</th></tr></thead>
+            <tbody>
+                <tr><td>Year 10 Group Revenue</td><td class="amount">£4.40M</td><td class="amount bold">£6.28M</td><td class="amount">£8.16M</td></tr>
+                <tr><td>Year 10 Group EBITDA</td><td class="amount">£880k</td><td class="amount bold">£1.93M</td><td class="amount">£3.08M</td></tr>
+                <tr><td>Year 10 EBITDA Margin</td><td class="amount">20.0%</td><td class="amount bold">30.7%</td><td class="amount">37.7%</td></tr>
+                <tr><td>10-Year Cumulative EBITDA</td><td class="amount negative">(£520k)</td><td class="amount positive bold">£7.44M</td><td class="amount positive">£15.3M</td></tr>
+                <tr><td>Cumulative Breakeven</td><td class="amount">Year 9</td><td class="amount bold">Year 6</td><td class="amount">Year 4</td></tr>
+                <tr><td>Enterprise Value (8&times; Y10 EBITDA)</td><td class="amount">£7.0M</td><td class="amount bold">£15.4M</td><td class="amount">£24.6M</td></tr>
+                <tr><td>NAV + Cumulative EBITDA</td><td class="amount">£20.0M</td><td class="amount bold">£28.0M</td><td class="amount positive">£35.9M</td></tr>
+                <tr><td>Full CAPEX Payback (cumulative EBITDA)</td><td class="amount">Year 25+</td><td class="amount bold">Year 18&ndash;20</td><td class="amount">Year 13&ndash;14</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Downside: 70% of base revenue, higher cost ratios. Upside: 130% of base revenue through higher ticket prices, additional shows, and stronger ancillary spend. All scenarios assume the same £39M CAPEX.</p>
+    </div>
+
+    <div class="chart-container">
+        <h3>Scenario Fan Chart — Cumulative EBITDA</h3>
+        <canvas id="scenarioChart"></canvas>
+    </div>
+</section>
+
+<!-- KEY ASSUMPTIONS -->
+<section id="assumptions">
+    <div class="section-label">Notes &amp; Assumptions</div>
+    <h2>How We Got Here</h2>
+
+    <div class="chart-container">
+        <table class="data-table">
+            <thead><tr><th>Assumption</th><th>Value</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td>Scare Core data</td><td>10 years</td><td>Published model from Scare Core page (includes scare season + off-season escape rooms, events)</td></tr>
+                <tr><td>Immersive Core data</td><td>5 years modelled, 5 years extrapolated</td><td>Y1&ndash;5 from IC page. Y6&ndash;10 extrapolated at 5&ndash;10% annual growth with maturing margins (37&ndash;42%)</td></tr>
+                <tr><td>Parent overhead</td><td>£150k (Y1) &rarr; £360k (Y10)</td><td>Group management, accounting, insurance, legal. Scales with operations.</td></tr>
+                <tr><td>Revenue overlap</td><td>Minimal</td><td>Scare Core off-season includes escape rooms &amp; events. Old IC theatre (£1M budget) generated modest off-season revenue within the SC model. New IC (£8M) is a completely separate, larger operation. Some overlap exists in Y2&ndash;5 (~£200&ndash;400k) but is immaterial at group level.</td></tr>
+                <tr><td>EBITDA multiple</td><td>8&times;</td><td>Conservative for UK entertainment/leisure. Comparables range 6&ndash;12&times; depending on growth and IP value.</td></tr>
+                <tr><td>Land appreciation</td><td>Not modelled</td><td>301 acres of Nottinghamshire farmland with planning permission and developed infrastructure could appreciate significantly. Not included in projections.</td></tr>
+                <tr><td>IP licensing revenue</td><td>Not modelled</td><td>Original worlds, characters, and branded experiences could be licensed for touring productions, merchandise, or media. Not included.</td></tr>
+                <tr><td>Inflation</td><td>Not modelled</td><td>Ticket price increases assume organic growth + reputation building, not inflation adjustment.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<footer>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+        <img src="assets/logos/ccg-icon.png" alt="Core Creative Group" style="height: 32px; width: auto; opacity: 0.6;">
+        <img src="assets/logos/scare-core-brand.png" alt="Scare Core" style="height: 28px; width: auto; opacity: 0.5;">
+        <img src="assets/logos/immersive-core-brand.png" alt="Immersive Core" style="height: 28px; width: auto; opacity: 0.5;">
+        <img src="assets/logos/escape-core.png" alt="Escape Core" style="height: 28px; width: auto; opacity: 0.5;">
+    </div>
+    <p>&copy; 2026 Core Creative Group. Consolidated financial model — base case projections. All figures are estimates and subject to change.</p>
+</footer>
+
+<!-- CHARTS -->
+<script>
+Chart.defaults.color = '#a3a3a3';
+Chart.defaults.borderColor = '#2a2a2a';
+Chart.defaults.font.family = "'Inter', sans-serif";
+
+const years = ['Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10'];
+
+// Scare Core (full, as published)
+const scRev = [645, 1151, 1811, 2335, 2904, 3283, 3497, 3688, 3883, 4071];
+const scEbitda = [-709, -544, -141, 206, 599, 868, 994, 1117, 1240, 1360];
+
+// Immersive Core (Y1-5 from page, Y6-10 extrapolated)
+const icRev = [504, 912, 1160, 1400, 1590, 1750, 1890, 2010, 2110, 2210];
+const icEbitda = [-196, 62, 248, 406, 549, 648, 737, 804, 865, 928];
+
+// Parent overhead
+const parentOH = [-150, -180, -200, -220, -250, -280, -300, -320, -340, -360];
+
+// Group totals
+const groupRev = scRev.map((v, i) => v + icRev[i]);
+const groupEbitda = scEbitda.map((v, i) => v + icEbitda[i] + parentOH[i]);
+const groupMargin = groupRev.map((v, i) => ((groupEbitda[i] / v) * 100).toFixed(1));
+
+// Cumulative
+const cumEbitda = [];
+let running = 0;
+groupEbitda.forEach(v => { running += v; cumEbitda.push(running); });
+
+// CAPEX PIE
+new Chart(document.getElementById('capexChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Core Creative Group', 'Scare Core', 'Immersive Core', 'Escape Core', 'Working Capital'],
+        datasets: [{
+            data: [14000, 13500, 8000, 1500, 2000],
+            backgroundColor: ['#8b5cf6', '#dc2626', '#C9A84C', '#166534', '#f59e0b'],
+            borderColor: '#0a0a0a', borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        cutout: '55%',
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } },
+            tooltip: { callbacks: { label: ctx => ctx.label + ': £' + (ctx.parsed / 1000).toFixed(1) + 'M (' + ((ctx.parsed / 39000) * 100).toFixed(0) + '%)' } }
+        }
+    }
+});
+
+// STACKED REVENUE
+new Chart(document.getElementById('revenueStackChart'), {
+    type: 'bar',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Scare Core', data: scRev, backgroundColor: 'rgba(220, 38, 38, 0.75)', borderRadius: 4 },
+            { label: 'Immersive Core', data: icRev, backgroundColor: 'rgba(201, 168, 76, 0.75)', borderRadius: 4 },
+            { label: 'Group EBITDA', data: groupEbitda, type: 'line', borderColor: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.1)', borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: function(ctx) { return ctx.parsed.y >= 0 ? '#22c55e' : '#dc2626'; }, fill: true, tension: 0.3, order: 0 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': £' + ctx.parsed.y.toLocaleString() + 'k' } } },
+        scales: {
+            x: { stacked: true, grid: { display: false } },
+            y: { stacked: true, grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + v.toLocaleString() + 'k' } }
+        }
+    }
+});
+
+// EBITDA BY BRAND
+new Chart(document.getElementById('ebitdaChart'), {
+    type: 'bar',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Scare Core', data: scEbitda, backgroundColor: 'rgba(220, 38, 38, 0.7)', borderRadius: 4 },
+            { label: 'Immersive Core', data: icEbitda, backgroundColor: 'rgba(201, 168, 76, 0.7)', borderRadius: 4 },
+            { label: 'Parent OH', data: parentOH, backgroundColor: 'rgba(139, 92, 246, 0.5)', borderRadius: 4 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': £' + ctx.parsed.y.toLocaleString() + 'k' } } },
+        scales: {
+            x: { stacked: true, grid: { display: false } },
+            y: { stacked: true, grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + v.toLocaleString() + 'k' } }
+        }
+    }
+});
+
+// CUMULATIVE EBITDA
+new Chart(document.getElementById('cumChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [{
+            label: 'Cumulative EBITDA (£k)',
+            data: cumEbitda,
+            borderColor: '#8b5cf6', backgroundColor: 'rgba(139, 92, 246, 0.1)',
+            borderWidth: 2.5, pointRadius: 5,
+            pointBackgroundColor: cumEbitda.map(v => v >= 0 ? '#22c55e' : '#dc2626'),
+            fill: true, tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => '£' + ctx.parsed.y.toLocaleString() + 'k' } },
+            annotation: { annotations: { zeroLine: { type: 'line', yMin: 0, yMax: 0, borderColor: '#555', borderWidth: 1, borderDash: [5, 5] } } }
+        },
+        scales: { y: { grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + (v / 1000).toFixed(1) + 'M' } }, x: { grid: { display: false } } }
+    }
+});
+
+// REVENUE MIX PIES
+new Chart(document.getElementById('mixY1'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Scare Core', 'Immersive Core'],
+        datasets: [{ data: [645, 504], backgroundColor: ['#dc2626', '#C9A84C'], borderColor: '#0a0a0a', borderWidth: 3 }]
+    },
+    options: { responsive: true, cutout: '50%', plugins: { legend: { display: false } } }
+});
+
+new Chart(document.getElementById('mixY10'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Scare Core', 'Immersive Core'],
+        datasets: [{ data: [4071, 2210], backgroundColor: ['#dc2626', '#C9A84C'], borderColor: '#0a0a0a', borderWidth: 3 }]
+    },
+    options: { responsive: true, cutout: '50%', plugins: { legend: { display: false } } }
+});
+
+// MARGIN CHART
+new Chart(document.getElementById('marginChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Group', data: groupMargin, borderColor: '#8b5cf6', borderWidth: 2.5, pointRadius: 4, tension: 0.3 },
+            { label: 'Scare Core', data: scRev.map((v, i) => ((scEbitda[i] / v) * 100).toFixed(1)), borderColor: '#dc2626', borderWidth: 1.5, pointRadius: 3, tension: 0.3, borderDash: [5, 3] },
+            { label: 'Immersive Core', data: icRev.map((v, i) => ((icEbitda[i] / v) * 100).toFixed(1)), borderColor: '#C9A84C', borderWidth: 1.5, pointRadius: 3, tension: 0.3, borderDash: [5, 3] }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + '%' } } },
+        scales: { y: { grid: { color: '#1a1a1a' }, ticks: { callback: v => v + '%' } }, x: { grid: { display: false } } }
+    }
+});
+
+// SCENARIO FAN
+const cumBase = cumEbitda;
+const cumDown = [-1200, -2050, -2350, -2280, -2080, -1730, -1280, -730, -120, 520];
+const cumUp = [-850, -1250, -1050, -350, 600, 1950, 3700, 5850, 8400, 11400];
+
+new Chart(document.getElementById('scenarioChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [
+            { label: 'Upside', data: cumUp, borderColor: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.08)', borderWidth: 1.5, pointRadius: 3, fill: '+1', tension: 0.3 },
+            { label: 'Base Case', data: cumBase, borderColor: '#8b5cf6', borderWidth: 3, pointRadius: 5, pointBackgroundColor: cumBase.map(v => v >= 0 ? '#22c55e' : '#dc2626'), tension: 0.3 },
+            { label: 'Downside', data: cumDown, borderColor: '#dc2626', backgroundColor: 'rgba(220, 38, 38, 0.08)', borderWidth: 1.5, pointRadius: 3, fill: '-1', tension: 0.3 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': £' + ctx.parsed.y.toLocaleString() + 'k' } }
+        },
+        scales: { y: { grid: { color: '#1a1a1a' }, ticks: { callback: v => '£' + (v / 1000).toFixed(1) + 'M' } }, x: { grid: { display: false } } }
+    }
+});
+</script>
+
+</body>
+</html>
