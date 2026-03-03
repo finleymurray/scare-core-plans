@@ -56,22 +56,23 @@
         /* PAGE HEADER */
         .page-header {
             padding: 120px 2rem 40px; text-align: center; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
         }
         .page-header::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
             pointer-events: none;
         }
-        .page-header img { max-width: 300px; width: 50%; margin-bottom: 1rem; }
+        .page-header img { max-width: 300px; width: 50%; }
         .page-header h1 {
             font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2.2rem);
-            font-weight: 700; margin-bottom: 0.5rem;
+            font-weight: 700; line-height: 1.2;
         }
         .page-header p { font-size: 0.9rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
         .page-header .back-link {
             display: inline-flex; align-items: center; gap: 6px;
             color: var(--text-muted); text-decoration: none; font-size: 0.8rem;
-            margin-bottom: 1.5rem; transition: color 0.2s;
+            transition: color 0.2s;
         }
         .page-header .back-link:hover { color: var(--purple); }
 
@@ -166,7 +167,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <div class="nav-inner">
         <a href="/" class="logo-group">
@@ -184,16 +184,13 @@
     </div>
 </nav>
 
-<!-- HEADER -->
 <div class="page-header">
     <img src="https://corecreativegroup.co.uk/assets/logos/core-creative-group.png" alt="Core Creative Group">
-       </div>
     <a href="/" class="back-link">&larr; Back to Core Creative Group</a>
     <h1>Consolidated Financial Model</h1>
     <p>10-year group projection across all three operating brands. £39M total investment. Base case scenario.</p>
 </div>
 
-<!-- HEADLINE METRICS -->
 <section id="headline">
     <div class="section-label">Group Summary</div>
     <h2>£39M In. What Comes Back?</h2>
@@ -235,7 +232,6 @@
     </div>
 </section>
 
-<!-- CAPEX BREAKDOWN -->
 <section id="capex">
     <div class="section-label">Capital Expenditure</div>
     <h2>Where the £39M Goes</h2>
@@ -273,7 +269,6 @@
     </div>
 </section>
 
-<!-- CONSOLIDATED P&L -->
 <section id="consolidated">
     <div class="section-label">Consolidated P&amp;L</div>
     <h2>10-Year Group Revenue &amp; EBITDA</h2>
@@ -328,7 +323,6 @@
     </div>
 </section>
 
-<!-- REVENUE MIX -->
 <section id="mix">
     <div class="section-label">Revenue Mix</div>
     <h2>Brand Contribution Over Time</h2>
@@ -354,7 +348,6 @@
     </div>
 </section>
 
-<!-- ROI & VALUATION -->
 <section id="roi">
     <div class="section-label">Return on Investment</div>
     <h2>What's the Business Worth?</h2>
@@ -412,7 +405,6 @@
     </div>
 </section>
 
-<!-- SCENARIO ANALYSIS -->
 <section id="scenarios">
     <div class="section-label">Scenario Analysis</div>
     <h2>Best Case, Base Case, Downside</h2>
@@ -443,7 +435,6 @@
     </div>
 </section>
 
-<!-- KEY ASSUMPTIONS -->
 <section id="assumptions">
     <div class="section-label">Notes &amp; Assumptions</div>
     <h2>How We Got Here</h2>
@@ -475,7 +466,6 @@
     <p>&copy; 2026 Core Creative Group. Consolidated financial model — base case projections. All figures are estimates and subject to change.</p>
 </footer>
 
-<!-- CHARTS -->
 <script>
 Chart.defaults.color = '#a3a3a3';
 Chart.defaults.borderColor = '#2a2a2a';
